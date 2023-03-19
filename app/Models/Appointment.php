@@ -11,7 +11,7 @@ class Appointment extends Model
 
     protected $fillable = ['coach_id', 'client_id', 'appointment_start'];
 
-    public function client(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function clients(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(User::class, 'id', 'client_id');
     }

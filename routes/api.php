@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Coach\CoachController;
 use App\Http\Controllers\Exercise\ExerciseController;
+use App\Http\Controllers\Workout\WorkoutController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -30,6 +31,8 @@ Route::prefix('coach')->group(function () {
     Route::post('/make-appointment', [CoachController::class, 'makeAppointment']);
 
     Route::post('/get-appointments', [CoachController::class, 'getAppointments']);
+
+    Route::post('/create-workout', [WorkoutController::class, 'createWorkout']);
 
     Route::get('/show-client', [CoachController::class, 'index']);
 });

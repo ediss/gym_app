@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Coach;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Appointment\AppointmentRequest;
 use App\Http\Requests\User\CreateUserRequest;
+use App\Http\Resources\AppointmentCollection;
+use App\Http\Resources\AppointmentResource;
 use App\Models\Appointment;
 use App\Models\Client;
 use App\Models\Coach;
@@ -89,11 +91,22 @@ class CoachController extends Controller
 
         $coach = Coach::whereId('9')->firstOrFail();
 
-        $start_date = Carbon::now()->startOfDay();
+        $start_date = $request->appointment_start ?? Carbon::now()->startOfDay();
+
+        //TODO
+        //if appointment start is present than end date should be end of the that selected appointment started
+
         $end_date = Carbon::now()->endOfDay();
 
-        $test = Appointment::whereCoachId($coach->id)->whereBetween('appointment_start', [$start_date, $end_date])->get();
+        $test = Appointment::whereCoachId($coach->id)
+            ->whereBetween('appointment_start', [$start_date, $end_date])
+            ->with('clients')
+            ->get();
 
+
+//        $test = User::all();
+      return new AppointmentCollection($test);
+return new AppointmentResource($test);
         dd(collect($test));
 
         dd($test);

@@ -16,4 +16,8 @@ class Coach extends User
     {
         return $this->belongsToMany(Client::class, 'client_coach', 'coach_id', 'client_id')->withTimestamps();
     }
+
+    public function appointments() {
+        return $this->hasMany(Appointment::class, 'coach_id', 'id');
+    }
 }

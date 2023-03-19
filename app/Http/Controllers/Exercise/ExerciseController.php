@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Exercise;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Exercise\ExerciseCreateRequest;
+use App\Http\Requests\Exercise\CreateExerciseRequest;
 use App\Models\Exercise\Exercise;
 use Illuminate\Http\Request;
 
@@ -33,7 +33,7 @@ class ExerciseController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ExerciseCreateRequest $request)
+    public function store(CreateExerciseRequest $request)
     {
         $validateData = $request->validated();
 
