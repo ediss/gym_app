@@ -24,7 +24,15 @@ class DatabaseSeeder extends Seeder
          */
 
         \App\Models\Role::factory()->create([
+            'name' => 'SuperAdmin',
+        ]);
+
+        \App\Models\Role::factory()->create([
             'name' => 'Admin',
+        ]);
+
+        \App\Models\Role::factory()->create([
+            'name' => 'Gym',
         ]);
 
         \App\Models\Role::factory()->create([
@@ -43,6 +51,7 @@ class DatabaseSeeder extends Seeder
 
         /**
          * EXERCISE CATEGORY SEEDER
+         * todo foreach 
          */
         \App\Models\Exercise\ExerciseCategory::factory()->create([
             'name' => 'Abs',
@@ -76,6 +85,22 @@ class DatabaseSeeder extends Seeder
         /**
          * EXERCISE TYPE SEEDER
          */
+
+        \App\Models\Exercise\ExerciseType::factory()->create([
+            'name' => 'Reps',
+        ]);
+
+        \App\Models\Exercise\ExerciseType::factory()->create([
+            'name' => 'Weight',
+        ]);
+
+        \App\Models\Exercise\ExerciseType::factory()->create([
+            'name' => 'Time',
+        ]);
+
+        \App\Models\Exercise\ExerciseType::factory()->create([
+            'name' => 'Distance',
+        ]);
 
 
         \App\Models\Exercise\ExerciseType::factory()->create([

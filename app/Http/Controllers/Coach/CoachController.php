@@ -17,18 +17,22 @@ use Illuminate\Validation\ValidationException;
 
 class CoachController extends Controller
 {
-    const CLIENT_ROLE = 3;
+
+    private $coach;
+
+    public function __construct(Coach $coach)
+    {
+        $this->coach = $coach;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         //this is home page for coach
-        $coachModel = new Coach();
 
-        $coach = $coachModel->where('id', '9')->firstOrFail();
-
-
+        $coach = $this->coach->where('id', '9')->firstOrFail();
 
         $clients = $coach->clients()->get();
 
@@ -52,44 +56,25 @@ class CoachController extends Controller
         dd($clients);
     }
 
-    public function createClient(CreateUserRequest $request) {
 
-        $validateData = $request->validated();
-
-        if($validateData['role_id'] != self::CLIENT_ROLE) {
-            throw ValidationException::withMessages(['role'=>'You are trying to create user which is not client!']);
-        }
-
-        $coachModel = new Coach();
-
-        $coach = $coachModel->where('id', '9')->firstOrFail();
-
-        $client = Client::create($validateData);
-
-
-        $coach->clients()->attach($client);
-
-
-//        $this->assignClientToCoach($client_id);
-
-        return 'saved';
-
-    }
 
     public function makeAppointment(AppointmentRequest $request) {
-        $validateData = $request->validated();
-        $validateData['appointment_start'] = $validateData['start_date'];
+        $validatedData = $request->validated();
+        $validatedData['appointment_start'] = $validatedData['start_date'];
 
         //checking of user, checking of coach
 
-        Appointment::create($validateData);
+        Appointment::create($validatedData);
 
         return 'Appointment created successfully';
     }
 
-    public function getAppointments(Request $request) {
+    //todo make a Request where coach_id is required field
+    //todo this probably needs to be in AppointmentController
+    public function getAppointments(Request $request): AppointmentCollection
+    {
 
-        $coach = Coach::whereId('9')->firstOrFail();
+        $coach = $this->coach->whereId('9')->firstOrFail();
 
         $start_date = $request->appointment_start ?? Carbon::now()->startOfDay();
 
@@ -98,18 +83,12 @@ class CoachController extends Controller
 
         $end_date = Carbon::now()->endOfDay();
 
-        $test = Appointment::whereCoachId($coach->id)
+        $appointment = Appointment::whereCoachId($coach->id)
             ->whereBetween('appointment_start', [$start_date, $end_date])
             ->with('clients')
             ->get();
 
-
-//        $test = User::all();
-      return new AppointmentCollection($test);
-return new AppointmentResource($test);
-        dd(collect($test));
-
-        dd($test);
+      return new AppointmentCollection($appointment);
 
     }
 
@@ -118,7 +97,8 @@ return new AppointmentResource($test);
      */
     public function store(Request $request)
     {
-        //
+        //here we can store coach direct from admin panel
+        //admin panel can be for super admin (me :D ) or shop/gym
     }
 
     /**
@@ -126,7 +106,7 @@ return new AppointmentResource($test);
      */
     public function show(string $id)
     {
-        //
+        //get all coach data
     }
 
     /**
@@ -134,7 +114,7 @@ return new AppointmentResource($test);
      */
     public function update(Request $request, string $id)
     {
-        //
+        //update coach data
     }
 
     /**
@@ -145,9 +125,4 @@ return new AppointmentResource($test);
         //
     }
 
-    //TODO check if this should be in Model
-    private function assignClientToCoach($client_id) {
-
-
-    }
 }

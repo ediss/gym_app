@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('video_src')->nullable();
             $table->unsignedInteger('exercise_category_id');
             $table->unsignedInteger('exercise_type_id');
+            $table->string('note')->nullable();
             $table->timestamps();
 
             $table->foreignId('coach_id')

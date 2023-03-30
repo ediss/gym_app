@@ -4,7 +4,7 @@ namespace App\Http\Requests\Exercise;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateExerciseRequest extends FormRequest
+class UpdateExerciseRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,8 +25,8 @@ class CreateExerciseRequest extends FormRequest
             'name' => 'required|string',
             'exercise_category_id' => 'required|integer',
             'exercise_type_id' => 'required|integer',
-            'coach_id' => '',
-            'note' => ''
+            'exercise_id' => 'required',
+            'note' => 'required'
         ];
     }
 }

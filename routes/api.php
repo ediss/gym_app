@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\Coach\CoachController;
 use App\Http\Controllers\Exercise\ExerciseController;
 use App\Http\Controllers\Workout\WorkoutController;
@@ -22,9 +23,10 @@ use Illuminate\Support\Facades\Route;
 //});
 
 Route::prefix('coach')->group(function () {
-    Route::post('/create-client', [CoachController::class, 'createClient']);
+    Route::post('/create-client', [ClientController::class, 'store']);
 
     Route::post('/create-exercise', [ExerciseController::class, 'store']);
+    Route::post('/update-exercise', [ExerciseController::class, 'update']);
     Route::post('/show-coach-exercise', [ExerciseController::class, 'coachExercises']);
     Route::post('/show-all-exercise', [ExerciseController::class, 'index']);
 
@@ -35,4 +37,11 @@ Route::prefix('coach')->group(function () {
     Route::post('/create-workout', [WorkoutController::class, 'createWorkout']);
 
     Route::get('/show-client', [CoachController::class, 'index']);
+
+    Route::post('/delete-client', [ClientController::class, 'destroy']);
+    Route::post('/delete-workout', [WorkoutController::class, 'destroy']);
 });
+
+Route::post('/client-workout', [WorkoutController::class, 'getClientWorkout']);
+
+Route::post('/client-exercise-history', [WorkoutController::class, 'getClientExerciseHistory']);

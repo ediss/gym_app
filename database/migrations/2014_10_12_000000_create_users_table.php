@@ -20,6 +20,8 @@ return new class extends Migration
             $table->unsignedInteger('role_id');
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
+
         });
     }
 

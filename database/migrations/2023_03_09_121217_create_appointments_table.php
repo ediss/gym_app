@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedInteger('coach_id');
             $table->unsignedInteger('client_id');
             $table->dateTime('appointment_start');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
