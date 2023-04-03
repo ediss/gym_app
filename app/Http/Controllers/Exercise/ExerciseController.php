@@ -80,8 +80,29 @@ class ExerciseController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
-        //
+
+        $exercise = Exercise::whereId($request->exercise_id)->firstOrFail();
+
+        //if is superadmin skip the checking
+
+        // if is shop/gym, check if coach belongs to shop
+
+        $coach = Coach::where('id', 9)->firstOrFail();
+
+        if($exercise->coach_id !== $coach->id) {
+
+            //throw error or json 403
+            throw ValidationException::withMessages(['forbidden'=>'You are trying to DELETE exercise which not belong to you!']);
+        }
+
+        // DECIDE IF EXERCISE SHOULD BE DELETED/SOFTDELETED OR DISABLED
+
+        //PITANJA ZA TRENERE
+
+        // DA LI ZELITE DA VEZBA BUDE OBRISANA => NEMA UVIDA U ISTORIJU VEZBE GUBE SE SVI PODACI GDE GOD SE VEZBA PROVUKLA
+
+        // ILI DA SE DISABLUJE => NE MOZE SE VISE KORISTITI PRILIKOM PRAVLJENJA TRENINGA ALI MOZE SE UCI U ISTORIJU KROZ KLIJENTA
     }
 }
