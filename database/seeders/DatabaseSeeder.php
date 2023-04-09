@@ -12,7 +12,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        //\App\Models\User::factory(10)->create();
 
 //         \App\Models\User::factory()->create([
 //             'name' => 'Test User',
@@ -51,7 +50,7 @@ class DatabaseSeeder extends Seeder
 
         /**
          * EXERCISE CATEGORY SEEDER
-         * todo foreach 
+         * todo foreach
          */
         \App\Models\Exercise\ExerciseCategory::factory()->create([
             'name' => 'Abs',

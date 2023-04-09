@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\Coach\CoachController;
 use App\Http\Controllers\Exercise\ExerciseController;
@@ -22,7 +23,10 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //});
 
-Route::prefix('coach')->group(function () {
+
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::group(['prefix' => 'coach', 'middleware' => ['auth:sanctum']], function(){
     Route::post('/create-client', [ClientController::class, 'store']);
 
     Route::post('/create-exercise', [ExerciseController::class, 'store']);

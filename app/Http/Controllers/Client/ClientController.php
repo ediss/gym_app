@@ -12,7 +12,7 @@ use Illuminate\Validation\ValidationException;
 
 class ClientController extends Controller
 {
-    const CLIENT_ROLE = 5;
+    public const CLIENT_ROLE = "5";
     /**
      * Display a listing of the resource.
      */
@@ -28,7 +28,7 @@ class ClientController extends Controller
 
         $validatedData = $request->validated();
 
-        if($validatedData['role_id'] != self::CLIENT_ROLE) {
+        if($validatedData['role_id'] !== self::CLIENT_ROLE) {
             throw ValidationException::withMessages(['role'=>'You are trying to create user which is not client!']);
         }
 

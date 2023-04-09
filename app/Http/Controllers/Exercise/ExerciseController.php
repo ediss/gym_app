@@ -8,6 +8,7 @@ use App\Http\Requests\Exercise\UpdateExerciseRequest;
 use App\Models\Coach;
 use App\Models\Exercise\Exercise;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
 class ExerciseController extends Controller
@@ -39,6 +40,9 @@ class ExerciseController extends Controller
     public function store(CreateExerciseRequest $request)
     {
         $validatedData = $request->validated();
+
+        //for now from backend, in future this going to be changed to take coach id from request / web browser
+        $validatedData['coach_id'] = Auth::user()->id;
 
         return Exercise::create($validatedData)->id;
     }
