@@ -1,19 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Coach;
+namespace App\Http\Controllers\Api\Coach;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Appointment\AppointmentRequest;
-use App\Http\Requests\User\CreateUserRequest;
 use App\Http\Resources\AppointmentCollection;
-use App\Http\Resources\AppointmentResource;
 use App\Models\Appointment;
 use App\Models\Client;
 use App\Models\Coach;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Illuminate\Validation\ValidationException;
 
 class CoachController extends Controller
 {

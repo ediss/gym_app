@@ -1,11 +1,10 @@
 <?php
 
-use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Client\ClientController;
-use App\Http\Controllers\Coach\CoachController;
-use App\Http\Controllers\Exercise\ExerciseController;
-use App\Http\Controllers\Workout\WorkoutController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\Client\ClientController;
+use App\Http\Controllers\Api\Coach\CoachController;
+use App\Http\Controllers\Api\Exercise\ExerciseController;
+use App\Http\Controllers\Api\Workout\WorkoutController;
 use Illuminate\Support\Facades\Route;
 
 /*

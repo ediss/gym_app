@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Exercise;
+namespace App\Http\Controllers\Api\Exercise;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Exercise\CreateExerciseRequest;
