@@ -14,6 +14,7 @@ class AppointmentCollection extends ResourceCollection
      */
     public function toArray(Request $request)
     {
+
 //        return [
 //            'data' => $this->collection,
 //        ];

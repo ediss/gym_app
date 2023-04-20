@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Coach;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Appointment\AppointmentRequest;
 use App\Http\Resources\AppointmentCollection;
+use App\Http\Resources\Client\ClientResource;
 use App\Models\Appointment;
 use App\Models\Client;
 use App\Models\Coach;
@@ -33,30 +34,28 @@ class CoachController extends Controller
         $clients = $coach->clients()->get();
 
 
-        echo nl2br("Clients: \n");
-        foreach ($clients as $client) {
-            echo nl2br($client->name . "/ \n");
-        }
-
-        $clientModel = new Client();
-        $client = $clientModel->where('id', '11')->firstOrFail();
-
-        $clientCoach = $client->coach()->get();
-        echo nl2br("Coach: \n");
-        foreach ($clientCoach as $coach) {
-            echo  $coach->name . "/ ";
-        }
+//        $clientModel = new Client();
+//        $client = $clientModel->where('id', '11')->firstOrFail();
+//
+//        $clientCoach = $client->coach()->get();
+//        echo nl2br("Coach: \n");
+//        foreach ($clientCoach as $coach) {
+//            echo  $coach->name . "/ ";
+//        }
 
 
-        dd($clientCoach);
-        dd($clients);
+        return ClientResource::collection($clients);
     }
 
 
 
     public function makeAppointment(AppointmentRequest $request) {
         $validatedData = $request->validated();
-        $validatedData['appointment_start'] = $validatedData['start_date'];
+
+
+        $validatedData['appointment_start'] = Carbon::parse($validatedData['start_date']);
+
+        $validatedData['coach_id'] = 9;
 
         //checking of user, checking of coach
 
@@ -79,12 +78,12 @@ class CoachController extends Controller
 
         $end_date = Carbon::now()->endOfDay();
 
-        $appointment = Appointment::whereCoachId($coach->id)
+        $appointments = Appointment::whereCoachId($coach->id)
             ->whereBetween('appointment_start', [$start_date, $end_date])
             ->with('clients')
             ->get();
 
-      return new AppointmentCollection($appointment);
+      return new AppointmentCollection($appointments);
 
     }
 

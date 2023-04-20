@@ -39,7 +39,7 @@ Route::group(['prefix' => 'coach', 'middleware' => ['auth:sanctum']], function()
 
     Route::post('/create-workout', [WorkoutController::class, 'createWorkout']);
 
-    Route::get('/show-client', [CoachController::class, 'index']);
+//    Route::get('/show-client', [CoachController::class, 'index']);
 
     Route::post('/delete-client', [ClientController::class, 'destroy']);
     Route::post('/delete-workout', [WorkoutController::class, 'destroy']);
@@ -48,3 +48,12 @@ Route::group(['prefix' => 'coach', 'middleware' => ['auth:sanctum']], function()
 Route::post('/client-workout', [WorkoutController::class, 'getClientWorkout']);
 
 Route::post('/client-exercise-history', [WorkoutController::class, 'getClientExerciseHistory']);
+
+//practice
+Route::post('/appointments', [CoachController::class, 'getAppointments']);
+
+
+Route::get('/get-clients', [CoachController::class, 'index']);
+
+Route::post('/make-appointment', [CoachController::class, 'makeAppointment']);
+

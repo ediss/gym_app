@@ -22,7 +22,7 @@ class AppointmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'coach_id' => 'required|integer',
+//            'coach_id' => 'required|integer',
             'client_id' => 'required|integer',
             'start_date'=> 'required|date'
         ];

@@ -16,10 +16,11 @@ class AppointmentResource extends JsonResource
     {
 
         return [
-            'coach' => $this->coach_id,
+            'coach_id' => $this->coach_id,
+            'coach_name' => $this->coach->first()->name,
             'client_id' => $this->client_id,
             'client_name' => $this->clients->first()->name,
-            'workout_start' => $this->appointment_start
+            'appointment_start' => $this->appointment_start
         ];
     }
 }

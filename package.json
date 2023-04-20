@@ -14,6 +14,10 @@
     },
     "dependencies": {
         "@vitejs/plugin-vue": "^4.1.0",
-        "vue": "^3.2.36"
+        "flatpickr": "^4.6.13",
+        "vue": "^3.2.36",
+        "vue-flatpickr-component": "^11.0.3",
+        "vue-router": "^4.0.13",
+        "vuex": "^4.1.0"
     }
 }
