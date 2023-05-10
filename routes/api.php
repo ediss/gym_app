@@ -51,9 +51,23 @@ Route::post('/client-exercise-history', [WorkoutController::class, 'getClientExe
 
 //practice
 Route::post('/appointments', [CoachController::class, 'getAppointments']);
+Route::post('/started-appointments', [CoachController::class, 'getStartedAppointments']);
 
 
 Route::get('/get-clients', [CoachController::class, 'index']);
+Route::post('/create-client', [ClientController::class, 'store']);
+
+
 
 Route::post('/make-appointment', [CoachController::class, 'makeAppointment']);
+
+
+Route::get('/exercises', [ExerciseController::class, 'index']);
+
+Route::get('/exercise-categories', [ExerciseController::class, 'categories']);
+Route::get('/exercise-types', [ExerciseController::class, 'types']);
+
+Route::post('/create-exercise', [ExerciseController::class, 'store']);
+
+Route::get('/category-exercises/{category_id?}', [ExerciseController::class, 'categoryExercises']);
 

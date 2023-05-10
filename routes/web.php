@@ -17,6 +17,10 @@ use Illuminate\Support\Facades\Route;
 //    return view('welcome');
 //})->where('any', '.*');
 
-Route::get('/{any}', function () {
+//Route::get('/{any}', function () {
+//    return view('welcome');
+//})->where('any','.*');
+
+Route::get('{any}', function () {
     return view('welcome');
-})->where('any','.*');
+})->where('any', '.*');

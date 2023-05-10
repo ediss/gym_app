@@ -5,8 +5,13 @@ namespace App\Http\Controllers\Api\Exercise;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Exercise\CreateExerciseRequest;
 use App\Http\Requests\Exercise\UpdateExerciseRequest;
+use App\Http\Resources\Exercise\ExerciseCategoryResource;
+use App\Http\Resources\Exercise\ExerciseResource;
+use App\Http\Resources\Exercise\ExerciseTypeResource;
 use App\Models\Coach;
 use App\Models\Exercise\Exercise;
+use App\Models\Exercise\ExerciseCategory;
+use App\Models\Exercise\ExerciseType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
@@ -14,18 +19,21 @@ use Illuminate\Validation\ValidationException;
 class ExerciseController extends Controller
 {
 
-
-    //TODO some translate transformer for categories
-
-
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        return Exercise::whereNull('coach_id')
-            ->orWhere('coach_id', '=', $request->input('coach_id'))
-            ->get();
+//        $coachID = $request->input('coach_id');
+        $coachID = 9;
+
+        $exercises = Exercise::where('name', 'like', '%' . request('search_exercises') . '%')
+            ->where(function ($query) use($coachID){
+                $query->where('coach_id', '=', $coachID)
+                    ->orWhereNull('coach_id');
+            })->get();
+
+        return ExerciseResource::collection($exercises);
     }
 
     //only exercises created by specific coach
@@ -40,9 +48,9 @@ class ExerciseController extends Controller
     public function store(CreateExerciseRequest $request)
     {
         $validatedData = $request->validated();
-
         //for now from backend, in future this going to be changed to take coach id from request / web browser
-        $validatedData['coach_id'] = Auth::user()->id;
+//        $validatedData['coach_id'] = Auth::user()->id;
+        $validatedData['coach_id'] = 9;
 
         return Exercise::create($validatedData)->id;
     }
@@ -66,15 +74,18 @@ class ExerciseController extends Controller
 
         // if is shop/gym, check if coach belongs to shop
 
-        $exercise = Exercise::whereId($validatedData['exercise_id'])->firstOrFail();
+        // only first becasue now UpdateExerciseRequest is updated check it
+
+        // $exercise = Exercise::whereId($validatedData['exercise_id'])->firstOrFail();
+        $exercise = Exercise::whereId($request->exercise_id)->first();
 
         $coach = Coach::where('id', 9)->firstOrFail();
 
-        if($exercise->coach_id !== $coach->id) {
-
-            //throw error or json 403
-            throw ValidationException::withMessages(['forbidden'=>'You are trying to update exercise which not belong to you!']);
-        }
+//        if($exercise->coach_id !== $coach->id) {
+//
+//            //throw error or json 403
+//            throw ValidationException::withMessages(['forbidden'=>'You are trying to update exercise which not belong to you!']);
+//        }
 
         $exercise->update($validatedData);
 
@@ -108,5 +119,42 @@ class ExerciseController extends Controller
         // DA LI ZELITE DA VEZBA BUDE OBRISANA => NEMA UVIDA U ISTORIJU VEZBE GUBE SE SVI PODACI GDE GOD SE VEZBA PROVUKLA
 
         // ILI DA SE DISABLUJE => NE MOZE SE VISE KORISTITI PRILIKOM PRAVLJENJA TRENINGA ALI MOZE SE UCI U ISTORIJU KROZ KLIJENTA
+    }
+
+    public function categories(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    {
+        return ExerciseCategoryResource::collection(ExerciseCategory::all());
+    }
+
+    public function categoryExercises($category_id = null)
+    {
+
+
+
+        $coachID = 9;
+//        $exercises = Exercise::where('name', 'like', '%' . request('search_exercises') . '%')
+        $exercises = Exercise::where('exercise_category_id', $category_id)
+            ->where('name', 'like', '%' . request('search_exercises') . '%')
+            ->where(function ($query) use($coachID){
+
+                $query->where('coach_id', '=', $coachID)
+                    ->orWhereNull('coach_id');
+            })->get();
+
+//        dd($exercises->toSql());
+
+//        $exercises = Exercise::where('exercise_category_id', $category_id)
+//                ->where(function ($query) {
+//                    $query->where('coach_id', '=', 9)
+//                        ->orWhereNull('coach_id');
+//                })->get();
+
+        return ExerciseResource::collection($exercises);
+    }
+
+
+    public function types(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    {
+        return ExerciseTypeResource::collection(ExerciseType::all());
     }
 }

@@ -154,7 +154,7 @@
 [data-bs-theme=dark] .email-navigation a.list-group-item,
 [data-bs-theme=dark] .email-meeting a.list-group-item{
     background-color: var(--bs-body-bg);
-    
+
 }
 
 [data-bs-theme=dark] .email-sidebar {
@@ -281,7 +281,7 @@
 [data-bs-theme=dark] .fm-menu .list-group a:hover {
     color: var(--bs-light-text);
     background-color: var(--bs-light-bg-subtle);
-} 
+}
 
 [data-bs-theme=dark] .fm-file-box {
     background-color: var(--bs-light-bg-subtle);
@@ -308,7 +308,7 @@
 }
 
 
-[data-bs-theme=dark] .fc .fc-button-primary:not(:disabled).fc-button-active, 
+[data-bs-theme=dark] .fc .fc-button-primary:not(:disabled).fc-button-active,
 [data-bs-theme=dark] .fc .fc-button-primary:not(:disabled):active {
     color: var(--bs-body-color);
     background-color: var(--bs-body-bg-2);
@@ -364,8 +364,21 @@
 	border-color:var(--bs-border-color-translucent);
 }
 
+[data-bs-theme=dark] .nav-tabs  {
+    border: 0;
+}
+
+
+[data-bs-theme=dark] .nav-tabs .nav-item:has(> a.active)  {
+    border-bottom: 1px solid #ffc107;
+}
+
+
+
+
 [data-bs-theme=dark] .nav-tabs .nav-link {
     color: var(--bs-body-color);
+    border: 0;
 }
 
 
@@ -388,7 +401,9 @@
 
 [data-bs-theme=dark] .nav-warning.nav-tabs .nav-link.active {
     color: #ffc107;
-    border-color: #ffc107 #ffc107 rgba(255, 255, 255, 0.0);
+    border: 0;
+    background-color: transparent;
+    /*border-color: #ffc107 #ffc107 rgba(255, 255, 255, 0.0);*/
 }
 
 

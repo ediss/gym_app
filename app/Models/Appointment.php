@@ -9,7 +9,7 @@ class Appointment extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['coach_id', 'client_id', 'appointment_start'];
+    protected $fillable = ['coach_id', 'client_id', 'appointment_start', 'status'];
 
     public function clients(): \Illuminate\Database\Eloquent\Relations\HasMany
     {

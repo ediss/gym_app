@@ -30,4 +30,13 @@ class CreateExerciseRequest extends FormRequest
             'note' => ''
         ];
     }
+
+
+    public function attributes(): array
+    {
+        return [
+            'exercise_category_id' => 'category',
+            'exercise_type_id' => 'type',
+        ];
+    }
 }

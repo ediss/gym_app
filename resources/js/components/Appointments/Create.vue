@@ -34,6 +34,7 @@
                         <div class="col-12">
 
                             <select v-model = "appointment.client_id" id="appointment-client" class="form-select">
+
                                 <option v-for="client in clients" :value="client.id">
                                     {{ client.name }}
                                 </option>
@@ -69,7 +70,8 @@ export default {
     setup() {
         const appointment = reactive({
             start_date : new Date().format('d M Y 00:00') ,
-            client_id : ''
+            client_id : '',
+            status: 'started'
         })
 
         const { clients, getClients } = useClients()

@@ -558,7 +558,7 @@ a {
     body.toggled:not(.sidebar-hovered) .sidebar-bottom .dropdown-toggle::after {
         display: none;
     }
-    
+
     body.toggled:not(.sidebar-hovered) .sidebar-bottom .dropdown-toggle {
         justify-content: center;
      }
@@ -569,7 +569,7 @@ a {
 	.chat-toggle-btn {
 		display: none!important
 	}
-	
+
 }
 
 
@@ -722,7 +722,7 @@ a {
 
 .nav-warning.nav-tabs .nav-link.active {
 	color: #ffc107;
-	border-color: #ffc107 #ffc107 #fff
+	/*border-color: #ffc107 #ffc107 #fff*/
 }
 
 .nav-pills-danger.nav-pills .nav-link.active {
@@ -1689,7 +1689,7 @@ a {
     .table-responsive {
         white-space: nowrap;
     }
-   
+
     .sidebar-wrapper {
        left: -260px;
     }
@@ -1717,7 +1717,7 @@ a {
     .toggled .sidebar-wrapper .sidebar-header {
         width: 260px;
     }
-    
+
     .toggled .logo-name {
         display: block;
     }
@@ -1725,7 +1725,7 @@ a {
     .toggled .top-header .navbar {
         left: 0px;
     }
-    
+
     .toggled .sidebar-wrapper .sidebar-bottom {
         width: 260px;
     }
@@ -1733,7 +1733,7 @@ a {
     .toggled .sidebar-wrapper .sidebar-bottom .dropdown-toggle {
         justify-content: start;
      }
-            
+
     .toggled .sidebar-wrapper .sidebar-bottom .user-info {
         display: block;
     }

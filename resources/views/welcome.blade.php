@@ -7,28 +7,28 @@
     <title>GYM APP</title>
 
     <!--plugins-->
-    <link href="frontend/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet" >
-    <link href="frontend/plugins/metismenu/css/metisMenu.min.css" rel="stylesheet">
-    <link href="frontend/plugins/simplebar/css/simplebar.css" rel="stylesheet">
+    <link href="{{  asset('frontend/plugins/perfect-scrollbar/css/perfect-scrollbar.css') }}" rel="stylesheet">
+    <link href="{{  asset('frontend/plugins/metismenu/css/metisMenu.min.css') }}" rel="stylesheet">
+    <link href="{{  asset('frontend/plugins/simplebar/css/simplebar.css') }}" rel="stylesheet">
     <!-- loader-->
-    <link href="frontend/css/pace.min.css" rel="stylesheet">
-    <script src="frontend/js/pace.min.js"></script>
+    <link href="{{  asset('frontend/css/pace.min.css') }}" rel="stylesheet">
+    <script src="{{  asset('frontend/js/pace.min.js') }}"></script>
     <!--Styles-->
-    <link href="frontend/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{  asset('frontend/css/bootstrap.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="frontend/css/icons.css" >
+    <link rel="stylesheet" href="{{asset('frontend/css/icons.css')}}" >
 
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link href="frontend/css/main.css" rel="stylesheet">
-    <link href="frontend/css/dark-theme.css" rel="stylesheet">
-    <link href="frontend/css/semi-dark-theme.css" rel="stylesheet">
-    <link href="frontend/css/minimal-theme.css" rel="stylesheet">
-    <link href="frontend/css/shadow-theme.css" rel="stylesheet">
+    <link href="{{  asset('frontend/css/main.css' )}}" rel="stylesheet">
+    <link href="{{  asset('frontend/css/dark-theme.css' )}}" rel="stylesheet">
+    <link href="{{  asset('frontend/css/semi-dark-theme.css' )}}" rel="stylesheet">
+    <link href="{{  asset('frontend/css/minimal-theme.css' )}}" rel="stylesheet">
+    <link href="{{  asset('frontend/css/shadow-theme.css' )}}" rel="stylesheet">
 
-    <link href="frontend/css/extra-icons.css" rel="stylesheet">
+    <link href="{{  asset('frontend/css/extra-icons.css' )}}" rel="stylesheet">
 
 
-{{--   @vite(['resources/js/app.js', 'resources/sass/app.scss' ])--}}
+
     @vite(['resources/js/app.js', 'resources/css/app.css' ])
 
 
@@ -447,7 +447,7 @@
 <aside class="sidebar-wrapper">
     <div class="sidebar-header">
         <div class="logo-icon">
-            <img src="frontend/images/logo-icon.png" class="logo-img" alt="">
+            <img src="{{ asset('frontend/images/logo-icon.png') }}" class="logo-img" alt="">
         </div>
         <div class="logo-name flex-grow-1">
             <h5 class="mb-0">Roksyn</h5>
@@ -461,10 +461,26 @@
         <!--navigation-->
         <ul class="metismenu" id="menu">
             <li>
-                <a href="index.html">
+                <a href="/">
                     <div class="parent-icon"><span class="material-symbols-outlined">home</span>
                     </div>
                     <div class="menu-title">Dashboard</div>
+                </a>
+            </li>
+
+            <li>
+                <a href="/add-client">
+                    <div class="parent-icon"><span class="material-symbols-outlined">person_add</span>
+                    </div>
+                    <div class="menu-title">Create Client</div>
+                </a>
+            </li>
+
+            <li>
+                <a href="/create-exercise">
+                    <div class="parent-icon"><span class="material-symbols-outlined">exercise</span>
+                    </div>
+                    <div class="menu-title">Create Exercise</div>
                 </a>
             </li>
             <li>
@@ -829,17 +845,17 @@
 
 
 <!--plugins-->
-<script src="frontend/js/jquery.min.js"></script>
-{{--<script src="../../public/frontend/js/jquery.min.js"></script>--}}
-<script src="frontend/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
-<script src="frontend/plugins/metismenu/js/metisMenu.min.js"></script>
-<script src="frontend/plugins/simplebar/js/simplebar.min.js"></script>
-<script src="frontend/js/index.js"></script>
-<script src="frontend/js/dateFormat.js"></script>
+<script src="{{asset('frontend/js/jquery.min.js') }}"></script>
+{{--<script src="../../public/{{asset('rontend/js/jquery.min.') }}js"></script>--}}
+<script src="{{  asset('frontend/plugins/perfect-scrollbar/js/perfect-scrollbar.js')}}"></script>
+<script src="{{  asset('frontend/plugins/metismenu/js/metisMenu.min.js')}}"></script>
+<script src="{{  asset('frontend/plugins/simplebar/js/simplebar.min.js')}}"></script>
+<script src="{{asset('frontend/js/index.js') }}"></script>
+<script src="{{asset('frontend/js/dateFormat.js') }}"></script>
 
 <!--BS Scripts-->
-<script src="frontend/js/bootstrap.bundle.min.js"></script>
-<script src="frontend/js/main.js"></script>
+<script src="{{asset('frontend/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{asset('frontend/js/main.js') }}"></script>
 
 
 

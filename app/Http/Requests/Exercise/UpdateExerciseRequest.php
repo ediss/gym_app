@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Exercise;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateExerciseRequest extends FormRequest
 {
@@ -25,7 +26,12 @@ class UpdateExerciseRequest extends FormRequest
             'name' => 'required|string',
             'exercise_category_id' => 'required|integer',
             'exercise_type_id' => 'required|integer',
-            'exercise_id' => 'required',
+            //'exercise_id' => 'required',
+            'exercise_id' => [
+                'required',
+                Rule::exists('exercises', 'id')
+                    ->where('coach_id',9),
+            ],
             'note' => 'required'
         ];
     }

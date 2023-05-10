@@ -1,15 +1,17 @@
 import {ref} from "vue";
 import {useRouter} from "vue-router";
 export default function useAppointments() {
+
     const appointments = ref([])
     const router = useRouter()
     const validationErrors = ref({})
-    const getAppointments = async () => {
-        axios.post('api/appointments')
+
+    const getAppointments = async (appointment = null) => {
+        console.log(appointment);
+        axios.post('api/appointments', appointment)
             .then(response => appointments.value = response.data.data)
             .catch(error => console.log(error))
     }
-
     const makeAppointment = async (appointment) => {
         axios.post('api/make-appointment', appointment)
             .then(response => {
