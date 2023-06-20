@@ -54,13 +54,16 @@ class WorkoutController extends Controller
     public function createWorkout(CreateWorkoutRequest $request) {
 
 
+
+
         $validatedData = $request->validated();
 
         //check if client belongs to coach
 
         //add workout note in db table
 
-        $validatedData['workout_started'] = Carbon::now()->format('Y-m-d');
+//        $validatedData['workout_started'] = Carbon::now()->format('Y-m-d');
+
 
 
         $workout = Workout::create($validatedData);

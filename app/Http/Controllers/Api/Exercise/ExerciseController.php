@@ -19,6 +19,15 @@ use Illuminate\Validation\ValidationException;
 class ExerciseController extends Controller
 {
 
+    //this should be in show method?
+
+    public function getExerciseByID($exercise_id): ExerciseResource
+    {
+        $exercise =  Exercise::whereId($exercise_id)->first();
+        return new ExerciseResource($exercise);
+    }
+
+
     /**
      * Display a listing of the resource.
      */

@@ -3,19 +3,20 @@
         <div class="col-12 mb-4">
             <input v-model="search_exercises" type="text" class="form-control" placeholder="Search...">
         </div>
+<!--        {{ appointment[0].coach_name }}-->
+
         <div class="col-12" id="categories-card"
              v-show="!isLoading && search_exercises.length === 0">
             <div class="card" >
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
-                        <!--                    <router-link v-for="category in exerciseCategories" :to="{ name: 'category.exercises', params: {category_id: category.id} }"-->
-                        <!--                                 class="list-group-item">-->
-                        <!--                        <li class="d-flex justify-content-between align-items-center">-->
-                        <!--                            {{ category.name }}-->
-                        <!--                            <span class="badge border border-warning rounded-pill font-15 ">{{ category.exercises_count }}</span>-->
-                        <!--                        </li>-->
-                        <!--                    </router-link>-->
-
+<!--                                            <router-link v-for="category in exerciseCategories" :to="{ name: 'category.exercises', params: {category_id: category.id} }"-->
+<!--                                                         class="list-group-item">-->
+<!--                                                <li class="d-flex justify-content-between align-items-center">-->
+<!--                                                    {{ category.name }}-->
+<!--                                                    <span class="badge border border-warning rounded-pill font-15 ">{{ category.exercises_count }}</span>-->
+<!--                                                </li>-->
+<!--                                            </router-link>-->
 
                         <li v-for="category in exerciseCategories"  @click="getCategoryExercisesClick(category.id)"
                             class="d-flex justify-content-between align-items-center list-group-item">
@@ -29,7 +30,16 @@
             </div>
         </div>
 
-        <div class="col-12" v-for="exercise in exercises" v-show="search_exercises !== ''">
+        <router-link v-for="exercise in exercises"
+                     v-show="search_exercises !== ''"
+                     :to="{
+                         name: 'workout.create',
+                         params: {
+                             appointment_id:appointment_id,
+                             exercise_id:exercise.id
+                         }
+                     }"
+                     class="col-12">
             <div class="card radius-10 border-0 border-start border-warning border-4">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
@@ -41,12 +51,19 @@
 
                 </div>
             </div>
-        </div>
+        </router-link>
 
-        <div class="col-12" v-for="exercise in categoryExercises"
-             v-show="isLoading && search_exercises.length === 0">
-
-            <div class="card radius-10 border-0 border-start border-warning border-4">
+        <router-link v-for="exercise in categoryExercises"
+                     v-show="isLoading && search_exercises.length === 0"
+                     :to="{
+                         name: 'workout.create',
+                         params: {
+                             appointment_id:appointment_id,
+                             exercise_id:exercise.id
+                         }
+                     }"
+                    class="col-12">
+            <div class="card radius-10 border-0 border-start border-warning border-4" @click="test()">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="">
@@ -57,12 +74,12 @@
 
                 </div>
             </div>
-        </div>
+        </router-link>
+
     </div>
 </template>
 <script>
-import useWorkout from "../../composables/workout";
-import useClient from "../../composables/client";
+
 import {onMounted, reactive, ref, watch} from "vue";
 import useExercises from "../../composables/Exercise/exercise";
 import useCategory from "../../composables/Exercise/category";
@@ -81,7 +98,7 @@ export default {
     // setup(props) {
     setup(props) {
 
-        const appointment = reactive({
+        const appointmentProp = reactive({
             id : props.appointment_id,
         })
 
@@ -90,8 +107,6 @@ export default {
         const search_exercises = ref('');
 
         const isLoading = ref(false);
-
-        // const categoryExercises = ref([])
 
         const {
             categoryExercises,
@@ -106,14 +121,16 @@ export default {
         } = useExercises();
 
         const {
-            getAppointments,
+            appointment,
+            getAppointment,
         } = useAppointments();
         //onMounted(getClient(props.clientId))
 
         onMounted(() => {
             getExercises();
             getExerciseCategories();
-            getAppointments(appointment.id)
+            // getAppointment(appointmentProp.id)
+            getAppointment(appointmentProp)
         });
 
 
@@ -135,8 +152,14 @@ export default {
         };
 
 
-        return { search_exercises, category, exercises, exerciseCategories,  getCategoryExercisesClick, categoryExercises, isLoading }
+        const test = async () => {
+            //alert("test");
+        };
+
+
+        return { test, appointment, search_exercises, category, exercises, exerciseCategories,  getCategoryExercisesClick, categoryExercises, isLoading }
 
     }
 }
 </script>
+

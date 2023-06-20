@@ -11,7 +11,7 @@ class Workout extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['coach_id', 'client_id', 'exercise_id', 'reps', 'weight', 'workout_started'];
+    protected $fillable = ['coach_id', 'client_id', 'exercise_id', 'reps', 'weight', 'distance', 'appointment_id'];
     /**
      * for migration, we will need:
      *

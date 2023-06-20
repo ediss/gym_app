@@ -15,6 +15,7 @@ class ExerciseResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id'    => $this->id,
             'name' => $this->name,
             'note' => $this->note,
             'video_src' => $this->video_src,

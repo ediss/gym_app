@@ -1,13 +1,18 @@
 import {ref} from "vue";
 import {useRouter} from "vue-router";
 export default function useAppointments() {
-
+    const appointment = ref([])
     const appointments = ref([])
     const router = useRouter()
     const validationErrors = ref({})
 
+    const getAppointment = async (appointmentProp = null) => {
+
+        axios.post('api/get-appointment', appointmentProp)
+            .then(response => appointment.value = response.data.data)
+            .catch(error => console.log(error))
+    }
     const getAppointments = async (appointment = null) => {
-        console.log(appointment);
         axios.post('api/appointments', appointment)
             .then(response => appointments.value = response.data.data)
             .catch(error => console.log(error))
@@ -27,6 +32,6 @@ export default function useAppointments() {
 
     }
     return {
-        appointments, getAppointments, makeAppointment, validationErrors
+        appointment, getAppointment, appointments, getAppointments, makeAppointment, validationErrors
     }
 }

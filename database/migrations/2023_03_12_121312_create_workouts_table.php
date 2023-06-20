@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('weight')->nullable();
             $table->string('time')->nullable();
             $table->string('distance')->nullable();
-            $table->date('workout_started');
 
             $table->foreignId('coach_id')
                 ->constrained('users')
@@ -31,6 +30,11 @@ return new class extends Migration
 
             $table->foreignId('exercise_id')
                 ->constrained('exercises')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
+            $table->foreignId('appointment_id')
+                ->constrained('appointments')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->timestamps();
@@ -48,6 +52,7 @@ return new class extends Migration
             $table->dropConstrainedForeignId('coach_id');
             $table->dropConstrainedForeignId('client_id');
             $table->dropConstrainedForeignId('exercise_id');
+            $table->dropConstrainedForeignId('appointment_id');
         });
 
         Schema::dropIfExists('workouts');

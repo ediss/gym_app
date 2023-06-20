@@ -36,7 +36,7 @@ class CreateWorkoutRequest extends FormRequest
             'coach_id' => 'required|integer',
             'client_id'=> 'required|integer',
             'exercise_id'=> 'required|integer',
-            'workout_started' => '',
+            'appointment_id' => 'required|integer',
             'reps'      => Rule::requiredIf(in_array($exercise_type, self::REPS_TYPES, true)),
             'weight'    => Rule::requiredIf(in_array($exercise_type, self::WEIGHT_TYPES, true)),
             'time'      => Rule::requiredIf(in_array($exercise_type, self::TIME_TYPES, true)),

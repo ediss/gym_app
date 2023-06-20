@@ -47,6 +47,7 @@
                     <div class="d-flex align-items-center">
                         <div class="">
                             <p class="mb-1 text-white">{{ exercise.category }}</p>
+                            <h3>{{exercise.type}}</h3>
                             <h4 class="mb-0 text-warning text-capitalize">{{ exercise.name  }}</h4>
                         </div>
                     </div>

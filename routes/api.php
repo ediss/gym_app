@@ -36,6 +36,7 @@ Route::group(['prefix' => 'coach', 'middleware' => ['auth:sanctum']], function()
     Route::post('/make-appointment', [CoachController::class, 'makeAppointment']);
 
     Route::post('/get-appointments', [CoachController::class, 'getAppointments']);
+    Route::post('/get-appointment', [CoachController::class, 'getAppointmentByID']);
 
     Route::post('/create-workout', [WorkoutController::class, 'createWorkout']);
 
@@ -51,6 +52,7 @@ Route::post('/client-exercise-history', [WorkoutController::class, 'getClientExe
 
 //practice
 Route::post('/appointments', [CoachController::class, 'getAppointments']);
+Route::post('/get-appointment', [CoachController::class, 'getAppointmentByID']);
 Route::post('/started-appointments', [CoachController::class, 'getStartedAppointments']);
 
 
@@ -63,6 +65,7 @@ Route::post('/make-appointment', [CoachController::class, 'makeAppointment']);
 
 
 Route::get('/exercises', [ExerciseController::class, 'index']);
+Route::get('/get-exercise/{exercise_id}', [ExerciseController::class, 'getExerciseByID']);
 
 Route::get('/exercise-categories', [ExerciseController::class, 'categories']);
 Route::get('/exercise-types', [ExerciseController::class, 'types']);
@@ -71,3 +74,4 @@ Route::post('/create-exercise', [ExerciseController::class, 'store']);
 
 Route::get('/category-exercises/{category_id?}', [ExerciseController::class, 'categoryExercises']);
 
+Route::post('/create-workout', [WorkoutController::class, 'createWorkout']);

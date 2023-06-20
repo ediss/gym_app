@@ -1,10 +1,17 @@
 import {ref} from "vue";
 import {useRouter} from "vue-router";
 export default function useExercises() {
+    const exercise = ref([])
     const exercises = ref([])
     const exerciseTypes = ref([])
     const router = useRouter()
     const validationErrors = ref({})
+
+    const getExercise = async (exercise_id) => {
+        axios.get('api/get-exercise/' + exercise_id)
+            .then(response => exercise.value = response.data.data)
+            .catch(error => console.log(error))
+    }
     const getExercises = async (search_exercises = '') => {
         axios.get('api/exercises/?search_exercises='+ search_exercises)
             .then(response => exercises.value = response.data.data)
@@ -31,9 +38,11 @@ export default function useExercises() {
 
 
     return {
+        exercise,
         exercises,
         exerciseTypes,
         getExerciseTypes,
+        getExercise,
         getExercises,
         createExercise,
         validationErrors,

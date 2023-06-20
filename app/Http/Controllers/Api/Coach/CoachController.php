@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Coach;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Appointment\AppointmentRequest;
 use App\Http\Resources\AppointmentCollection;
+use App\Http\Resources\AppointmentResource;
 use App\Http\Resources\Client\ClientResource;
 use App\Models\Appointment;
 use App\Models\Client;
@@ -49,6 +50,8 @@ class CoachController extends Controller
 
 
 
+    // create appointment controller
+
     public function makeAppointment(AppointmentRequest $request) {
         $validatedData = $request->validated();
 
@@ -66,28 +69,28 @@ class CoachController extends Controller
 
     //todo make a Request where coach_id is required field
     //todo this probably needs to be in AppointmentController
-//    public function getAppointments(Request $request): AppointmentCollection
-//    {
-//
-//        $coach = $this->coach->whereId('9')->firstOrFail();
-//
-//        $start_date = $request->appointment_start ?? Carbon::now()->startOfDay();
-//
-//        //TODO
-//        //if appointment start is present than end date should be end of the that selected appointment started
-//
-//        $end_date = Carbon::now()->endOfDay();
-//
-//        $appointments = Appointment::whereCoachId($coach->id)
-//            ->whereBetween('appointment_start', [$start_date, $end_date])
-//            ->with('clients')
-//            ->get();
-//
-//      return new AppointmentCollection($appointments);
-//
-//    }
 
 
+    public function getAppointmentByID(Request $request) {
+
+
+
+        $id = $request->appointment_id;
+
+
+
+
+        //$coach = $this->coach->whereId('9')->firstOrFail();
+
+        $appointment = Appointment::whereId($id)
+            ->with('clients')
+            ->first();
+
+
+        //return new AppointmentCollection($appointment);
+        //return new AppointmentCollection($appointments);
+        return new AppointmentResource($appointment);
+    }
 
     public function getAppointments(Request $request): AppointmentCollection
     {
@@ -116,7 +119,10 @@ class CoachController extends Controller
             ->with('clients')
             ->get();
 
+
+
         return new AppointmentCollection($appointments);
+
 
     }
 

@@ -34,6 +34,13 @@ const routes = [
     },
 
     {
+        path: '/create-workout/:appointment_id/:exercise_id',
+        name: 'workout.create',
+        component: WorkoutCreate,
+        props: true
+    },
+
+    {
         path: '/clients',
         name: 'clients.index',
         component: ClientsIndex,

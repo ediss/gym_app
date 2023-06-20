@@ -20,7 +20,7 @@ class Exercise extends Model
 
     public function types(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(ExerciseType::class, 'id', 'exercise_category_id');
+        return $this->hasMany(ExerciseType::class, 'id', 'exercise_type_id');
     }
 
     public function coach() {
