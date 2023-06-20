@@ -30,19 +30,11 @@ class CoachController extends Controller
     {
         //this is home page for coach
 
+        //@todo get id from auth facade
+
         $coach = $this->coach->where('id', '9')->firstOrFail();
 
         $clients = $coach->clients()->get();
-
-
-//        $clientModel = new Client();
-//        $client = $clientModel->where('id', '11')->firstOrFail();
-//
-//        $clientCoach = $client->coach()->get();
-//        echo nl2br("Coach: \n");
-//        foreach ($clientCoach as $coach) {
-//            echo  $coach->name . "/ ";
-//        }
 
 
         return ClientResource::collection($clients);
@@ -58,6 +50,7 @@ class CoachController extends Controller
 
         $validatedData['appointment_start'] = Carbon::parse($validatedData['start_date']);
 
+        //hardcoded for now...
         $validatedData['coach_id'] = 9;
 
         //checking of user, checking of coach
@@ -73,19 +66,11 @@ class CoachController extends Controller
 
     public function getAppointmentByID(Request $request) {
 
-
-
         $id = $request->appointment_id;
-
-
-
-
-        //$coach = $this->coach->whereId('9')->firstOrFail();
 
         $appointment = Appointment::whereId($id)
             ->with('clients')
             ->first();
-
 
         //return new AppointmentCollection($appointment);
         //return new AppointmentCollection($appointments);

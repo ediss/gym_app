@@ -150,14 +150,6 @@ class ExerciseController extends Controller
                     ->orWhereNull('coach_id');
             })->get();
 
-//        dd($exercises->toSql());
-
-//        $exercises = Exercise::where('exercise_category_id', $category_id)
-//                ->where(function ($query) {
-//                    $query->where('coach_id', '=', 9)
-//                        ->orWhereNull('coach_id');
-//                })->get();
-
         return ExerciseResource::collection($exercises);
     }
 

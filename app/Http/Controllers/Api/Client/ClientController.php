@@ -45,7 +45,7 @@ class ClientController extends Controller
         //assigning client to coach
         $coach->clients()->attach($client);
 
-        //return client resource
+        // @todo return client resource
         return $client;
 
     }
@@ -84,16 +84,11 @@ class ClientController extends Controller
 
         $coach->clients()->detach($client);
 
-//        if ($client->trashed()) {
-//            dd("soft deleted");
-//        }else{
-//            dd("not deleted user");
-//        }
-
-
         if (!$client) {
             return "delete client error";
         }
+
+        //@todo return Response code Response::HTTP_NO_CONTENT
 
         return 'client deleted successfully!';
     }

@@ -68,6 +68,9 @@ class WorkoutController extends Controller
 
         $workout = Workout::create($validatedData);
 
+
+        //@todo return proper response ( Response::HTTP_CREATED)
+
         return 'Workout added!';
     }
 
