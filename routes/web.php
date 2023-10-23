@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Coach\CoachController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,10 +18,16 @@ use Illuminate\Support\Facades\Route;
 //    return view('welcome');
 //})->where('any', '.*');
 
-//Route::get('/{any}', function () {
-//    return view('welcome');
-//})->where('any','.*');
 
-Route::get('{any}', function () {
-    return view('welcome');
-})->where('any', '.*');
+//Route::get('{any}', function () {
+//    return view('welcome');
+//})->where('any', '.*');
+
+Route::group(['prefix' => 'coach'], function() {
+    Route::get('/clients', [CoachController::class, 'index']);
+
+    Route::get('/appointments', [CoachController::class, 'getAppointments']);
+
+});
+
+
