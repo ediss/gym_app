@@ -104,6 +104,8 @@ class WorkoutController extends Controller
             return "Remove workout error";
         }
 
+        //@todo return proper response ( Response::HTTP_NO_CONTENT)
+
         return 'Workout removed succesfully!';
     }
 }
