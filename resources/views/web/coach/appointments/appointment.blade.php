@@ -10,18 +10,12 @@
                 </div>
 
                 <div class="ms-auto">
-                    <router-link :to="{name: 'appointment.start',
-                                params: {
-                                     appointment_id: appointment.id,
-                                }
-                            }"
-                                 class="btn btn-outline-{{$appointment->status === 'started' ? 'warning' : 'danger'}} pe-0 radius-30 border-0">
+                    <a href="{{route('appointment.start', ['id' => $appointment->id])}}" class="btn btn-outline-{{$appointment->status === 'started' ? 'warning' : 'danger'}} pe-0 radius-30 border-0">
                         <div>
 
                             <span class="material-symbols-outlined  font-30">{{$appointment->status === 'started' ? 'timer' : 'check_small' }}</span>{{$appointment->status}}
                         </div>
-                    </router-link>
-
+                    </a>
                 </div>
 
 

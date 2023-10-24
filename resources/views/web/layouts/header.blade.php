@@ -27,7 +27,7 @@
                                 <a href="javascript:;">
                                     <div class="app-box text-center">
                                         <div class="app-icon">
-                                            <img src="frontend/images/icons/slack.png" width="30" alt="">
+                                            <img src="{{ asset('frontend/images/icons/slack.png') }}" width="30" alt="">
                                         </div>
                                         <div class="app-name">
                                             <p class="mb-0 mt-1">Slack</p>
@@ -39,7 +39,7 @@
                                 <a href="javascript:;">
                                     <div class="app-box text-center">
                                         <div class="app-icon">
-                                            <img src="frontend/images/icons/behance.png" width="30" alt="">
+                                            <img src="{{ asset('frontend/images/icons/behance.png') }}" width="30" alt="">
                                         </div>
                                         <div class="app-name">
                                             <p class="mb-0 mt-1">Behance</p>
@@ -51,7 +51,7 @@
                                 <a href="javascript:;">
                                     <div class="app-box text-center">
                                         <div class="app-icon">
-                                            <img src="frontend/images/icons/google-drive.png" width="30" alt="">
+                                            <img src="{{  asset('frontend/images/icons/google-drive.png') }}" width="30" alt="">
                                         </div>
                                         <div class="app-name">
                                             <p class="mb-0 mt-1">Dribble</p>
@@ -63,7 +63,7 @@
                                 <a href="javascript:;">
                                     <div class="app-box text-center">
                                         <div class="app-icon">
-                                            <img src="frontend/images/icons/outlook.png" width="30" alt="">
+                                            <img src="{{  asset('frontend/images/icons/outlook.png') }}" width="30" alt="">
                                         </div>
                                         <div class="app-name">
                                             <p class="mb-0 mt-1">Outlook</p>
@@ -75,7 +75,7 @@
                                 <a href="javascript:;">
                                     <div class="app-box text-center">
                                         <div class="app-icon">
-                                            <img src="frontend/images/icons/github.png" width="30" alt="">
+                                            <img src="{{  asset('frontend/images/icons/github.png') }}" width="30" alt="">
                                         </div>
                                         <div class="app-name">
                                             <p class="mb-0 mt-1">GitHub</p>
@@ -87,7 +87,7 @@
                                 <a href="javascript:;">
                                     <div class="app-box text-center">
                                         <div class="app-icon">
-                                            <img src="frontend/images/icons/stack-overflow.png" width="30" alt="">
+                                            <img src="{{  asset('frontend/images/icons/stack-overflow.png') }}" width="30" alt="">
                                         </div>
                                         <div class="app-name">
                                             <p class="mb-0 mt-1">Stack</p>
@@ -99,7 +99,7 @@
                                 <a href="javascript:;">
                                     <div class="app-box text-center">
                                         <div class="app-icon">
-                                            <img src="frontend/images/icons/figma.png" width="30" alt="">
+                                            <img src="{{  asset('frontend/images/icons/figma.png') }}" width="30" alt="">
                                         </div>
                                         <div class="app-name">
                                             <p class="mb-0 mt-1">Stack</p>
@@ -111,7 +111,7 @@
                                 <a href="javascript:;">
                                     <div class="app-box text-center">
                                         <div class="app-icon">
-                                            <img src="frontend/images/icons/twitter.png" width="30" alt="">
+                                            <img src="{{ asset('frontend/images/icons/twitter.png') }}" width="30" alt="">
                                         </div>
                                         <div class="app-name">
                                             <p class="mb-0 mt-1">Twitter</p>
@@ -123,7 +123,7 @@
                                 <a href="javascript:;">
                                     <div class="app-box text-center">
                                         <div class="app-icon">
-                                            <img src="frontend/images/icons/google-calendar.png" width="30" alt="">
+                                            <img src="{{ asset('frontend/images/icons/google-calendar.png') }}" width="30" alt="">
                                         </div>
                                         <div class="app-name">
                                             <p class="mb-0 mt-1">Calendar</p>
@@ -135,7 +135,7 @@
                                 <a href="javascript:;">
                                     <div class="app-box text-center">
                                         <div class="app-icon">
-                                            <img src="frontend/images/icons/spotify.png" width="30" alt="">
+                                            <img src="{{ asset('frontend/images/icons/spotify.png') }}" width="30" alt="">
                                         </div>
                                         <div class="app-name">
                                             <p class="mb-0 mt-1">Spotify</p>
@@ -147,7 +147,7 @@
                                 <a href="javascript:;">
                                     <div class="app-box text-center">
                                         <div class="app-icon">
-                                            <img src="frontend/images/icons/google-photos.png" width="30" alt="">
+                                            <img src="{{ asset('frontend/images/icons/google-photos.png') }}" width="30" alt="">
                                         </div>
                                         <div class="app-name">
                                             <p class="mb-0 mt-1">Photos</p>
@@ -159,7 +159,7 @@
                                 <a href="javascript:;">
                                     <div class="app-box text-center">
                                         <div class="app-icon">
-                                            <img src="frontend/images/icons/pinterest.png" width="30" alt="">
+                                            <img src="{{ asset('frontend/images/icons/pinterest.png') }}" width="30" alt="">
                                         </div>
                                         <div class="app-name">
                                             <p class="mb-0 mt-1">Photos</p>
@@ -171,7 +171,7 @@
                                 <a href="javascript:;">
                                     <div class="app-box text-center">
                                         <div class="app-icon">
-                                            <img src="frontend/images/icons/linkedin.png" width="30" alt="">
+                                            <img src="{{ asset('frontend/images/icons/linkedin.png') }}" width="30" alt="">
                                         </div>
                                         <div class="app-name">
                                             <p class="mb-0 mt-1">linkedin</p>
@@ -183,7 +183,7 @@
                                 <a href="javascript:;">
                                     <div class="app-box text-center">
                                         <div class="app-icon">
-                                            <img src="frontend/images/icons/dribble.png" width="30" alt="">
+                                            <img src="{{ asset('frontend/images/icons/dribble.png') }}" width="30" alt="">
                                         </div>
                                         <div class="app-name">
                                             <p class="mb-0 mt-1">Dribble</p>
@@ -195,7 +195,7 @@
                                 <a href="javascript:;">
                                     <div class="app-box text-center">
                                         <div class="app-icon">
-                                            <img src="frontend/images/icons/youtube.png" width="30" alt="">
+                                            <img src="{{ asset('frontend/images/icons/youtube.png') }}" width="30" alt="">
                                         </div>
                                         <div class="app-name">
                                             <p class="mb-0 mt-1">YouTube</p>
@@ -207,7 +207,7 @@
                                 <a href="javascript:;">
                                     <div class="app-box text-center">
                                         <div class="app-icon">
-                                            <img src="frontend/images/icons/google.png" width="30" alt="">
+                                            <img src="{{ asset('frontend/images/icons/google.png') }}" width="30" alt="">
                                         </div>
                                         <div class="app-name">
                                             <p class="mb-0 mt-1">News</p>
@@ -219,7 +219,7 @@
                                 <a href="javascript:;">
                                     <div class="app-box text-center">
                                         <div class="app-icon">
-                                            <img src="frontend/images/icons/envato.png" width="30" alt="">
+                                            <img src="{{ asset('frontend/images/icons/envato.png') }}" width="30" alt="">
                                         </div>
                                         <div class="app-name">
                                             <p class="mb-0 mt-1">Envato</p>
@@ -231,7 +231,7 @@
                                 <a href="javascript:;">
                                     <div class="app-box text-center">
                                         <div class="app-icon">
-                                            <img src="frontend/images/icons/safari.png" width="30" alt="">
+                                            <img src="{{ asset('frontend/images/icons/safari.png') }}" width="30" alt="">
                                         </div>
                                         <div class="app-name">
                                             <p class="mb-0 mt-1">Safari</p>

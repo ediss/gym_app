@@ -30,7 +30,6 @@
 
 <!--plugins-->
 <script src="{{  asset('frontend/js/jquery.min.js') }}"></script>
-{{--<script src="../../public/{{asset('rontend/js/jquery.min.') }}js"></script>--}}
 <script src="{{  asset('frontend/plugins/perfect-scrollbar/js/perfect-scrollbar.js')}}"></script>
 <script src="{{  asset('frontend/plugins/metismenu/js/metisMenu.min.js')}}"></script>
 <script src="{{  asset('frontend/plugins/simplebar/js/simplebar.min.js')}}"></script>

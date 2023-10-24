@@ -83,19 +83,11 @@
 
 
                                         <div class="ms-auto">
-                                            <a href="#" class="btn btn-outline-warning px-4 radius-30 border-0">
-                                                <span class="material-symbols-outlined  font-30">play_circle</span>start
+                                            <a href="{{route('appointment.start', ['id' => $appointment->id])}}" class="btn btn-outline-warning pe-0 radius-30 border-0">
+                                                <div>
+                                                    <span class="material-symbols-outlined  font-30">play_circle</span>start
+                                                </div>
                                             </a>
-                                            {{--                                        <router-link :to="{--}}
-                                            {{--                                                name: 'appointment.start',--}}
-                                            {{--                                                params: {--}}
-                                            {{--                                                     appointment_id: appointment.id,--}}
-                                            {{--                                                }--}}
-                                            {{--                                            }"--}}
-                                            {{--                                                     class="btn btn-outline-warning px-4 radius-30 border-0">--}}
-                                            {{--                                            <span class="material-symbols-outlined  font-30">play_circle</span>start--}}
-                                            {{--                                        </router-link>--}}
-
                                         </div>
                                     </div>
 

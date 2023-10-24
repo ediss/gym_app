@@ -62,7 +62,7 @@ $(function () {
 	};
 	var chart = new ApexCharts(document.querySelector("#chart1"), options);
 	chart.render();
-	
+
 
 
 
@@ -169,7 +169,7 @@ chart.render();
 	};
 	var chart = new ApexCharts(document.querySelector("#chart3"), options);
 	chart.render();
-	
+
 
 
 
@@ -244,5 +244,5 @@ chart.render();
 
 
 
-    	
+
 });

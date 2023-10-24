@@ -10,13 +10,6 @@
             <div class="card" >
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
-<!--                                            <router-link v-for="category in exerciseCategories" :to="{ name: 'category.exercises', params: {category_id: category.id} }"-->
-<!--                                                         class="list-group-item">-->
-<!--                                                <li class="d-flex justify-content-between align-items-center">-->
-<!--                                                    {{ category.name }}-->
-<!--                                                    <span class="badge border border-warning rounded-pill font-15 ">{{ category.exercises_count }}</span>-->
-<!--                                                </li>-->
-<!--                                            </router-link>-->
 
                         <li v-for="category in exerciseCategories"  @click="getCategoryExercisesClick(category.id)"
                             class="d-flex justify-content-between align-items-center list-group-item">
