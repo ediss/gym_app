@@ -21,7 +21,7 @@
 </main>
 <!--end main content-->
 
-
+@yield('scripts')
 
 <!--start theme customization-->
 

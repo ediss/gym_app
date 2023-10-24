@@ -3,18 +3,20 @@
 @section('content')
     <div class="row">
         <div class="col-12 mb-4">
-            <input v-model="search_exercises" type="text" class="form-control" placeholder="Search...">
+            <label class="w-100">
+                <input name="search_exercises" id="searchExercises" type="text" class="form-control" value ='' placeholder="Search..."
+                       oninput="searchExercises()">
+            </label>
         </div>
 
-        <div class="col-12" id="categories-card"
-             v-show="!isLoading && search_exercises.length === 0">
+        <div class="col-12" id="exerciseCategories">
             <div class="card" >
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
 
                         @foreach($categories as $category)
-                            <li @click="getCategoryExercisesClick(category.id)"
-                                class="d-flex justify-content-between align-items-center list-group-item">
+                            <li class="d-flex justify-content-between align-items-center list-group-item category"
+                                data-category-id="{{$category->id}}">
                                 {{ $category->name }}
                                 <span class="badge border border-warning rounded-pill font-15 ">
                                     {{ $category->exercises_count }}
@@ -30,59 +32,77 @@
             </div>
         </div>
 
-        <router-link v-for="exercise in exercises"
-                     v-show="search_exercises !== ''"
-                     :to="{
-                         name: 'workout.create',
-                         params: {
-                             appointment_id:appointment_id,
-                             exercise_id:exercise.id
-                         }
-                     }"
-                     class="col-12">
-            <div class="card radius-10 border-0 border-start border-warning border-4">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="">
-                            <p class="mb-1 text-white">
-{{--                                {{ exercise.category }}--}}
-                            </p>
-                            <h4 class="mb-0 text-warning text-capitalize">
-{{--                                {{ exercise.name  }}--}}
-                            </h4>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </router-link>
-
-        <router-link v-for="exercise in categoryExercises"
-                     v-show="isLoading && search_exercises.length === 0"
-                     :to="{
-                         name: 'workout.create',
-                         params: {
-                             appointment_id:appointment_id,
-                             exercise_id:exercise.id
-                         }
-                     }"
-                     class="col-12">
-            <div class="card radius-10 border-0 border-start border-warning border-4" @click="test()">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="">
-                            <p class="mb-1 text-white">
-{{--                                {{ exercise.category }}--}}
-                            </p>
-                            <h4 class="mb-0 text-warning text-capitalize">
-{{--                                {{ exercise.name  }}--}}
-                            </h4>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </router-link>
-
+        <div id="exerciseResults"></div>
     </div>
+@endsection
+
+@section('scripts')
+
+
+    <script>
+        async function searchExercises() {
+            const exerciseInput = document.getElementById("searchExercises");
+            const exerciseCategories = document.getElementById("exerciseCategories");
+            const exerciseResults = document.getElementById("exerciseResults");
+
+            if (exerciseInput.value === "") {
+                exerciseCategories.style.display = "block";
+                exerciseResults.style.display = "none";
+            } else {
+                exerciseCategories.style.display = "none";
+
+                try {
+                    const inputValue = exerciseInput.value;
+                    const response = await fetch(`/coach/search-exercises?q=${inputValue}`);
+                    const data = await response.text();
+
+                    if (data.length > 0) {
+                        // Display the results
+                        exerciseResults.innerHTML=data;
+
+                        exerciseResults.style.display = "block";
+                    } else {
+                        exerciseResults.innerHTML = "No exercises found.";
+                        exerciseResults.style.display = "block";
+                    }
+                } catch (error) {
+                    console.error("Error fetching exercise data: " + error);
+                }
+            }
+        }
+
+
+        //get category exercises
+        const categoryElements = document.querySelectorAll('.category');
+
+        categoryElements.forEach(category => {
+            category.addEventListener('click', async () => {
+                // Retrieve the category ID or other necessary data from the element.
+                const categoryId = category.dataset.categoryId;
+
+                try {
+                    const response = await fetch(`/coach/category-exercises/${categoryId}`);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error ${response.status}`);
+                    }
+
+                    const data = await response.text();
+                    const exerciseResults = document.getElementById('exerciseResults');
+
+                    if (data.length > 0) {
+                        // Display the results
+                        exerciseResults.innerHTML=data;
+
+                        exerciseResults.style.display = "block";
+                    } else {
+                        exerciseResults.innerHTML = "No exercises found.";
+                        exerciseResults.style.display = "block";
+                    }
+
+                } catch (error) {
+                    console.error(`Error fetching exercises: ${error}`);
+                }
+            });
+        });
+    </script>
 @endsection

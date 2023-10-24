@@ -30,4 +30,8 @@ class AppointmentController extends Controller
 
         return view('web.coach.appointments.start-appointment', ['categories' => $categories]);
     }
+
+    public function test(Request $request) {
+        dd($request->q);
+    }
 }

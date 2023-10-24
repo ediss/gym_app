@@ -18,13 +18,6 @@ class ExerciseCategoryResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-//            'exercises' => $this->exercises()
-//                ->where('exercise_category_id', $this->id)
-//                ->where(function ($query) {
-//                    $query->where('coach_id', '=', 9)
-//                        ->orWhereNull('coach_id');
-//                })->get(),
-
             'exercises_count'=> $this->exercises()
                 ->where('exercise_category_id', $this->id)
                 ->where(function ($query) {

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Exercise\ExerciseController;
 use App\Http\Controllers\Appointment\AppointmentController;
 use App\Http\Controllers\Coach\CoachController;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +31,13 @@ Route::group(['prefix' => 'coach'], function() {
     Route::get('/appointments', [CoachController::class, 'getAppointments']);
 
     Route::get('/start-appointment/{id}', [AppointmentController::class, 'startAppointment'])->name('appointment.start');
+
+    Route::get('/search-exercises', [ExerciseController::class, 'index']);
+
+    Route::get('/category-exercises/{id}', [ExerciseController::class, 'categoryExercises']);
+
+
+
 
 });
 

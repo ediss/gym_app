@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Exercise;
+namespace App\Http\Controllers\Exercise;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Exercise\CreateExerciseRequest;
@@ -33,16 +33,16 @@ class ExerciseController extends Controller
      */
     public function index(Request $request)
     {
-//        $coachID = $request->input('coach_id');
+        //$coachID = $request->input('coach_id');
         $coachID = 9;
 
-        $exercises = Exercise::where('name', 'like', '%' . request('search_exercises') . '%')
+        $exercises = Exercise::where('name', 'like', $request->q . '%')
             ->where(function ($query) use($coachID){
                 $query->where('coach_id', '=', $coachID)
                     ->orWhereNull('coach_id');
             })->get();
 
-        return ExerciseResource::collection($exercises);
+        return view('web.partial.exercises', ['exercises' => $exercises]);
     }
 
     //only exercises created by specific coach
@@ -137,20 +137,15 @@ class ExerciseController extends Controller
 
     public function categoryExercises($category_id = null)
     {
-
-
-
         $coachID = 9;
-//        $exercises = Exercise::where('name', 'like', '%' . request('search_exercises') . '%')
         $exercises = Exercise::where('exercise_category_id', $category_id)
-            ->where('name', 'like', '%' . request('search_exercises') . '%')
-            ->where(function ($query) use($coachID){
+                ->where(function ($q) use($coachID){
+                    $q->where('coach_id', '=', $coachID)
+                        ->orWhereNull('coach_id');
+                })->get();
 
-                $query->where('coach_id', '=', $coachID)
-                    ->orWhereNull('coach_id');
-            })->get();
 
-        return ExerciseResource::collection($exercises);
+        return view('web.partial.exercises', ['exercises' => $exercises]);
     }
 
 
