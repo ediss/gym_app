@@ -24,5 +24,6 @@
 
     <link href="{{  asset('frontend/css/extra-icons.css' )}}" rel="stylesheet">
 
+
     @yield('custom-css')
 </head>

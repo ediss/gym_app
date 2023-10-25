@@ -8,8 +8,6 @@
                     <form @submit.prevent = "makeAppointment(appointment)"
                         class="row g-3">
 
-
-
                         <div class="col-md-12">
                             <div class="input-group mb-3">
 

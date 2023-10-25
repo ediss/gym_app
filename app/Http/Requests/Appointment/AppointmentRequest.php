@@ -25,6 +25,8 @@ class AppointmentRequest extends FormRequest
 //            'coach_id' => 'required|integer',
             'client_id' => 'required|integer',
             'start_date'=> 'required|date',
+            'start_time' => 'required',
+            'end_time' => 'required',
             'status' => '',
         ];
     }

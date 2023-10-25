@@ -138,8 +138,6 @@ class ExerciseController extends Controller
     public function categoryExercises($category_id = null)
     {
 
-
-
         $coachID = 9;
 //        $exercises = Exercise::where('name', 'like', '%' . request('search_exercises') . '%')
         $exercises = Exercise::where('exercise_category_id', $category_id)

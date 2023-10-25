@@ -12,6 +12,22 @@
 @section('content')
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-xl-4 row-cols-xxl-4">
 
+        @if(Session::has('success'))
+
+            <div class="alert border-0 border-warning border-start border-4 bg-dark-subtle alert-dismissible fade show" id="alert" role="alert">
+                <div class="text-warning">{{ session('success') }}</div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+                <div class="progress mt-3" style="height:7px;" >
+                    <div class="progress-bar progress-bar-striped bg-warning" role="progressbar"  id="progress" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+
+            </div>
+
+
+        @endif
+
+
         <div class="d-flex align-items-center mb-4">
             <div class="">
                 <!--                <label class="form-label">Date Format</label>-->
@@ -22,10 +38,9 @@
 
 
             <div class="text-warning ms-auto">
-                <router-link :to="{name: 'appointment.create'}"
-                             class=" btn btn-outline-warning px-0 radius-30 border-0">
+                <a href="{{route('appointment.create')}}" class=" btn btn-outline-warning px-0 radius-30 border-0">
                     <span class="material-symbols-outlined font-40 w-100">add</span>
-                </router-link>
+                </a>
             </div>
         </div>
 
@@ -78,7 +93,8 @@
                                     <div class="d-flex align-items-center">
                                         <div class="">
                                             <p class="mb-1">{{$appointment->appointment_start}}</p>
-                                            <h4 class="mb-0 text-warning">{{$appointment->client_name}}</h4>
+
+                                            <h4 class="mb-0 text-warning">{{$appointment->client->name}}</h4>
                                         </div>
 
 
@@ -108,4 +124,39 @@
 
 
     </div>
+@endsection
+
+@section('scripts')
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const alertElement = document.getElementById("alert");
+            const progressElement = document.getElementById("progress");
+
+            setTimeout(function () {
+                alertElement.style.display = "none";
+            }, 3000);
+
+            function updateProgressBar() {
+                const progressBar = document.querySelector(".progress-bar");
+
+                // progressBar.style.border = "4px solid red";
+                let width = 100;
+                const interval = setInterval(function () {
+                    if (!width >= 100) {
+                        clearInterval(interval);
+                    } else {
+                        console.log(width);
+                        width--;
+                        progressBar.style.width = width + "%";
+                        progressBar.setAttribute("aria-valuenow", width);
+                    }
+                }, 20); // Adjust the interval to control the progress bar speed
+            }
+
+            // Show the progress bar and start the progress when the document is ready
+            progressElement.style.display = "block";
+            updateProgressBar();
+        });
+    </script>
 @endsection

@@ -6,7 +6,7 @@
             <div class="d-flex align-items-center">
                 <div class="">
                     <p class="mb-1">{{$appointment->appointment_start}}</p>
-                    <h4 class="mb-0 text-warning">{{$appointment->client_name}}</h4>
+                    <h4 class="mb-0 text-warning">{{$appointment->client->name}}</h4>
                 </div>
 
                 <div class="ms-auto">

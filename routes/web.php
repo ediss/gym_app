@@ -28,7 +28,11 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'coach'], function() {
     Route::get('/clients', [CoachController::class, 'index']);
 
-    Route::get('/appointments', [CoachController::class, 'getAppointments']);
+    Route::get('/appointments', [AppointmentController::class, 'getAppointments'])->name('appointments.index');
+
+    Route::get('/appointment-create', [AppointmentController::class, 'createAppointment'])->name('appointment.create');
+    Route::post('/appointment-store', [AppointmentController::class, 'storeAppointment'])->name('appointment.store');
+
 
     Route::get('/start-appointment/{id}', [AppointmentController::class, 'startAppointment'])->name('appointment.start');
 

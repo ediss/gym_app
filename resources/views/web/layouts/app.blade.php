@@ -21,8 +21,6 @@
 </main>
 <!--end main content-->
 
-@yield('scripts')
-
 <!--start theme customization-->
 
 <!--end theme customization-->
@@ -39,6 +37,9 @@
 <!--BS Scripts-->
 <script src="{{asset('frontend/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{asset('frontend/js/main.js') }}"></script>
+
+@yield('scripts')
+
 
 </body>
 </html>

@@ -9,11 +9,11 @@ class Appointment extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['coach_id', 'client_id', 'appointment_start', 'status'];
+    protected $fillable = ['coach_id', 'client_id', 'appointment_start', 'appointment_end', 'status'];
 
-    public function clients(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function client(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
-        return $this->hasMany(User::class, 'id', 'client_id');
+        return $this->hasOne(User::class, 'id', 'client_id');
     }
 
     public function coach(): \Illuminate\Database\Eloquent\Relations\HasMany
