@@ -8,6 +8,7 @@ use App\Http\Requests\Exercise\UpdateExerciseRequest;
 use App\Http\Resources\Exercise\ExerciseCategoryResource;
 use App\Http\Resources\Exercise\ExerciseResource;
 use App\Http\Resources\Exercise\ExerciseTypeResource;
+use App\Http\Services\ExerciseCategoryService;
 use App\Models\Coach;
 use App\Models\Exercise\Exercise;
 use App\Models\Exercise\ExerciseCategory;
@@ -28,10 +29,19 @@ class ExerciseController extends Controller
     }
 
 
-    /**
-     * Display a listing of the resource.
-     */
-    public function index(Request $request)
+   public function index(ExerciseCategoryService $service) {
+
+       $categories = $service->getExerciseCategories();
+       $exercises = Exercise::where('coach_id', 9)
+           ->orWhereNull('coach_id')->get();
+
+
+       return view('web.coach.exercises.exercises', [
+           'exercises' => $exercises,
+           'categories' => $categories
+       ]);
+   }
+    public function searchExercises(Request $request)
     {
         //$coachID = $request->input('coach_id');
         $coachID = 9;
@@ -51,17 +61,32 @@ class ExerciseController extends Controller
         return Exercise::whereCoachId($request->input('coach_id'))->get();
     }
 
+    public function createExercise() {
+
+        $exercisesCategories = ExerciseCategory::all();
+        $exercisesTypes = ExerciseType::all();
+
+        return view('web.coach.exercises.create', [
+            'categories' => $exercisesCategories,
+            'types' => $exercisesTypes
+        ]);
+    }
+
     /**
      * Store a newly created resource in storage.
      */
     public function store(CreateExerciseRequest $request)
     {
         $validatedData = $request->validated();
-        //for now from backend, in future this going to be changed to take coach id from request / web browser
-//        $validatedData['coach_id'] = Auth::user()->id;
+
         $validatedData['coach_id'] = 9;
 
-        return Exercise::create($validatedData)->id;
+        $exercise = Exercise::create($validatedData);
+
+
+
+        return redirect()->route('exercises.index')->with('success','Exercise '. $exercise->name .' created successfully');
+
     }
 
     /**

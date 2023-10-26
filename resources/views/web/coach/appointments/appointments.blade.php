@@ -13,7 +13,6 @@
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-xl-4 row-cols-xxl-4">
 
         @if(Session::has('success'))
-
             <div class="alert border-0 border-warning border-start border-4 bg-dark-subtle alert-dismissible fade show" id="alert" role="alert">
                 <div class="text-warning">{{ session('success') }}</div>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -23,8 +22,6 @@
                 </div>
 
             </div>
-
-
         @endif
 
 
@@ -127,36 +124,5 @@
 @endsection
 
 @section('scripts')
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const alertElement = document.getElementById("alert");
-            const progressElement = document.getElementById("progress");
-
-            setTimeout(function () {
-                alertElement.style.display = "none";
-            }, 3000);
-
-            function updateProgressBar() {
-                const progressBar = document.querySelector(".progress-bar");
-
-                // progressBar.style.border = "4px solid red";
-                let width = 100;
-                const interval = setInterval(function () {
-                    if (!width >= 100) {
-                        clearInterval(interval);
-                    } else {
-                        console.log(width);
-                        width--;
-                        progressBar.style.width = width + "%";
-                        progressBar.setAttribute("aria-valuenow", width);
-                    }
-                }, 20); // Adjust the interval to control the progress bar speed
-            }
-
-            // Show the progress bar and start the progress when the document is ready
-            progressElement.style.display = "block";
-            updateProgressBar();
-        });
-    </script>
+<script src="{{ asset('alerts/alerts.js') }}"></script>
 @endsection

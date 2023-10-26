@@ -31,7 +31,7 @@
             </li>
 
             <li>
-                <a href="/create-exercise">
+                <a href="{{route('exercise.create')}}">
                     <div class="parent-icon"><span class="material-symbols-outlined">exercise</span>
                     </div>
                     <div class="menu-title">Create Exercise</div>
