@@ -43,16 +43,22 @@ class ExerciseController extends Controller
    }
     public function searchExercises(Request $request)
     {
-        //$coachID = $request->input('coach_id');
+        $usageType = $request->input('usageType');
+        $search = $request->input('q');
+        $appointment = $request->input('appointment');
         $coachID = 9;
 
-        $exercises = Exercise::where('name', 'like', $request->q . '%')
+        $exercises = Exercise::where('name', 'like', $search . '%')
             ->where(function ($query) use($coachID){
                 $query->where('coach_id', '=', $coachID)
                     ->orWhereNull('coach_id');
             })->get();
 
-        return view('web.partial.exercises', ['exercises' => $exercises]);
+        return view('web.partial.exercises', [
+            'exercises' => $exercises,
+            'usageType' => $usageType,
+            'appointment' => $appointment
+        ]);
     }
 
     //only exercises created by specific coach
@@ -160,22 +166,47 @@ class ExerciseController extends Controller
         return ExerciseCategoryResource::collection(ExerciseCategory::all());
     }
 
-    public function categoryExercises($category_id = null)
+    public function categoryExercises($categoryID = null, $usageType = null, $appointment = null)
     {
         $coachID = 9;
-        $exercises = Exercise::where('exercise_category_id', $category_id)
+        $exercises = Exercise::where('exercise_category_id', $categoryID)
                 ->where(function ($q) use($coachID){
                     $q->where('coach_id', '=', $coachID)
                         ->orWhereNull('coach_id');
                 })->get();
 
 
-        return view('web.partial.exercises', ['exercises' => $exercises]);
+        return view('web.partial.exercises', [
+            'exercises' => $exercises,
+            'usageType' => $usageType,
+            'appointment' => $appointment
+        ]);
     }
 
 
     public function types(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         return ExerciseTypeResource::collection(ExerciseType::all());
+    }
+
+
+    public function test() {
+        return 'test prosao';
+    }
+
+    public function woc(Request $request) {
+        $appointment = $request->input('appointment');
+        $exerciseID = $request->input('exercise_id');
+
+        $exercise = Exercise::find($exerciseID);
+
+        $exerciseType = ExerciseType::find($exercise->exercise_type_id);
+
+        return view('web.coach.workouts.create', [
+            'appointment' => $appointment,
+            'exercise' => $exercise,
+            'exerciseTypeName' => $exerciseType->name,
+        ]);
+
     }
 }

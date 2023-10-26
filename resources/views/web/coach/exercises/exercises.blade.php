@@ -16,7 +16,7 @@
         <div class="col-12 mb-4">
             <label class="w-100">
                 <input name="search_exercises" id="searchExercises" type="text" class="form-control" value ='' placeholder="Search..."
-                       oninput="searchExercises()">
+                       oninput="searchExercises()" data-usage-type="exercises_crud">
             </label>
         </div>
 
@@ -26,7 +26,7 @@
                     <ul class="list-group list-group-flush">
                         @foreach($categories as $category)
                             <li class="d-flex justify-content-between align-items-center list-group-item category"
-                                data-category-id="{{$category->id}}">
+                                data-category-id="{{$category->id}}" data-usage-type="exercises_crud">
                                 {{ $category->name }}
                                 <span class="badge border border-warning rounded-pill font-15 ">
                                     {{ $category->exercises_count }}
@@ -39,11 +39,13 @@
             </div>
         </div>
 
-        <div id="exerciseResults"></div>
+        <div id="exerciseResults" class="col-12"></div>
     </div>
 @endsection
 
 @section('scripts')
     <script src="{{ asset('exercises/exercises.js') }}"></script>
-    <script src="{{ asset('alerts/alerts.js') }}"></script>
+    @if(Session::has('success'))
+        <script src="{{ asset('alerts/alerts.js') }}"></script>
+    @endif
 @endsection

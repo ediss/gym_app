@@ -2,6 +2,10 @@ async function searchExercises() {
     const exerciseInput = document.getElementById("searchExercises");
     const exerciseCategories = document.getElementById("exerciseCategories");
     const exerciseResults = document.getElementById("exerciseResults");
+    const usageType = exerciseInput.dataset.usageType;
+
+    const appointment = exerciseInput.dataset.appointment ?? null;
+
 
     if (exerciseInput.value === "") {
         exerciseCategories.style.display = "block";
@@ -11,7 +15,7 @@ async function searchExercises() {
 
         try {
             const inputValue = exerciseInput.value;
-            const response = await fetch(`/coach/search-exercises?q=${inputValue}`);
+            const response = await fetch(`/coach/search-exercises?q=${inputValue}&usageType=${usageType}&appointment={$appointment}`);
             const data = await response.text();
 
             if (data.length > 0) {
@@ -36,9 +40,13 @@ categoryElements.forEach(category => {
     category.addEventListener('click', async () => {
         // Retrieve the category ID or other necessary data from the element.
         const categoryId = category.dataset.categoryId;
+        const usageType = category.dataset.usageType;
+
+        const appointment = category.dataset.appointment ?? null;
+
 
         try {
-            const response = await fetch(`/coach/category-exercises/${categoryId}`);
+            const response = await fetch(`/coach/category-exercises/${categoryId}/${usageType}/${appointment}`);
             if (!response.ok) {
                 throw new Error(`HTTP error ${response.status}`);
             }

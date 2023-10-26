@@ -42,7 +42,11 @@ Route::group(['prefix' => 'coach'], function() {
     Route::get('/exercise-create',          [ExerciseController::class, 'createExercise'])  ->name('exercise.create');
     Route::post('/exercise-store',          [ExerciseController::class, 'store'])           ->name('exercise.store');
     Route::get('/search-exercises',         [ExerciseController::class, 'searchExercises']);
-    Route::get('/category-exercises/{id}',  [ExerciseController::class, 'categoryExercises']);
+    Route::get('/category-exercises/{id}/{usageType?}/{appointment?}',  [ExerciseController::class, 'categoryExercises']);
+
+
+    Route::get('test', [ExerciseController::class, 'test'])->name('exercise.crud');
+    Route::get('woc', [ExerciseController::class, 'woc'])->name('workout.create');
 
 
 

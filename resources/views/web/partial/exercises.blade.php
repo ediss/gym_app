@@ -1,5 +1,20 @@
+@php
+    if($usageType === 'start_appointment') {
+        $route = 'workout.create';
+        $params = [
+            'appointment' => $appointment
+        ];
+    }else {
+        $route = 'exercise.crud';
+        $params = [];
+    }
+@endphp
 @foreach($exercises as $exercise)
-    <a href="" class="col-12">
+
+    @php
+        $params['exercise_id'] = $exercise->id;
+    @endphp
+    <a href="{{ route($route, $params)  }}">
         <div class="card radius-10 border-0 border-start border-warning border-4">
         <div class="card-body">
             <div class="d-flex align-items-center">

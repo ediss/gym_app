@@ -5,7 +5,7 @@
         <div class="col-12 mb-4">
             <label class="w-100">
                 <input name="search_exercises" id="searchExercises" type="text" class="form-control" value ='' placeholder="Search..."
-                       oninput="searchExercises()">
+                       oninput="searchExercises()" data-usage-type="start_appointment" data-appointment={{$appointment}}>
             </label>
         </div>
 
@@ -15,8 +15,11 @@
                     <ul class="list-group list-group-flush">
                         @foreach($categories as $category)
                             <li class="d-flex justify-content-between align-items-center list-group-item category"
-                                data-category-id="{{$category->id}}">
-                                {{ $category->name }}
+                                data-category-id="{{$category->id}}"
+                                data-usage-type="start_appointment"
+                                data-appointment={{$appointment}}
+                            >
+                                    {{ $category->name }}
                                 <span class="badge border border-warning rounded-pill font-15 ">
                                     {{ $category->exercises_count }}
                                 </span>
@@ -28,7 +31,7 @@
             </div>
         </div>
 
-        <div id="exerciseResults"></div>
+        <div id="exerciseResults" class="col-12"></div>
     </div>
 @endsection
 

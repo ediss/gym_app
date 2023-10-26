@@ -124,5 +124,7 @@
 @endsection
 
 @section('scripts')
-<script src="{{ asset('alerts/alerts.js') }}"></script>
+    @if(Session::has('success'))
+        <script src="{{ asset('alerts/alerts.js') }}"></script>
+    @endif
 @endsection
