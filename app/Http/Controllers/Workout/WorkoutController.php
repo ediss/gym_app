@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Workout;
+namespace App\Http\Controllers\Workout;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Exercise\ShowExerciseHistoryRequest;
@@ -8,6 +8,9 @@ use App\Http\Requests\Workout\CreateWorkoutRequest;
 use App\Http\Requests\Workout\DeleteWorkoutRequest;
 use App\Http\Requests\Workout\ShowWorkoutRequest;
 use App\Http\Resources\Exercise\ExerciseHistoryCollection;
+use App\Models\Appointment;
+use App\Models\Exercise\Exercise;
+use App\Models\Exercise\ExerciseType;
 use App\Models\Workout\Workout;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -74,6 +77,48 @@ class WorkoutController extends Controller
         return 'Workout added!';
     }
 
+
+    public function create(Request $request) {
+        $appointmentID = $request->input('appointmentID');
+        $exerciseID = $request->input('exercise_id');
+
+
+        $appointment = Appointment::find($appointmentID);
+
+
+        $exercise = Exercise::find($exerciseID);
+
+        $exerciseType = ExerciseType::find($exercise->exercise_type_id);
+
+        $workouts = Workout::where('appointment_id', $appointmentID)
+            ->where('exercise_id', $exerciseID)
+            ->get();
+
+
+        return view('web.coach.workouts.create', [
+            'appointment' => $appointment,
+            'exercise' => $exercise,
+            'exerciseTypeName' => $exerciseType->name,
+            'workouts' => $workouts
+        ]);
+
+    }
+
+
+    public function store(CreateWorkoutRequest $request)
+    {
+
+        $validatedData = $request->validated();
+
+        Workout::create($validatedData);
+
+        $workouts = Workout::where('appointment_id', $validatedData['appointment_id'])
+            ->where('exercise_id', $validatedData['exercise_id'])
+            ->get();
+
+        return view('web.workout.exercises', ['workouts' => $workouts]);
+    }
+
     /**
      * Display the specified resource.
      */
@@ -107,5 +152,14 @@ class WorkoutController extends Controller
         //@todo return proper response ( Response::HTTP_NO_CONTENT)
 
         return 'Workout removed succesfully!';
+    }
+
+    public function getWorkoutByAppointmentAndExerciseId($appointment_id,  $exercise_id)
+    {
+        $workouts = Workout::where('appointment_id', $appointment_id)
+                ->where('exercise_id', $exercise_id)
+                ->get();
+
+        return view('web.workout.exercises', ['workouts' => $workouts]);
     }
 }

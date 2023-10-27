@@ -8,10 +8,10 @@ use Illuminate\Validation\Rule;
 
 class CreateWorkoutRequest extends FormRequest
 {
-    const REPS_TYPES = [1, 5, 8, 9];
+    public const REPS_TYPES = [1, 5, 8, 9];
     public const WEIGHT_TYPES = [2, 5, 6, 7];
-    const TIME_TYPES = [3, 7, 9, 10];
-    const DISTANCE_TYPES = [4, 6, 8, 10];
+    public const TIME_TYPES = [3, 7, 9, 10];
+    public const DISTANCE_TYPES = [4, 6, 8, 10];
 
     /**
      * Determine if the user is authorized to make this request.

@@ -5,9 +5,10 @@
         <div class="col-12 mb-4">
             <label class="w-100">
                 <input name="search_exercises" id="searchExercises" type="text" class="form-control" value ='' placeholder="Search..."
-                       oninput="searchExercises()" data-usage-type="start_appointment" data-appointment={{$appointment}}>
+                       oninput="searchExercises()" data-usage-type="start_appointment" data-appointment={{$appointmentID}}>
             </label>
         </div>
+
 
         <div class="col-12" id="exerciseCategories">
             <div class="card" >
@@ -17,7 +18,7 @@
                             <li class="d-flex justify-content-between align-items-center list-group-item category"
                                 data-category-id="{{$category->id}}"
                                 data-usage-type="start_appointment"
-                                data-appointment={{$appointment}}
+                                data-appointment-id={{$appointmentID}}
                             >
                                     {{ $category->name }}
                                 <span class="badge border border-warning rounded-pill font-15 ">

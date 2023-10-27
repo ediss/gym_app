@@ -78,14 +78,10 @@ class AppointmentController extends Controller
     }
     public function startAppointment(ExerciseCategoryService $service, $appointmentID = null) {
 
-        if($appointmentID) {
-            $appointment = Appointment::find($appointmentID);
-        }
-
         $categories = $service->getExerciseCategories();
         return view('web.coach.appointments.start-appointment', [
             'categories' => $categories,
-            'appointment' => $appointment
+            'appointmentID' => $appointmentID,
         ]);
     }
 

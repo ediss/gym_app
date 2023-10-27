@@ -9,6 +9,7 @@ use App\Http\Resources\Exercise\ExerciseCategoryResource;
 use App\Http\Resources\Exercise\ExerciseResource;
 use App\Http\Resources\Exercise\ExerciseTypeResource;
 use App\Http\Services\ExerciseCategoryService;
+use App\Models\Appointment;
 use App\Models\Coach;
 use App\Models\Exercise\Exercise;
 use App\Models\Exercise\ExerciseCategory;
@@ -166,9 +167,15 @@ class ExerciseController extends Controller
         return ExerciseCategoryResource::collection(ExerciseCategory::all());
     }
 
-    public function categoryExercises($categoryID = null, $usageType = null, $appointment = null)
+
+    public function categoryExercises(Request $request)
     {
+
+        $categoryID = $request->input('categoryID');
+        $usageType = $request->input('usageType');
+        $appointmentID = $request->input('appointmentID');
         $coachID = 9;
+
         $exercises = Exercise::where('exercise_category_id', $categoryID)
                 ->where(function ($q) use($coachID){
                     $q->where('coach_id', '=', $coachID)
@@ -179,7 +186,7 @@ class ExerciseController extends Controller
         return view('web.partial.exercises', [
             'exercises' => $exercises,
             'usageType' => $usageType,
-            'appointment' => $appointment
+            'appointmentID' => $appointmentID
         ]);
     }
 
@@ -192,21 +199,5 @@ class ExerciseController extends Controller
 
     public function test() {
         return 'test prosao';
-    }
-
-    public function woc(Request $request) {
-        $appointment = $request->input('appointment');
-        $exerciseID = $request->input('exercise_id');
-
-        $exercise = Exercise::find($exerciseID);
-
-        $exerciseType = ExerciseType::find($exercise->exercise_type_id);
-
-        return view('web.coach.workouts.create', [
-            'appointment' => $appointment,
-            'exercise' => $exercise,
-            'exerciseTypeName' => $exerciseType->name,
-        ]);
-
     }
 }

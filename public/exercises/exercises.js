@@ -4,7 +4,7 @@ async function searchExercises() {
     const exerciseResults = document.getElementById("exerciseResults");
     const usageType = exerciseInput.dataset.usageType;
 
-    const appointment = exerciseInput.dataset.appointment ?? null;
+    const appointmentID = exerciseInput.dataset.appointmentID ?? null;
 
 
     if (exerciseInput.value === "") {
@@ -15,7 +15,7 @@ async function searchExercises() {
 
         try {
             const inputValue = exerciseInput.value;
-            const response = await fetch(`/coach/search-exercises?q=${inputValue}&usageType=${usageType}&appointment={$appointment}`);
+            const response = await fetch(`/coach/search-exercises?q=${inputValue}&usageType=${usageType}&appointment={$appointmentID}`);
             const data = await response.text();
 
             if (data.length > 0) {
@@ -39,14 +39,31 @@ const categoryElements = document.querySelectorAll('.category');
 categoryElements.forEach(category => {
     category.addEventListener('click', async () => {
         // Retrieve the category ID or other necessary data from the element.
-        const categoryId = category.dataset.categoryId;
+        const categoryID = category.dataset.categoryId;
         const usageType = category.dataset.usageType;
+        const appointmentID = category.dataset.appointmentId ?? null;
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-        const appointment = category.dataset.appointment ?? null;
+        const apiUrl = '/coach/category-exercises'; // Replace with your API URL
+
+        const postData = {
+            categoryID: categoryID,
+            usageType: usageType,
+            appointmentID:appointmentID
+        };
 
 
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken,
+            },
+            body: JSON.stringify(postData) // Convert the data to JSON format
+
+        };
         try {
-            const response = await fetch(`/coach/category-exercises/${categoryId}/${usageType}/${appointment}`);
+            const response = await fetch(apiUrl, requestOptions);
             if (!response.ok) {
                 throw new Error(`HTTP error ${response.status}`);
             }
@@ -57,7 +74,6 @@ categoryElements.forEach(category => {
             if (data.length > 0) {
                 // Display the results
                 exerciseResults.innerHTML = data;
-
                 exerciseResults.style.display = "block";
             } else {
                 exerciseResults.innerHTML = "No exercises found.";
@@ -67,5 +83,14 @@ categoryElements.forEach(category => {
         } catch (error) {
             console.error(`Error fetching exercises: ${error}`);
         }
+
+        $(document).on('click', '.submitForm', function() {
+            // Find the closest form and submit it
+            // $(this).closest('form').submit();
+
+            const form = $(this).closest('form');
+            form.attr('method', 'POST'); // Set the form method to POST
+            form.submit();
+        });
     });
 });
