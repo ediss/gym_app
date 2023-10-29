@@ -51,6 +51,8 @@ Route::group(['prefix' => 'coach'], function() {
     Route::post('/workout/create', [WorkoutController::class, 'create'])->name('workout.create');
     Route::post('/workout/store', [WorkoutController::class, 'store'])->name('workout.store');
 
+    Route::post('/workout/update/{id}', [WorkoutController::class, 'update'])->name('workout.update');
+
 
 });
 

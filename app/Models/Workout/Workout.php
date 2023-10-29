@@ -25,11 +25,11 @@ class Workout extends Model
      * ABOVE IS FOR THE 1ST PHASE
      *  time, //like minutes/seconds,
      *  distance,
-     *  check the sveska
      *
      */
 
-//    public function exercise() {
-//        return $this->hasOne(Exercise::class, 'exercise_id', 'id');
-//    }
+    public function exercise(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Exercise::class, 'exercise_id');
+    }
 }

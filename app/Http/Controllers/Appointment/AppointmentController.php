@@ -8,6 +8,7 @@ use App\Http\Services\ExerciseCategoryService;
 use App\Models\Appointment;
 use App\Models\Coach;
 use App\Models\Exercise\ExerciseCategory;
+use App\Models\Workout\Workout;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
@@ -79,9 +80,29 @@ class AppointmentController extends Controller
     public function startAppointment(ExerciseCategoryService $service, $appointmentID = null) {
 
         $categories = $service->getExerciseCategories();
+//
+//        $workouts = Workout::where('appointment_id', $appointmentID)
+//            ->get();
+//            ->groupBy('exercise_id');
+//        $workouts = Workout::where('appointment_id', $appointmentID)
+//            ->with('exercise') // Eager load the exercise relationship
+//            ->get()
+//        ->groupBy('exercise_id');
+
+
+//        $workouts = Workout::join('exercises', 'workouts.exercise_id', '=', 'exercises.id')
+//            ->where('workouts.appointment_id', $appointmentID)
+//            ->get(['exercises.name', 'workouts.*']);
+
+        $workouts = Workout::where('appointment_id', $appointmentID)
+            ->with('exercise') // Eager load the exercise relationship
+            ->get();
+
+
         return view('web.coach.appointments.start-appointment', [
             'categories' => $categories,
             'appointmentID' => $appointmentID,
+            'workouts' => $workouts->groupBy('exercise.name')
         ]);
     }
 

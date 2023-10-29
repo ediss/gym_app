@@ -4,6 +4,12 @@
     .appBgColor {
         background: #191b1e;
     }
+
+    .workout-header {
+        top:60px;
+        z-index: 9;
+        height: 50px;
+    }
 </style>
 @endsection
 
@@ -15,9 +21,10 @@
 
     <b>{{ $appointment->client->name }}</b>
 @endsection
-@section('content')
-    <div class="mb-5 sticky-top">
-        <ul class="nav nav-tabs nav-warning d-flex justify-content-between" role="tablist">
+
+@section('additionalHeader')
+    <div class="bg-dark position-sticky workout-header">
+        <ul class="nav nav-tabs nav-warning d-flex justify-content-between h-100 align-items-center" role="tablist">
             <li class="nav-item" role="presentation">
                 <a class="nav-link active" data-bs-toggle="tab" href="#appointments-all" role="tab"
                    aria-selected="true">
@@ -45,13 +52,13 @@
                 </a>
             </li>
         </ul>
-
     </div>
+
+@endsection
+@section('content')
     <div class="row">
 
         <div class="col-10 m-auto">
-
-{{--            <h2 class="text-warning text-center mb-5">{{ $exercise->name }}</h2>--}}
             <form action="{{route('workout.store')}}" method="POST" id="storeWorkout">
                 @csrf
 
@@ -107,13 +114,15 @@
 
                 @endif
 
+
                 <div class="d-flex d-grid align-items-center justify-content-center gap-3 mt-5">
-                    <button class="btn btn-warning px-4 w-100" id="storeWorko2ut">Save</button>
-                    <!--<button type="button" class="btn btn-light px-4">Reset</button>-->
+                    <button class="btn btn-warning px-4 w-100" id="saveWorkout">Save</button>
+                    <button class="btn btn-success px-4 w-100" style="display: none;" id="updateWorkout">Update</button>
+                    <button class="btn btn-danger px-4 w-100" style="display: none;" id="cancelUpdate">Cancel</button>
                 </div>
             </form>
         </div>
-</div>
+    </div>
 
     <div class="row mt-3" id="exercisesDoneList">
             @if($workouts->count() > 0)
@@ -127,9 +136,14 @@
 @section('scripts')
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+
+            const saveButton = document.getElementById('saveWorkout');
+            const updateButton = document.getElementById('updateWorkout');
+            const cancelButton = document.getElementById('cancelUpdate');
+
+
             // Get all elements with class "increment"
             const incrementButtons = document.querySelectorAll('.increment');
-
             // Add a click event listener to each "increment" element
             incrementButtons.forEach(function (button) {
                 button.addEventListener('click', function () {
@@ -143,7 +157,6 @@
             });
 
             const decrementButtons = document.querySelectorAll('.decrement');
-
             // Add a click event listener to each "decrement" element
             decrementButtons.forEach(function (button) {
                 button.addEventListener('click', function () {
@@ -155,8 +168,6 @@
 
                 });
             });
-
-
 
 
             const form = document.getElementById('storeWorkout');
@@ -187,6 +198,49 @@
                 })
                 .catch(error => {
                     console.error('Error occurred while sending data to the controller: ' + error);
+                });
+            });
+
+            // Get all elements with class "workout-update"
+            const workoutUpdateDivs = document.querySelectorAll('.workout-update');
+
+            // Add a click event listener to each "workout-update" element
+            workoutUpdateDivs.forEach(function (div) {
+                div.addEventListener('click', function () {
+
+                    const workoutID = this.parentElement.querySelector('.workout-id').textContent;
+
+                    // Find all elements with the class exercises-type-value-input-name
+                    const inputNameElements = this.parentElement.querySelectorAll('.exercises-type-value-input-name');
+
+                    // Iterate through the elements with exercises-type-value-input-name
+                    inputNameElements.forEach(function(inputNameElement) {
+                        console.log(inputNameElement)
+                        // Get the value of the corresponding exercises-type-value element
+                        const exercisesTypeInputValue = inputNameElement.closest('.workout-update').querySelector('.exercises-type-value').textContent.trim();
+
+                        // Get the name from the input-name element
+                        const exercisesTypeInputName = inputNameElement.textContent.trim();
+
+                        // Find the input element with the specified name
+                        const inputElement = document.querySelector(`input[name="${exercisesTypeInputName}"]`);
+
+                        if (inputElement) {
+                            // Set the value of the input element
+                            inputElement.value = exercisesTypeInputValue;
+                        }
+                    });
+
+
+                    let url = '{{ route("workout.update", ":id") }}';
+                    url = url.replace(':id', workoutID);
+
+                    form.action = url;
+
+
+                    saveButton.style.display = 'none';
+                    updateButton.style.display = 'block';
+                    cancelButton.style.display = 'block';
                 });
             });
 

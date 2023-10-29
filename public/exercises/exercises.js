@@ -4,8 +4,7 @@ async function searchExercises() {
     const exerciseResults = document.getElementById("exerciseResults");
     const usageType = exerciseInput.dataset.usageType;
 
-    const appointmentID = exerciseInput.dataset.appointmentID ?? null;
-
+    const appointmentID = exerciseInput.dataset.appointment ?? null;
 
     if (exerciseInput.value === "") {
         exerciseCategories.style.display = "block";
@@ -15,7 +14,7 @@ async function searchExercises() {
 
         try {
             const inputValue = exerciseInput.value;
-            const response = await fetch(`/coach/search-exercises?q=${inputValue}&usageType=${usageType}&appointment={$appointmentID}`);
+            const response = await fetch(`/coach/search-exercises?q=${inputValue}&usageType=${usageType}&appointment=${appointmentID}`);
             const data = await response.text();
 
             if (data.length > 0) {

@@ -82,7 +82,6 @@ class WorkoutController extends Controller
         $appointmentID = $request->input('appointmentID');
         $exerciseID = $request->input('exercise_id');
 
-
         $appointment = Appointment::find($appointmentID);
 
 
@@ -93,6 +92,7 @@ class WorkoutController extends Controller
         $workouts = Workout::where('appointment_id', $appointmentID)
             ->where('exercise_id', $exerciseID)
             ->get();
+
 
 
         return view('web.coach.workouts.create', [
@@ -119,6 +119,20 @@ class WorkoutController extends Controller
         return view('web.workout.exercises', ['workouts' => $workouts]);
     }
 
+    public function update(CreateWorkoutRequest $request, $workoutID)
+    {
+
+        $validatedData = $request->validated();
+
+        $workout = Workout::find($workoutID);
+        $workout->update($validatedData);
+        $workouts = Workout::where('appointment_id', $validatedData['appointment_id'])
+            ->where('exercise_id', $validatedData['exercise_id'])
+            ->get();
+
+        return view('web.workout.exercises', ['workouts' => $workouts]);
+    }
+
     /**
      * Display the specified resource.
      */
@@ -126,15 +140,6 @@ class WorkoutController extends Controller
     {
         //
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
     /**
      * Remove the specified resource from storage.
      */

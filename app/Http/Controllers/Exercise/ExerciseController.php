@@ -55,10 +55,12 @@ class ExerciseController extends Controller
                     ->orWhereNull('coach_id');
             })->get();
 
+
+
         return view('web.partial.exercises', [
             'exercises' => $exercises,
             'usageType' => $usageType,
-            'appointment' => $appointment
+            'appointmentID' => $appointment
         ]);
     }
 

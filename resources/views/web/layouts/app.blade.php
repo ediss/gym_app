@@ -12,12 +12,11 @@
 @include('web.layouts.sidebar')
 <!--end sidebar-->
 
+@yield('additionalHeader')
 
 <!--start main content-->
 <main class="page-content">
-
-@yield('content')
-
+        @yield('content')
 </main>
 <!--end main content-->
 
