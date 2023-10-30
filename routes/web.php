@@ -53,6 +53,9 @@ Route::group(['prefix' => 'coach'], function() {
 
     Route::post('/workout/update/{id}', [WorkoutController::class, 'update'])->name('workout.update');
 
+    Route::post('/appointment-workout', [WorkoutController::class, 'getWorkoutsByAppointmentId'])->name('appointment.workouts');
+
+
 
 });
 

@@ -1,3 +1,5 @@
+const workouts = document.getElementById('workout');
+
 async function searchExercises() {
     const exerciseInput = document.getElementById("searchExercises");
     const exerciseCategories = document.getElementById("exerciseCategories");
@@ -8,9 +10,12 @@ async function searchExercises() {
 
     if (exerciseInput.value === "") {
         exerciseCategories.style.display = "block";
+        workouts.style.display = "block";
         exerciseResults.style.display = "none";
     } else {
         exerciseCategories.style.display = "none";
+        workouts.style.display = "none";
+
 
         try {
             const inputValue = exerciseInput.value;
@@ -42,6 +47,9 @@ categoryElements.forEach(category => {
         const usageType = category.dataset.usageType;
         const appointmentID = category.dataset.appointmentId ?? null;
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        workouts.style.display = "none";
+
 
         const apiUrl = '/coach/category-exercises'; // Replace with your API URL
 
@@ -84,8 +92,6 @@ categoryElements.forEach(category => {
         }
 
         $(document).on('click', '.submitForm', function() {
-            // Find the closest form and submit it
-            // $(this).closest('form').submit();
 
             const form = $(this).closest('form');
             form.attr('method', 'POST'); // Set the form method to POST

@@ -53,64 +53,36 @@
 
         <div id="workout" class="col-12">
 
-            <div class="card">
-                @if(isset($workouts))
 
-                <div class="card-body">
-                    <h5 class="card-title">Workouts</h5>
-                    <div class="my-3 border-top"></div>
-                    <div class="accordion accordion-flush" id="accordionFlushExample">
-
-                        @php
-                            $counter = 1;
-                        @endphp
-                        @foreach($workouts as $key => $workout)
-                            @php
-                                $counter++;
-                            @endphp
-
-                            <div class="accordion-item">
-                                <h1 class="accordion-header text-light" id="flush-heading{{ $counter }}">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{ $counter }}" aria-expanded="false" aria-controls="flush-collapse{{ $counter }}">
-                                        {{$key}}
-                                    </button>
-                                </h1>
-
-                                <div id="flush-collapse{{ $counter }}" class="accordion-collapse collapse" aria-labelledby="flush-heading-{{ $counter }}" data-bs-parent="#accordionFlushExample">
-                                    <div class="accordion-body px-0">
-                                        @include('web.workout.exercises', ['workouts' => $workout])
-
-                                    </div>
-                                </div>
-                            </div>
-
-
-                        @endforeach
-
-                    </div>
-                </div>
-
-            @endif
-            </div>
         </div>
 
-
-        <div class="col-12">
-                @if(isset($workouts))
-                    @foreach($workouts as $key => $workout)
-
-                        <h3 class="mt-5  text-light">{{$key}}</h3>
-
-                    <div class="card">
-                        @include('web.workout.exercises', ['workouts' => $workout])
-                    </div>
-
-                    @endforeach
-                @endif
-        </div>
     </div>
 @endsection
 
 @section('scripts')
+    <script>
+        function fetchWorkouts(appointmentId) {
+            fetch('{{route('appointment.workouts')}}', {
+                method: 'POST',
+                body: JSON.stringify({ appointmentId: appointmentId }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            })
+                .then(response => response.text())
+                .then(html => {
+                    // Update the DOM with the fetched Blade view
+                    document.getElementById('workout').innerHTML = html;
+                })
+                .catch(error => console.error('Error fetching workout exercises: ' + error));
+        }
+        document.addEventListener("DOMContentLoaded", function () {
+
+
+
+            fetchWorkouts({{$appointmentID}})
+        });
+    </script>
     <script src="{{asset('exercises/exercises.js')}}"></script>
 @endsection

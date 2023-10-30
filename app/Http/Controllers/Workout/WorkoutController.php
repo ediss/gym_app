@@ -54,28 +54,6 @@ class WorkoutController extends Controller
 
 
     }
-    public function createWorkout(CreateWorkoutRequest $request) {
-
-
-
-
-        $validatedData = $request->validated();
-
-        //check if client belongs to coach
-
-        //add workout note in db table
-
-//        $validatedData['workout_started'] = Carbon::now()->format('Y-m-d');
-
-
-
-        $workout = Workout::create($validatedData);
-
-
-        //@todo return proper response ( Response::HTTP_CREATED)
-
-        return 'Workout added!';
-    }
 
 
     public function create(Request $request) {
@@ -166,5 +144,17 @@ class WorkoutController extends Controller
                 ->get();
 
         return view('web.workout.exercises', ['workouts' => $workouts]);
+    }
+
+    public function getWorkoutsByAppointmentId(Request $request) {
+
+
+        $workouts = Workout::where('appointment_id', $request->input('appointmentId'))
+            ->with('exercise') // Eager load the exercise relationship
+            ->get();
+
+
+        return view('web.workout.appointment-workouts', ['workouts' => $workouts->groupBy('exercise.name')]);
+
     }
 }

@@ -80,19 +80,6 @@ class AppointmentController extends Controller
     public function startAppointment(ExerciseCategoryService $service, $appointmentID = null) {
 
         $categories = $service->getExerciseCategories();
-//
-//        $workouts = Workout::where('appointment_id', $appointmentID)
-//            ->get();
-//            ->groupBy('exercise_id');
-//        $workouts = Workout::where('appointment_id', $appointmentID)
-//            ->with('exercise') // Eager load the exercise relationship
-//            ->get()
-//        ->groupBy('exercise_id');
-
-
-//        $workouts = Workout::join('exercises', 'workouts.exercise_id', '=', 'exercises.id')
-//            ->where('workouts.appointment_id', $appointmentID)
-//            ->get(['exercises.name', 'workouts.*']);
 
         $workouts = Workout::where('appointment_id', $appointmentID)
             ->with('exercise') // Eager load the exercise relationship
@@ -102,7 +89,6 @@ class AppointmentController extends Controller
         return view('web.coach.appointments.start-appointment', [
             'categories' => $categories,
             'appointmentID' => $appointmentID,
-            'workouts' => $workouts->groupBy('exercise.name')
         ]);
     }
 

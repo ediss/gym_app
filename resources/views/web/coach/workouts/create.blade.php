@@ -57,7 +57,6 @@
 @endsection
 @section('content')
     <div class="row">
-
         <div class="col-10 m-auto">
             <form action="{{route('workout.store')}}" method="POST" id="storeWorkout">
                 @csrf
@@ -116,9 +115,12 @@
 
 
                 <div class="d-flex d-grid align-items-center justify-content-center gap-3 mt-5">
-                    <button class="btn btn-warning px-4 w-100" id="saveWorkout">Save</button>
-                    <button class="btn btn-success px-4 w-100" style="display: none;" id="updateWorkout">Update</button>
-                    <button class="btn btn-danger px-4 w-100" style="display: none;" id="cancelUpdate">Cancel</button>
+                    <button class="btn btn-warning px-4 w-100" id="saveWorkout" value="save" onclick="setClickedButton('save')">Save</button>
+                    <button class="btn btn-success px-4 w-100" style="display: none;" id="updateWorkout" value="update" onclick="setClickedButton('update')">Update</button>
+                    <button class="btn btn-danger px-4 w-100" style="display: none;" id="deleteWorkout" value="delete" onclick="setClickedButton('delete')">Delete</button>
+
+                    <input type="hidden" name="clickedButton" id="clickedButton" value="">
+
                 </div>
             </form>
         </div>
@@ -134,72 +136,20 @@
 @endsection
 
 @section('scripts')
+
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-
-            const saveButton = document.getElementById('saveWorkout');
-            const updateButton = document.getElementById('updateWorkout');
-            const cancelButton = document.getElementById('cancelUpdate');
 
 
-            // Get all elements with class "increment"
-            const incrementButtons = document.querySelectorAll('.increment');
-            // Add a click event listener to each "increment" element
-            incrementButtons.forEach(function (button) {
-                button.addEventListener('click', function () {
-                    // Find the closest input element
-                    const inputElement = this.closest('.input-group').querySelector('input');
+        const saveButton = document.getElementById('saveWorkout');
+        const updateButton = document.getElementById('updateWorkout');
+        const deleteButton = document.getElementById('deleteWorkout');
 
-                    // Increment the input value by 2.5
-                    const currentValue = parseFloat(inputElement.value) || 0;
-                    inputElement.value = (currentValue + 2.5);
-                });
-            });
+        // Function to set the clicked button value in the hidden input field
+        function setClickedButton(buttonValue) {
+            document.getElementById('clickedButton').value = buttonValue;
+        }
 
-            const decrementButtons = document.querySelectorAll('.decrement');
-            // Add a click event listener to each "decrement" element
-            decrementButtons.forEach(function (button) {
-                button.addEventListener('click', function () {
-                    // Find the closest input element
-                    const inputElement = this.closest('.input-group').querySelector('input');
-                    // Decrement the input value by 2.5
-                    const currentValue = parseFloat(inputElement.value) || 0;
-                    inputElement.value = Math.max(currentValue - 2.5, 0);
-
-                });
-            });
-
-
-            const form = document.getElementById('storeWorkout');
-            const exercisesDoneList = document.getElementById('exercisesDoneList');
-
-            form.addEventListener('submit', function (event) {
-                event.preventDefault();
-
-                // Serialize form data to send to the controller
-                const formData = new FormData(form);
-
-                fetch(form.getAttribute('action'), {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    }
-                })
-                .then(response => response.text())
-                .then(responseText => {
-                    // Check if the response is valid, you can add more validation logic here
-                    if (responseText) {
-                        // Add the response to the exercisesDoneList div
-                        exercisesDoneList.innerHTML = responseText;
-                    } else {
-                        console.log('Form validation failed.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error occurred while sending data to the controller: ' + error);
-                });
-            });
+        function attachClickEventToWorkoutUpdateElements() {
 
             // Get all elements with class "workout-update"
             const workoutUpdateDivs = document.querySelectorAll('.workout-update');
@@ -215,7 +165,6 @@
 
                     // Iterate through the elements with exercises-type-value-input-name
                     inputNameElements.forEach(function(inputNameElement) {
-                        console.log(inputNameElement)
                         // Get the value of the corresponding exercises-type-value element
                         const exercisesTypeInputValue = inputNameElement.closest('.workout-update').querySelector('.exercises-type-value').textContent.trim();
 
@@ -231,20 +180,126 @@
                         }
                     });
 
-
                     let url = '{{ route("workout.update", ":id") }}';
                     url = url.replace(':id', workoutID);
 
                     form.action = url;
 
-
                     saveButton.style.display = 'none';
                     updateButton.style.display = 'block';
-                    cancelButton.style.display = 'block';
+                    deleteButton.style.display = 'block';
                 });
             });
+        }
+
+        function attachIncrementClickEventToElements(elements, incrementValues) {
+            elements.forEach(function (element) {
+                element.addEventListener('click', function () {
+                    // Find the closest input element
+                    const inputElement = this.closest('.input-group').querySelector('input');
+                    const inputName = inputElement.name;
+
+                    // Check if there is a specified increment value for the input name
+                    if (incrementValues.hasOwnProperty(inputName)) {
+                        // Increment the input value by the specified increment value
+                        const currentValue = parseFloat(inputElement.value) || 0;
+                        inputElement.value = (currentValue + incrementValues[inputName]);
+                    }
+                });
+            });
+        }
+
+        function attachDecrementClickEventToElements(elements, incrementValues) {
+            elements.forEach(function (element) {
+                element.addEventListener('click', function () {
+                    // Find the closest input element
+                    const inputElement = this.closest('.input-group').querySelector('input');
+                    const inputName = inputElement.name;
+
+                    // Check if there is a specified decrement value for the input name
+                    if (incrementValues.hasOwnProperty(inputName)) {
+                        // Decrement the input value by the specified decrement value
+                        const currentValue = parseFloat(inputElement.value) || 0;
+                        inputElement.value = Math.max(currentValue - incrementValues[inputName], 0);
+                    }
+                });
+            });
+        }
+
+        const form = document.getElementById('storeWorkout');
+
+        const incrementButtons = document.querySelectorAll('.increment');
+        const decrementButtons = document.querySelectorAll('.decrement');
+
+
+        // Define an object that maps input names to their corresponding increment values
+        const incrementValues = {
+            weight: 2.5,
+            reps: 1,
+            time: 1
+        };
+
+
+        const exercisesDoneList = document.getElementById('exercisesDoneList');
+
+
+        function submitFormAndHandleResponse(form, exercisesDoneList) {
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                // Serialize form data to send to the controller
+                const formData = new FormData(form);
+
+                fetch(form.getAttribute('action'), {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                })
+                    .then(response => response.text())
+                    .then(responseText => {
+                        // Check if the response is valid, you can add more validation logic here
+                        if (responseText) {
+                            // Add the response to the exercisesDoneList div
+                            exercisesDoneList.innerHTML = responseText;
+
+                            // Attach click event to workout update elements
+                            attachClickEventToWorkoutUpdateElements();
+                        } else {
+                            console.log('Form validation failed.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error occurred while sending data to the controller: ' + error);
+                    });
+
+                // Get the clicked button value from the hidden input field
+                const clickedButton = document.getElementById('clickedButton').value;
+
+                if (clickedButton === 'update') {
+
+                    form.action = '{{ route("workout.store") }}';
+
+                    saveButton.style.display = 'block';
+                    updateButton.style.display = 'none';
+                    deleteButton.style.display = 'none';
+                }
+            });
+        }
+
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+
+            attachClickEventToWorkoutUpdateElements();
+            attachIncrementClickEventToElements(incrementButtons, incrementValues);
+
+            attachDecrementClickEventToElements(decrementButtons, incrementValues);
+
+            submitFormAndHandleResponse(form, exercisesDoneList);
 
         });
     </script>
 @endsection
-{{--ajax call insert data, and retrieve--}}
