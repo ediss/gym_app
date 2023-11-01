@@ -11,16 +11,24 @@ use App\Models\Appointment;
 use App\Models\Coach;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class CoachController extends Controller
 {
 
-    private $coach;
-
+    private Coach $coach;
+    private int $coachID;
     public function __construct(Coach $coach)
     {
         $this->coach = $coach;
+
+        $this->middleware(function ($request, $next) {
+            $this->coachID= Auth::user()->id;
+
+            return $next($request);
+        });
     }
+
 
     /**
      * Display a listing of the resource.
@@ -31,9 +39,11 @@ class CoachController extends Controller
 
         //@todo get id from auth facade
 
-        $coach = $this->coach->where('id', '9')->firstOrFail();
+        $coach = $this->coach->where('id', $this->coachID)->firstOrFail();
+
 
         $clients = $coach->clients()->get();
+
 
         return view('web.coach.clients', ['clients' => $clients]);
 

@@ -45,14 +45,24 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function client_appointment(): \Illuminate\Database\Eloquent\Relations\HasOne
-    {
-        return $this->hasOne(Appointment::class, 'client_id', 'id');
-    }
+
 
     public function coach_appointments(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Appointment::class, 'coach_id', 'id');
+    }
+
+
+    public function roles(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Role::class, 'id', 'role_id');
+
+    }
+
+
+    public function hasRole($role): bool
+    {
+        return $this->roles()->where('name', $role)->exists();
     }
 
 }

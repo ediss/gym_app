@@ -51,7 +51,7 @@ categoryElements.forEach(category => {
         workouts.style.display = "none";
 
 
-        const apiUrl = '/coach/category-exercises'; // Replace with your API URL
+        const apiUrl = '/coach/category-exercises';
 
         const postData = {
             categoryID: categoryID,

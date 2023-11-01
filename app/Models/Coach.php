@@ -13,12 +13,18 @@ class Coach extends User
     protected $table = 'users';
 
 
+
     public function clients(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(Client::class, 'client_coach', 'coach_id', 'client_id')->withTimestamps();
+       return $this->belongsToMany(Client::class, 'client_coach', 'coach_id', 'client_id')->withTimestamps();
+
     }
 
-    public function appointments() {
+
+
+
+    public function appointments(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
         return $this->hasMany(Appointment::class, 'coach_id', 'id');
     }
 }

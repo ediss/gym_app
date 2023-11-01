@@ -43,7 +43,7 @@
 
         <div class="col-12">
 
-            <ul class="nav nav-tabs nav-warning d-flex justify-content-between" role="tablist">
+            <ul class="nav nav-tabs nav-warning d-flex justify-content-between  border-warning" role="tablist">
                 <li class="nav-item" role="presentation">
                     <a class="nav-link active" data-bs-toggle="tab" href="#appointments-all" role="tab"
                        aria-selected="true">
@@ -83,18 +83,22 @@
             </ul>
             <div class="tab-content py-3">
                 <div class="tab-pane fade show active" id="appointments-all" role="tabpanel">
-                    <div class="col mt-3">
-                        @foreach($appointments as $appointment)
-                            <div class="card radius-10 border-0 border-start border-warning border-4">
-                                <div class="card-body">
-                                    <div class="d-flex align-items-center">
-                                        <div class="">
-                                            <p class="mb-1">{{$appointment->appointment_start}}</p>
+                    <div class="mt-5 w-100">
 
-                                            <h4 class="mb-0 text-warning">{{$appointment->client->name}}</h4>
+                        <div class="card-body">
+                            <div class="team-list">
+                                @foreach($appointments as $appointment)
+
+                                    <div class="d-flex align-items-center gap-3 border-start border-warning border-4 border-0 px-2 py-1">
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-1 fw-bold">{{ $appointment->client->name }}</h6>
+{{--                                            @dd(gettype($appointment->appointment_start))--}}
+                                            <span class="">
+                                                {{$appointment->appointment_start->format('H:i')}}
+                                                -
+                                                {{$appointment->appointment_end->format('H:i')}}
+                                            </span>
                                         </div>
-
-
                                         <div class="ms-auto">
                                             <a href="{{route('appointment.start', ['id' => $appointment->id])}}" class="btn btn-outline-warning pe-0 radius-30 border-0">
                                                 <div>
@@ -103,14 +107,16 @@
                                             </a>
                                         </div>
                                     </div>
+                                    <hr class="border-warning">
+                                @endforeach
 
-                                </div>
                             </div>
-
-                        @endforeach
+                        </div>
                     </div>
+
                 </div>
                 <div class="tab-pane fade" id="appointments-started" role="tabpanel">
+
                     @include('web.coach.appointments.appointment', ['appointments' => $appointments->where('status','started')])
                 </div>
                 <div class="tab-pane fade" id="appointments-finished" role="tabpanel">

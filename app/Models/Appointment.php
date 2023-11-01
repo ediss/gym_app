@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Appointment extends Model
 {
     use HasFactory;
-
     protected $fillable = ['coach_id', 'client_id', 'appointment_start', 'appointment_end', 'status'];
 
     public function client(): \Illuminate\Database\Eloquent\Relations\HasOne
@@ -20,4 +19,9 @@ class Appointment extends Model
     {
         return $this->hasMany(User::class, 'id', 'coach_id');
     }
+
+    protected $casts = [
+        'appointment_start'  => 'datetime:Y-m-d H:i:s',
+        'appointment_end' => 'datetime:Y-m-d H:i:s',
+    ];
 }

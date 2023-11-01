@@ -60,6 +60,8 @@
 @endsection
 
 @section('scripts')
+    <script src="{{asset('exercises/exercises.js')}}"></script>
+
     <script>
         function fetchWorkouts(appointmentId) {
             fetch('{{route('appointment.workouts')}}', {
@@ -84,5 +86,4 @@
             fetchWorkouts({{$appointmentID}})
         });
     </script>
-    <script src="{{asset('exercises/exercises.js')}}"></script>
 @endsection

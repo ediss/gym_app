@@ -14,13 +14,12 @@ class Client extends User
 
     public function coach(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(Coach::class);
+        return $this->belongsToMany(Coach::class, 'client_coach', 'client_id', 'id');
     }
 
-    public function roles(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function appointment(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
-        return $this->hasOne(Role::class, 'id', 'role_id');
-
+        return $this->hasOne(Appointment::class, 'client_id', 'id');
     }
 
 }

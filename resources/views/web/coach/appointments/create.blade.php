@@ -33,12 +33,21 @@
 
                         <div class="col-12">
                             <label for="start_time" class="text-warning">Start</label>
-                            <input type="text" name="start_time" class="form-control" id="start_time" required>
+                            <input type="text" name="appointment_start" class="form-control" id="start_time" value="{{ old('appointment_start', 7) }}" required>
+                            @error('appointment_start')
+                            <span class="text-danger" id="appointment_start_error">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         <div class="col-12">
                             <label for="end_time" class="text-warning">Finish</label>
-                            <input type="text" name="end_time" class="form-control" id="end_time" required>
+                            <input type="text" name="appointment_end" class="form-control" id="end_time" value="{{ old('appointment_end', 8) }}" required>
+
+                            <span class="text-danger" id="appointment_end_error">
+                                @error('appointment_end')
+                                    {{ $message }}
+                                @enderror
+                            </span>
                         </div>
 
 
@@ -49,9 +58,12 @@
                             <select name="client_id" id="appointment-client" class="form-select">
 
                                 @foreach($clients as $client)
+
+                                    @if(!$client->appointment)
                                     <option  value="{{$client->id}}">
                                         {{ $client->name }}
                                     </option>
+                                    @endif
                                 @endforeach
 
                             </select>
@@ -66,7 +78,7 @@
 
 
                         <div class="col-md-12 mt-5 px-3">
-                            <button class="btn btn-warning px-5 w-100">Save</button>
+                            <button class="btn btn-warning px-5 w-100" id="createAppointment">Save</button>
                         </div>
                     </form>
                 </div>
@@ -91,47 +103,86 @@
         });
 
 
-        const appointmentStart = $("#start_time");
-        const appointmentEnd = $("#end_time");
+        // Get references to the appointment start and end input elements
+        const appointmentStart = document.getElementById("start_time");
+        const appointmentEnd = document.getElementById("end_time");
 
-        appointmentStart.flatpickr({
-            mode:"multiple",
+        // Initialize the flatpickr instance for appointment start
+        let flatpickrStart = flatpickr(appointmentStart, {
+            mode: "multiple",
             enableTime: true,
             time_24hr: true,
-            disableMobile:true,
+            disableMobile: true,
             noCalendar: true,
             dateFormat: "H:i",
-            defaultDate: new Date(0, 0, 0, 7, 0),
-
-            onClose: function(selectedDates, dateStr, instance) {
-
+            // defaultDate: new Date(0, 0, 0, 7, 0),
+            onChange: function (selectedDates, dateStr, instance) {
                 const inputValue = instance.input.value;
-
                 const originalTime = new Date(`1970-01-01T${inputValue}:00`);
-
                 originalTime.setHours(originalTime.getHours() + 1);
-
                 const updatedTimeString = originalTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
 
-                appointmentEnd.flatpickr({
-                    enableTime: true,
-                    time_24hr: true,
-                    disableMobile:true,
-                    noCalendar: true,
-                    defaultDate : updatedTimeString,
-
-                });
+                // Initialize the flatpickr instance for appointment end
+                flatpickrEnd.setDate(updatedTimeString);
 
 
             },
         });
 
-        appointmentEnd.flatpickr({
+        // Initialize the flatpickr instance for appointment end
+        let flatpickrEnd = flatpickr(appointmentEnd, {
             enableTime: true,
             time_24hr: true,
-            disableMobile:true,
+            disableMobile: true,
             noCalendar: true,
-            defaultDate: new Date(0, 0, 0, 8, 0),
+            // defaultDate: new Date(0, 0, 0, 8, 0),
+        });
+
+
+
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+
+
+
+            appointmentEnd.addEventListener('change', validateTime);
+            appointmentStart.addEventListener('change', validateTime);
+
+
+            function validateTime() {
+                let timeErrorMessage = document.getElementById('appointment_end_error');
+                let appointmentStartError = document.getElementById('appointment_start_error');
+                appointmentStartError.textContent='';
+
+
+                let createAppointmentButton = document.getElementById('createAppointment');
+
+                // Parse the values of start_time and end_time as time objects
+                let startTime = new Date("2000-01-01 " + appointmentStart.value);
+                let endTime = new Date("2000-01-01 " + appointmentEnd.value);
+
+                // Check if end_time is lower than start_time
+                if (endTime < startTime) {
+                    timeErrorMessage.textContent = 'End time cannot be lower than start time';
+                    createAppointmentButton.disabled = true;
+                    createAppointmentButton.textContent = 'disabled';
+                    createAppointmentButton.classList.remove('btn-warning');
+                    createAppointmentButton.classList.add('btn-danger');
+
+
+                }else {
+                    timeErrorMessage.textContent = '';
+                    createAppointmentButton.disabled = false;
+                    createAppointmentButton.textContent = 'Save';
+                    createAppointmentButton.classList.remove('btn-danger');
+                    createAppointmentButton.classList.add('btn-warning');
+
+                }
+            }
+
+
+
         });
 
 

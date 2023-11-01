@@ -15,6 +15,11 @@
         <!--navigation-->
         <ul class="metismenu" id="menu">
             <li>
+                <a href="{{ route('logout') }}" >
+                    {{ __('Logout') }}
+                </a>
+            </li>
+            <li>
                 <a href="/">
                     <div class="parent-icon"><span class="material-symbols-outlined">home</span>
                     </div>
@@ -23,10 +28,10 @@
             </li>
 
             <li>
-                <a href="/add-client">
+                <a href="{{route('client.create-client-form')}}">
                     <div class="parent-icon"><span class="material-symbols-outlined">person_add</span>
                     </div>
-                    <div class="menu-title">Create Client</div>
+                    <div class="menu-title">Add New Client</div>
                 </a>
             </li>
 

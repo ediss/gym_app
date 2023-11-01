@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Client\ClientController;
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Workout\WorkoutController;
 use App\Http\Controllers\Exercise\ExerciseController;
 use App\Http\Controllers\Appointment\AppointmentController;
@@ -26,8 +28,19 @@ use Illuminate\Support\Facades\Route;
 //    return view('welcome');
 //})->where('any', '.*');
 
-Route::group(['prefix' => 'coach'], function() {
-    Route::get('/clients', [CoachController::class, 'index']);
+
+Route::get('/login', [AuthController::class, 'showLoginForm']);
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+
+//Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
+//Route::post('/login', 'Auth\LoginController@login');
+
+
+Route::group(['prefix' => 'coach', 'middleware' => ['auth', 'role:Coach']], function() {
+    Route::get('/clients', [CoachController::class, 'index'])->name('coach.clients');
+
+    Route::get('/client-create', [ClientController::class, 'createClientForm'])->name('client.create-client-form');
+    Route::post('/client-create', [ClientController::class, 'store'])->name('client.store');
 
     Route::get('/appointments', [AppointmentController::class, 'getAppointments'])->name('appointments.index');
 
@@ -58,5 +71,15 @@ Route::group(['prefix' => 'coach'], function() {
 
 
 });
+
+
+
+
+Route::get('/logout', function () {
+    Auth::logout(); // Logs the user out
+
+    return redirect()->route('login'); // Redirect to the login page or any other page you prefer
+})->name('logout');
+
 
 

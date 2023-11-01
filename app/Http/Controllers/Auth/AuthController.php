@@ -9,32 +9,40 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    public function login(LoginRequest $request): ?\Illuminate\Http\JsonResponse
+
+    public function showLoginForm()
+    {
+        return view('web.auth.login');
+    }
+    public function login(LoginRequest $request)
     {
        $validatedData = $request->validated();
 
-        try {
-
-            if(!Auth::attempt($request->only(['email', 'password']))){
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Email & Password does not match with our record.',
-                ], 401);
+        if (auth()->attempt(['email' => $validatedData['email'], 'password' => $request['password']])) {
+            // Authentication successful
+            // Redirect the user to their respective dashboard based on their role
+            if (auth()->user()->hasRole('SuperAdmin')) {
+                return redirect('/superadmin-dashboard');
             }
 
-            $user = User::where('email', $validatedData['email'])->first();
+            if (auth()->user()->hasRole('Admin')) {
+                return redirect('/admin-dashboard');
+            }
 
-            return response()->json([
-                'status' => true,
-                'message' => 'User Logged In Successfully',
-                'token' => $user->createToken("API TOKEN")->plainTextToken
-            ], 200);
+            if (auth()->user()->hasRole('Gym')) {
+                return redirect('/gym-dashboard');
+            }
 
-        } catch (\Throwable $th) {
-            return response()->json([
-                'status' => false,
-                'message' => $th->getMessage()
-            ], 500);
+            if (auth()->user()->hasRole('Coach')) {
+                return redirect()->route('appointments.index');
+            }
+
+            if (auth()->user()->hasRole('Client')) {
+                return redirect('/client-dashboard');
+            }
         }
+
+        // Authentication failed
+        return redirect()->back()->withInput($request->only('email', 'remember'));
     }
 }

@@ -17,6 +17,7 @@ class LoginRequest extends FormRequest
 
     public function rules(): array
     {
+
         return [
             'email' => [
                 'email',
@@ -26,6 +27,8 @@ class LoginRequest extends FormRequest
                 'string',
                 'required',
             ],
+
+            'remember' => '',
         ];
     }
 }

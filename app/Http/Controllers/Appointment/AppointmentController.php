@@ -11,24 +11,32 @@ use App\Models\Exercise\ExerciseCategory;
 use App\Models\Workout\Workout;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class AppointmentController extends Controller
 {
 
+    protected int $coachID;
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            $this->coachID= Auth::user()->id;
+
+            return $next($request);
+        });
+    }
     public function getAppointments(Request $request)
     {
 
-        $status = $request->status;
-        $id = $request->id;
-
-
-        $coach = Coach::where('id','9')->firstOrFail();
+        $status = $request->input('status');
+        $id = $request->input('id');
 
         $start_date = $request->appointment_start ?? Carbon::now()->startOfDay();
 
         $end_date = Carbon::now()->endOfDay();
 
-        $appointments = Appointment::whereCoachId($coach->id)
+        //this is for some service
+        $appointments = Appointment::whereCoachId($this->coachID)
             ->whereBetween('appointment_start', [$start_date, $end_date])
             ->when($status, function ($query) use ($status) {
                 return $query->whereIn('status', $status);
@@ -47,7 +55,7 @@ class AppointmentController extends Controller
 
     public function createAppointment() {
 
-        $coach = Coach::where('id', 9)->with('clients')->firstOrFail();
+        $coach = Coach::where('id', $this->coachID)->with('clients')->firstOrFail();
 
         $clients = $coach->clients;
 
@@ -59,15 +67,13 @@ class AppointmentController extends Controller
         $validatedData = $request->validated();
 
 
-        $validatedData['appointment_start'] =
-            Carbon::parse($validatedData['start_date'] . $validatedData['start_time']);
+//        $validatedData['appointment_start'] =
+//            Carbon::parse($validatedData['start_date'] . $validatedData['start_time']);
+//
+//        $validatedData['appointment_end'] =
+//            Carbon::parse($validatedData['start_date'] . $validatedData['end_time']);
 
-        $validatedData['appointment_end'] =
-            Carbon::parse($validatedData['start_date'] . $validatedData['end_time']);
-
-
-        //hardcoded for now...
-        $validatedData['coach_id'] = 9;
+        $validatedData['coach_id'] = \Auth::user()->id;;
 
         //checking of user, checking of coach
 
@@ -81,10 +87,12 @@ class AppointmentController extends Controller
 
         $categories = $service->getExerciseCategories();
 
-        $workouts = Workout::where('appointment_id', $appointmentID)
-            ->with('exercise') // Eager load the exercise relationship
-            ->get();
+        $appointment = Appointment::find($appointmentID);
 
+        //todo find better solution
+        if($appointment->coach_id !== Auth::user()->id) {
+            abort(403, 'Unauthorized');
+        }
 
         return view('web.coach.appointments.start-appointment', [
             'categories' => $categories,

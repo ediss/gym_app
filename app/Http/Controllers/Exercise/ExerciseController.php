@@ -21,6 +21,16 @@ use Illuminate\Validation\ValidationException;
 class ExerciseController extends Controller
 {
 
+    private int $coachID;
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            $this->coachID= Auth::user()->id;
+
+            return $next($request);
+        });
+    }
+
     //this should be in show method?
 
     public function getExerciseByID($exercise_id): ExerciseResource
@@ -33,7 +43,7 @@ class ExerciseController extends Controller
    public function index(ExerciseCategoryService $service) {
 
        $categories = $service->getExerciseCategories();
-       $exercises = Exercise::where('coach_id', 9)
+       $exercises = Exercise::where('coach_id', $this->coachID)
            ->orWhereNull('coach_id')->get();
 
 
@@ -47,7 +57,7 @@ class ExerciseController extends Controller
         $usageType = $request->input('usageType');
         $search = $request->input('q');
         $appointment = $request->input('appointment');
-        $coachID = 9;
+        $coachID = $this->coachID;
 
         $exercises = Exercise::where('name', 'like', $search . '%')
             ->where(function ($query) use($coachID){
@@ -88,7 +98,7 @@ class ExerciseController extends Controller
     {
         $validatedData = $request->validated();
 
-        $validatedData['coach_id'] = 9;
+        $validatedData['coach_id'] = $this->coachID;
 
         $exercise = Exercise::create($validatedData);
 
@@ -122,7 +132,7 @@ class ExerciseController extends Controller
         // $exercise = Exercise::whereId($validatedData['exercise_id'])->firstOrFail();
         $exercise = Exercise::whereId($request->exercise_id)->first();
 
-        $coach = Coach::where('id', 9)->firstOrFail();
+        $coach = Coach::where('id', $this->coachID)->firstOrFail();
 
 //        if($exercise->coach_id !== $coach->id) {
 //
@@ -141,15 +151,15 @@ class ExerciseController extends Controller
     public function destroy(Request $request)
     {
 
-        $exercise = Exercise::whereId($request->exercise_id)->firstOrFail();
+        $exercise = Exercise::whereId($request->input('exercise_id'))->firstOrFail();
 
         //if is superadmin skip the checking
 
         // if is shop/gym, check if coach belongs to shop
 
-        $coach = Coach::where('id', 9)->firstOrFail();
+//        $coach = Coach::where('id', $this->coachID)->firstOrFail();
 
-        if($exercise->coach_id !== $coach->id) {
+        if($exercise->coach_id !== $this->coachID) {
 
             //throw error or json 403
             throw ValidationException::withMessages(['forbidden'=>'You are trying to DELETE exercise which not belong to you!']);
@@ -176,7 +186,7 @@ class ExerciseController extends Controller
         $categoryID = $request->input('categoryID');
         $usageType = $request->input('usageType');
         $appointmentID = $request->input('appointmentID');
-        $coachID = 9;
+        $coachID = $this->coachID;
 
         $exercises = Exercise::where('exercise_category_id', $categoryID)
                 ->where(function ($q) use($coachID){
