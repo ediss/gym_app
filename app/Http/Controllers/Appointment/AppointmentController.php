@@ -45,7 +45,11 @@ class AppointmentController extends Controller
                 return $query->where('id', $id);
             })
             ->with('client')
+            ->orderBy('appointment_start')
             ->get();
+
+//        $appointments['startedAppointmentsCount'] = $appointments->where('status' , 'In progress')->count();
+
 
         return view('web.coach.appointments.appointments', ['appointments' => $appointments]);
 
@@ -53,27 +57,38 @@ class AppointmentController extends Controller
 
     }
 
-    public function createAppointment() {
-
-        $coach = Coach::where('id', $this->coachID)->with('clients')->firstOrFail();
-
-        $clients = $coach->clients;
+    //NEED VALIDATION
+    public function createAppointment(Request $request) {
+        $clients = $this->getAvailableClientsForAppointment($request);
 
         return view('web.coach.appointments.create', ['clients' => $clients]);
 
     }
 
-    public function storeAppointment(AppointmentRequest $request) {
+    public function getAvailableClientsForAppointment(Request $request) {
+
+        $start_date = $request->input('start_date') ?? now();
+        $startOfDay = Carbon::parse($start_date)->startOfDay();
+        $endOfDay = Carbon::parse($start_date)->endOfDay();
+
+        $clientIds = Appointment::whereBetween('appointment_start', [$startOfDay, $endOfDay])
+            ->pluck('client_id');
+
+        $coach = Coach::findOrFail($this->coachID);
+
+
+
+        return $coach->clients->whereNotIn('id', $clientIds)->all();
+
+
+//        return view('web.partial.appointments.create.client-list', ['clients' => $clients]);
+    }
+
+    public function storeAppointment(AppointmentRequest $request): \Illuminate\Http\RedirectResponse
+    {
         $validatedData = $request->validated();
 
-
-//        $validatedData['appointment_start'] =
-//            Carbon::parse($validatedData['start_date'] . $validatedData['start_time']);
-//
-//        $validatedData['appointment_end'] =
-//            Carbon::parse($validatedData['start_date'] . $validatedData['end_time']);
-
-        $validatedData['coach_id'] = \Auth::user()->id;;
+        $validatedData['coach_id'] = \Auth::user()->id;
 
         //checking of user, checking of coach
 

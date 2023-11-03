@@ -10,6 +10,10 @@
 @endsection
 
 @section('content')
+
+    @php
+        $startedAppointments = $appointments->where('status' , 'In progress')->count();
+    @endphp
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-xl-4 row-cols-xxl-4">
 
         @if(Session::has('success'))
@@ -43,27 +47,27 @@
 
         <div class="col-12">
 
-            <ul class="nav nav-tabs nav-warning d-flex justify-content-between  border-warning" role="tablist">
+            <ul class="nav nav-tabs nav-warning d-flex justify-content-between  border-success" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link active" data-bs-toggle="tab" href="#appointments-all" role="tab"
+                    <a class="nav-link {{ $startedAppointments === 0 ? 'active' : '' }}" data-bs-toggle="tab" href="#appointments-pending" role="tab"
                        aria-selected="true">
                         <div class="d-flex align-items-center">
                             <div class="tab-icon">
                                 <i class="fadeIn animated bx bx-list-ul font-20 me-1"></i>
                             </div>
-                            <div class="tab-title">All</div>
+                            <div class="tab-title">Pending</div>
                         </div>
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" data-bs-toggle="tab" href="#appointments-started" role="tab"
+                    <a class="nav-link {{ $startedAppointments > 0 ? 'active' : '' }}" data-bs-toggle="tab" href="#appointments-started" role="tab"
                        aria-selected="false">
                         <div class="d-flex align-items-center">
                             <div class="tab-icon">
                                 <i class="fadeIn animated bx bx-play-circle font-20 me-1"></i>
                             </div>
                             <div class="tab-title">
-                                Started
+                                In progress
                             </div>
                         </div>
                     </a>
@@ -81,43 +85,18 @@
                     </a>
                 </li>
             </ul>
+
             <div class="tab-content py-3">
-                <div class="tab-pane fade show active" id="appointments-all" role="tabpanel">
-                    <div class="mt-5 w-100">
 
-                        <div class="card-body">
-                            <div class="team-list">
-                                @foreach($appointments as $appointment)
+                <div class="tab-pane fade  {{ $startedAppointments === 0 ? 'show active' : '' }}" id="appointments-pending" role="tabpanel">
 
-                                    <div class="d-flex align-items-center gap-3 border-start border-warning border-4 border-0 px-2 py-1">
-                                        <div class="flex-grow-1">
-                                            <h6 class="mb-1 fw-bold">{{ $appointment->client->name }}</h6>
-{{--                                            @dd(gettype($appointment->appointment_start))--}}
-                                            <span class="">
-                                                {{$appointment->appointment_start->format('H:i')}}
-                                                -
-                                                {{$appointment->appointment_end->format('H:i')}}
-                                            </span>
-                                        </div>
-                                        <div class="ms-auto">
-                                            <a href="{{route('appointment.start', ['id' => $appointment->id])}}" class="btn btn-outline-warning pe-0 radius-30 border-0">
-                                                <div>
-                                                    <span class="material-symbols-outlined  font-30">play_circle</span>start
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <hr class="border-warning">
-                                @endforeach
+                    @include('web.coach.appointments.appointment', ['appointments' => $appointments->whereNull('status'), 'pending' => true])
 
-                            </div>
-                        </div>
-                    </div>
 
                 </div>
-                <div class="tab-pane fade" id="appointments-started" role="tabpanel">
+                <div class="tab-pane fade {{ $startedAppointments > 0 ? 'show active' : '' }}" id="appointments-started" role="tabpanel">
 
-                    @include('web.coach.appointments.appointment', ['appointments' => $appointments->where('status','started')])
+                    @include('web.coach.appointments.appointment', ['appointments' => $appointments->where('status','In progress'), 'started' => true])
                 </div>
                 <div class="tab-pane fade" id="appointments-finished" role="tabpanel">
                     @include('web.coach.appointments.appointment', ['appointments' => $appointments->where('status','finished')])
@@ -133,4 +112,5 @@
     @if(Session::has('success'))
         <script src="{{ asset('alerts/alerts.js') }}"></script>
     @endif
+
 @endsection

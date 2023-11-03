@@ -1,5 +1,5 @@
 @if($workouts->count() > 0)
-    <div class="card">
+    <div class="card bg-transparent">
 
         <div class="card-body">
             <h5 class="card-title">Workouts</h5>
@@ -14,9 +14,9 @@
                         $counter++;
                     @endphp
 
-                    <div class="accordion-item">
+                    <div class="accordion-item bg-transparent">
                         <h1 class="accordion-header text-light" id="flush-heading{{ $counter }}">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            <button class="accordion-button collapsed bg-transparent" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#flush-collapse{{ $counter }}" aria-expanded="false"
                                     aria-controls="flush-collapse{{ $counter }}">
                                 {{$key}}

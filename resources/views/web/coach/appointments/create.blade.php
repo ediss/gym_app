@@ -20,7 +20,7 @@
                                     <i class="lni lni-calendar"></i>
                                 </span>
 
-                                <input type="text" name="start_date" placeholder="Select Date.." class="form-control flatpickr">
+                                <input type="text" name="start_date" placeholder="Select Date.." class="form-control flatpickr" id="start_date">
                             </div>
 
                             <div class="text-danger">
@@ -54,25 +54,8 @@
 
                         <div class="col-12">
 
-                            <label for="appointment-client" class="text-warning">Choose Client</label>
-                            <select name="client_id" id="appointment-client" class="form-select">
+                           @include('web.partial.appointments.create.client-list', ['clients' => $clients])
 
-                                @foreach($clients as $client)
-
-                                    @if(!$client->appointment)
-                                    <option  value="{{$client->id}}">
-                                        {{ $client->name }}
-                                    </option>
-                                    @endif
-                                @endforeach
-
-                            </select>
-
-                            <div class="text-danger">
-                                <div v-for="message in validationErrors?.client_id">
-{{--                                    {{ message }}--}}
-                                </div>
-                            </div>
                         </div>
 
 
@@ -143,6 +126,8 @@
 
 
         document.addEventListener('DOMContentLoaded', function () {
+            const startDateInput = document.getElementById('start_date');
+            const appointmentClientsDropdown = document.getElementById('appointment-clients');
 
 
 
@@ -153,7 +138,7 @@
             function validateTime() {
                 let timeErrorMessage = document.getElementById('appointment_end_error');
                 let appointmentStartError = document.getElementById('appointment_start_error');
-                appointmentStartError.textContent='';
+                appointmentStartError ? appointmentStartError.textContent='' : null;
 
 
                 let createAppointmentButton = document.getElementById('createAppointment');
@@ -181,7 +166,40 @@
                 }
             }
 
+            startDateInput.addEventListener('change', function() {
+                const startDateValue = startDateInput.value;
 
+                // Make an AJAX request to the Laravel route
+                fetch('{{ route('appointment.available-clients') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        start_date: startDateValue
+                    })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        // Clear the existing options in the dropdown list
+                        appointmentClientsDropdown.innerHTML = '';
+                        const arr = Object.values(data);
+
+                        // Add new options based on the received data
+                        arr.forEach(client => {
+
+
+                            const option = document.createElement('option');
+                            option.value = client.id;
+                            option.textContent = client.name;
+                            appointmentClientsDropdown.appendChild(option);
+                        });
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            });
 
         });
 

@@ -45,6 +45,9 @@ Route::group(['prefix' => 'coach', 'middleware' => ['auth', 'role:Coach']], func
     Route::get('/appointments', [AppointmentController::class, 'getAppointments'])->name('appointments.index');
 
     Route::get('/appointment-create', [AppointmentController::class, 'createAppointment'])->name('appointment.create');
+
+    Route::post('/get-available-clients', [AppointmentController::class, 'getAvailableClientsForAppointment'])->name('appointment.available-clients');
+
     Route::post('/appointment-store', [AppointmentController::class, 'storeAppointment'])->name('appointment.store');
 
 

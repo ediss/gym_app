@@ -88,7 +88,20 @@ class WorkoutController extends Controller
 
         $validatedData = $request->validated();
 
+        $existingRecord = Workout::where('appointment_id', $validatedData['appointment_id'])->first();
+
+        if (!$existingRecord) {
+            $appointment = Appointment::find($validatedData['appointment_id']);
+
+            $appointment->status = 'In progress';
+
+            $appointment->save();
+        }
+
         Workout::create($validatedData);
+
+        // Check if a record with a specific condition already exists
+
 
         $workouts = Workout::where('appointment_id', $validatedData['appointment_id'])
             ->where('exercise_id', $validatedData['exercise_id'])

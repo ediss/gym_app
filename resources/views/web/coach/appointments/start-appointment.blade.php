@@ -28,11 +28,11 @@
 
 
         <div class="col-12" id="exerciseCategories">
-            <div class="card">
+            <div class="card bg-transparent">
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
                         @foreach($categories as $category)
-                            <li class="d-flex justify-content-between align-items-center list-group-item category"
+                            <li class="d-flex justify-content-between align-items-center list-group-item category bg-transparent"
                                 data-category-id="{{$category->id}}"
                                 data-usage-type="start_appointment"
                                 data-appointment-id={{$appointmentID}}

@@ -127,7 +127,7 @@ class ExerciseController extends Controller
 
         // if is shop/gym, check if coach belongs to shop
 
-        // only first becasue now UpdateExerciseRequest is updated check it
+        // only first because now UpdateExerciseRequest is updated check it
 
         // $exercise = Exercise::whereId($validatedData['exercise_id'])->firstOrFail();
         $exercise = Exercise::whereId($request->exercise_id)->first();
