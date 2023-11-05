@@ -3,7 +3,7 @@
 @section('content')
     <div class="row">
         <div class="col-lg-12">
-            <div class="card">
+            <div class="bg-transparent">
                 <div class="card-body p-4">
                     <h5 class="mb-4 text-warning text-center">Add New Exercise</h5>
                     <form class="row g-3" method="POST" action="{{route('exercise.store')}}">
@@ -11,7 +11,7 @@
                         <div class="col-md-12">
                             <div class="input-group mb-3">
                                 <label class="form-label w-100">
-                                    <input name="name" type="text" placeholder="Name" class="form-control {{$errors->has('name') ? 'border-danger' : ''}}">
+                                    <input name="name" type="text" placeholder="Name" class="form-control bg-transparent {{$errors->has('name') ? 'border-danger' : ''}}">
                                 </label>
                             </div>
 
@@ -66,7 +66,7 @@
                         </div>
 
                         <div class="col-12">
-                            <textarea rows="4" name="note" class="form-control" placeholder="Exercise Note"></textarea>
+                            <textarea rows="4" name="note" class="form-control bg-transparent" placeholder="Exercise Note"></textarea>
 
                         </div>
 

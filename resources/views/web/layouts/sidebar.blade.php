@@ -14,6 +14,7 @@
 
         <!--navigation-->
         <ul class="metismenu" id="menu">
+
             <li>
                 <a href="{{ route('logout') }}" >
                     {{ __('Logout') }}

@@ -14,6 +14,14 @@ class LoginRequest extends FormRequest
         return true;
     }
 
+    public function prepareForValidation(): void
+    {
+        $this->mergeIfMissing([
+            'remember'  => false,
+        ]);
+    }
+
+
 
     public function rules(): array
     {

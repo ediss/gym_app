@@ -18,31 +18,43 @@ class AuthController extends Controller
     {
        $validatedData = $request->validated();
 
-        if (auth()->attempt(['email' => $validatedData['email'], 'password' => $request['password']])) {
+
+        if (Auth::attempt([
+                'email' => $validatedData['email'],
+                'password' => $request['password']
+            ], $validatedData['remember']
+        )) {
             // Authentication successful
+
             // Redirect the user to their respective dashboard based on their role
-            if (auth()->user()->hasRole('SuperAdmin')) {
+            if (Auth::user()->hasRole('SuperAdmin')) {
                 return redirect('/superadmin-dashboard');
             }
 
-            if (auth()->user()->hasRole('Admin')) {
+            if (Auth::user()->hasRole('Admin')) {
                 return redirect('/admin-dashboard');
             }
 
-            if (auth()->user()->hasRole('Gym')) {
+            if (Auth::user()->hasRole('Gym')) {
                 return redirect('/gym-dashboard');
             }
 
-            if (auth()->user()->hasRole('Coach')) {
+            if (Auth::user()->hasRole('Coach')) {
                 return redirect()->route('appointments.index');
             }
 
-            if (auth()->user()->hasRole('Client')) {
+            if (Auth::user()->hasRole('Client')) {
                 return redirect('/client-dashboard');
             }
         }
 
         // Authentication failed
         return redirect()->back()->withInput($request->only('email', 'remember'));
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect('/login');
     }
 }

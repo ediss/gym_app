@@ -4,12 +4,21 @@
 
 
     <div class="row">
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <div class="form-body mt-4">
             <form class="row g-3" action="{{ route('login') }}" method="POST">
                 @csrf
                 <div class="col-12">
                     <label for="inputEmailAddress" class="form-label">Email</label>
-                    <input type="email" name="email" class="form-control  border-3" id="inputEmailAddress" placeholder="jhon@example.com">
+                    <input type="email" name="email" class="form-control  border-3" id="inputEmailAddress" value="{{ old('email') }}" placeholder="jhon@example.com">
                 </div>
                 <div class="col-12">
                     <label for="inputChoosePassword" class="form-label">Password</label>
@@ -20,7 +29,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-check form-switch form-check-warning border-3">
-                        <input class="form-check-input" name="remember" type="checkbox" id="flexSwitchCheckChecked">
+                        <input class="form-check-input" name="remember" type="checkbox" id="flexSwitchCheckChecked"{{ old('remember') ? 'checked' : '' }}>
                         <label class="form-check-label" for="flexSwitchCheckChecked">Remember Me</label>
                     </div>
                 </div>

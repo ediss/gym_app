@@ -65,7 +65,8 @@ class AppointmentController extends Controller
 
     }
 
-    public function getAvailableClientsForAppointment(Request $request) {
+    public function getAvailableClientsForAppointment(Request $request): array
+    {
 
         $start_date = $request->input('start_date') ?? now();
         $startOfDay = Carbon::parse($start_date)->startOfDay();
@@ -76,12 +77,9 @@ class AppointmentController extends Controller
 
         $coach = Coach::findOrFail($this->coachID);
 
-
-
         return $coach->clients->whereNotIn('id', $clientIds)->all();
 
 
-//        return view('web.partial.appointments.create.client-list', ['clients' => $clients]);
     }
 
     public function storeAppointment(AppointmentRequest $request): \Illuminate\Http\RedirectResponse

@@ -35,6 +35,9 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 //Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
 //Route::post('/login', 'Auth\LoginController@login');
 
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
+
 
 Route::group(['prefix' => 'coach', 'middleware' => ['auth', 'role:Coach']], function() {
     Route::get('/clients', [CoachController::class, 'index'])->name('coach.clients');

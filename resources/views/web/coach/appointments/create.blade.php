@@ -7,7 +7,7 @@
 @section('content')
     <div class="row">
         <div class="col-lg-12">
-            <div class="card">
+            <div class=" bg-transparent">
                 <div class="card-body p-4">
                     <h5 class="mb-4 text-warning text-center">Make Appointment</h5>
                     <form action="{{route('appointment.store')}}" method="POST" class="row g-3">
@@ -20,7 +20,7 @@
                                     <i class="lni lni-calendar"></i>
                                 </span>
 
-                                <input type="text" name="start_date" placeholder="Select Date.." class="form-control flatpickr" id="start_date">
+                                <input type="text" name="start_date" placeholder="Select Date.." class="form-control bg-transparent flatpickr" id="start_date">
                             </div>
 
                             <div class="text-danger">
@@ -33,7 +33,7 @@
 
                         <div class="col-12">
                             <label for="start_time" class="text-warning">Start</label>
-                            <input type="text" name="appointment_start" class="form-control" id="start_time" value="{{ old('appointment_start', 7) }}" required>
+                            <input type="text" name="appointment_start" class="form-control bg-transparent" id="start_time" value="{{ old('appointment_start', 7) }}" required>
                             @error('appointment_start')
                             <span class="text-danger" id="appointment_start_error">{{ $message }}</span>
                             @enderror
@@ -41,7 +41,7 @@
 
                         <div class="col-12">
                             <label for="end_time" class="text-warning">Finish</label>
-                            <input type="text" name="appointment_end" class="form-control" id="end_time" value="{{ old('appointment_end', 8) }}" required>
+                            <input type="text" name="appointment_end" class="form-control bg-transparent" id="end_time" value="{{ old('appointment_end', 8) }}" required>
 
                             <span class="text-danger" id="appointment_end_error">
                                 @error('appointment_end')
