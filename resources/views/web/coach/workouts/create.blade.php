@@ -1,16 +1,30 @@
 @extends('web.layouts.app')
 @section('custom-css')
-<style>
-    .appBgColor {
-        background: #191b1e;
-    }
+    <style>
+        .appBgColor {
+            background: #191b1e;
+        }
 
-    .workout-header {
-        top:60px;
-        z-index: 9;
-        height: 50px;
-    }
-</style>
+        .workout-header {
+            top: 60px;
+            z-index: 9;
+            height: 50px;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background-color: transparent;
+            box-shadow: none;
+
+        }
+
+        .accordion-button:focus {
+            box-shadow: none;
+        }
+
+        .accordion-button-custom:after {
+            content: none;
+        }
+    </style>
 @endsection
 
 @section('header')
@@ -26,7 +40,7 @@
     <div class="bg-dark position-sticky workout-header">
         <ul class="nav nav-tabs nav-warning d-flex justify-content-between h-100 align-items-center" role="tablist">
             <li class="nav-item" role="presentation">
-                <a class="nav-link active" data-bs-toggle="tab" href="#appointments-all" role="tab"
+                <a class="nav-link active" data-bs-toggle="tab" href="#workout-create" role="tab"
                    aria-selected="true">
                     <div class="d-flex align-items-center">
                         <div class="tab-title">TRACK</div>
@@ -34,7 +48,7 @@
                 </a>
             </li>
             <li class="nav-item" role="presentation">
-                <a class="nav-link" data-bs-toggle="tab" href="#appointments-started" role="tab"
+                <a class="nav-link" data-bs-toggle="tab" href="#exercise-history" role="tab"
                    aria-selected="false">
                     <div class="d-flex align-items-center">
                         <div class="tab-title">
@@ -58,84 +72,117 @@
 @section('content')
     <div class="row">
         <div class="col-10 m-auto">
-            <form action="{{route('workout.store')}}" method="POST" id="storeWorkout">
-                @csrf
 
 
-                <input type="hidden" name="exercise_id" value="{{ $exercise->id }}">
-                <input type="hidden" name="client_id" value="{{ $appointment->client->id }}">
-                <input type="hidden" name="appointment_id" value="{{ $appointment->id }}">
-                <input type="hidden" name="coach_id" value="9">
-                @if (str_contains($exerciseTypeName, 'Weight'))
-                    <div>
-                        Weight
-                        <hr>
-                        <div class="input-group mb-3">
-                            <span class="decrement input-group-text text-danger font-24 font-weight-bold material-symbols-outlined">remove</span>
-                                <input type="text" name="weight" class="form-control text-center font-24 font-weight-bold" value="0">
-                            <span class="increment material-symbols-outlined input-group-text text-success font-24">add</span>
+            <div class="tab-content py-3">
+                <div class="tab-pane fade  show active" id="workout-create" role="tabpanel">
+                    <form action="{{route('workout.store')}}" method="POST" id="storeWorkout">
+                        @csrf
+
+
+                        <input type="hidden" name="exercise_id" value="{{ $exercise->id }}">
+                        <input type="hidden" name="client_id" value="{{ $appointment->client->id }}">
+                        <input type="hidden" name="appointment_id" value="{{ $appointment->id }}">
+                        <input type="hidden" name="coach_id" value="9">
+                        @if (str_contains($exerciseTypeName, 'Weight'))
+                            <div>
+                                Weight
+                                <hr>
+                                <div class="input-group mb-3">
+                                    <span
+                                        class="decrement input-group-text text-danger font-24 font-weight-bold material-symbols-outlined">remove</span>
+                                    <input type="text" name="weight"
+                                           class="form-control text-center font-24 font-weight-bold" value="0">
+                                    <span
+                                        class="increment material-symbols-outlined input-group-text text-success font-24">add</span>
+                                </div>
+                                <hr>
+                            </div>
+                        @endif
+
+                        @if(str_contains($exerciseTypeName, 'Reps'))
+                            <div>
+                                Reps
+                                <hr>
+                                <div class="input-group mb-3">
+                                    <span
+                                        class="decrement input-group-text text-danger font-24 font-weight-bold material-symbols-outlined">remove</span>
+                                    <input name="reps" type="text"
+                                           class="form-control text-center font-24 font-weight-bold" value="0">
+                                    <span
+                                        class="increment material-symbols-outlined input-group-text text-success font-24">add</span>
+                                </div>
+                                <hr>
+                            </div>
+                        @endif
+
+                        @if(str_contains($exerciseTypeName, 'Time'))
+                            <div>
+                                Time
+                            </div>
+                        @endif
+
+                        @if(str_contains($exerciseTypeName, 'Distance'))
+                            <div>
+                                Distance
+
+                                <hr>
+                                <div class="input-group mb-3">
+                                    <span
+                                        class="decrement input-group-text text-danger font-24 font-weight-bold material-symbols-outlined">remove</span>
+                                    <input name="distance" type="text"
+                                           class="form-control text-center font-24 font-weight-bold" value="0">
+                                    <span
+                                        class="increment material-symbols-outlined input-group-text text-success font-24">add</span>
+                                </div>
+                                <hr>
+                            </div>
+
+                        @endif
+
+
+                        <div class="d-flex d-grid align-items-center justify-content-center gap-3 mt-5">
+                            <button class="btn btn-warning px-4 w-100" id="saveWorkout" value="save"
+                                    onclick="setClickedButton('save')">Save
+                            </button>
+                            <button class="btn btn-success px-4 w-100" style="display: none;" id="updateWorkout"
+                                    value="update" onclick="setClickedButton('update')">Update
+                            </button>
+                            <button class="btn btn-danger px-4 w-100" style="display: none;" id="deleteWorkout"
+                                    value="delete" onclick="setClickedButton('delete')">Delete
+                            </button>
+
+                            <input type="hidden" name="clickedButton" id="clickedButton" value="">
+
                         </div>
-                        <hr>
+                    </form>
+
+                    <div class="row mt-3" id="exercisesDoneList">
+                        @if($workouts->count() > 0)
+                            @include('web.workout.exercises', $workouts)
+                        @endif
                     </div>
-                @endif
-
-                @if(str_contains($exerciseTypeName, 'Reps'))
-                    <div>
-                        Reps
-                        <hr>
-                        <div class="input-group mb-3">
-                            <span class="decrement input-group-text text-danger font-24 font-weight-bold material-symbols-outlined">remove</span>
-                                <input name="reps" type="text" class="form-control text-center font-24 font-weight-bold" value="0">
-                            <span class="increment material-symbols-outlined input-group-text text-success font-24">add</span>
-                        </div>
-                        <hr>
-                    </div>
-                @endif
-
-                @if(str_contains($exerciseTypeName, 'Time'))
-                    <div>
-                        Time
-                    </div>
-                @endif
-
-                @if(str_contains($exerciseTypeName, 'Distance'))
-                    <div>
-                        Distance
-
-                        <hr>
-                        <div class="input-group mb-3">
-                            <span class="decrement input-group-text text-danger font-24 font-weight-bold material-symbols-outlined">remove</span>
-                                <input name="distance" type="text" class="form-control text-center font-24 font-weight-bold" value="0">
-                            <span class="increment material-symbols-outlined input-group-text text-success font-24">add</span>
-                        </div>
-                        <hr>
-                    </div>
-
-                @endif
-
-
-                <div class="d-flex d-grid align-items-center justify-content-center gap-3 mt-5">
-                    <button class="btn btn-warning px-4 w-100" id="saveWorkout" value="save" onclick="setClickedButton('save')">Save</button>
-                    <button class="btn btn-success px-4 w-100" style="display: none;" id="updateWorkout" value="update" onclick="setClickedButton('update')">Update</button>
-                    <button class="btn btn-danger px-4 w-100" style="display: none;" id="deleteWorkout" value="delete" onclick="setClickedButton('delete')">Delete</button>
-
-                    <input type="hidden" name="clickedButton" id="clickedButton" value="">
-
                 </div>
-            </form>
+
+                <div class="tab-pane fade" id="exercise-history" role="tabpanel">
+
+                    @if($exerciseHistory->count() > 0)
+                        @include('web.coach.exercises.history')
+                    @else
+                        No records
+                    @endif
+                </div>
+            </div>
+
+
         </div>
     </div>
-
-    <div class="row mt-3" id="exercisesDoneList">
-            @if($workouts->count() > 0)
-                @include('web.workout.exercises', $workouts)
-            @endif
-    </div>
-
 
 @endsection
 
 @section('scripts')
+    <script src="{{asset('exercises/exercises.js')}}"></script>
+
 
     <script>
 
@@ -164,7 +211,7 @@
                     const inputNameElements = this.parentElement.querySelectorAll('.exercises-type-value-input-name');
 
                     // Iterate through the elements with exercises-type-value-input-name
-                    inputNameElements.forEach(function(inputNameElement) {
+                    inputNameElements.forEach(function (inputNameElement) {
                         // Get the value of the corresponding exercises-type-value element
                         const exercisesTypeInputValue = inputNameElement.closest('.workout-update').querySelector('.exercises-type-value').textContent.trim();
 
@@ -290,7 +337,39 @@
 
 
 
+        //used on 2 places
+        function fetchWorkouts(appointmentId) {
+            fetch('{{route('appointment.workouts')}}', {
+                method: 'POST',
+                body: JSON.stringify({ appointmentId: appointmentId }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            })
+                .then(response => response.text())
+                .then(html => {
+                    // Update the DOM with the fetched Blade view
+                    document.getElementById('workout-history-content').innerHTML = html;
+                })
+                .catch(error => console.error('Error fetching workout exercises: ' + error));
+        }
+
+
+
         document.addEventListener("DOMContentLoaded", function () {
+
+            const buttons = document.querySelectorAll("[data-appointment-id]");
+
+            // Add a click event listener to each button
+            buttons.forEach(function(button) {
+                button.addEventListener("click", function() {
+                    // Get the value of the data-appointment-id attribute
+                    const appointmentId = this.getAttribute("data-appointment-id");
+
+                    fetchWorkouts(appointmentId)
+                });
+            });
 
 
             attachClickEventToWorkoutUpdateElements();

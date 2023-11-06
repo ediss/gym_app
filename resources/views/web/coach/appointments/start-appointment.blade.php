@@ -63,6 +63,7 @@
     <script src="{{asset('exercises/exercises.js')}}"></script>
 
     <script>
+        //used on 2 places
         function fetchWorkouts(appointmentId) {
             fetch('{{route('appointment.workouts')}}', {
                 method: 'POST',

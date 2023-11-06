@@ -2,8 +2,7 @@
     <div class="card bg-transparent">
 
         <div class="card-body">
-            <h5 class="card-title">Workouts</h5>
-            <div class="my-3 border-top"></div>
+
             <div class="accordion accordion-flush" id="accordionFlushExample">
 
                 @php

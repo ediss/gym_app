@@ -13,6 +13,7 @@ use App\Models\Exercise\Exercise;
 use App\Models\Exercise\ExerciseType;
 use App\Models\Workout\Workout;
 use Carbon\Carbon;
+use DB;
 use Illuminate\Http\Request;
 
 class WorkoutController extends Controller
@@ -61,23 +62,30 @@ class WorkoutController extends Controller
         $exerciseID = $request->input('exercise_id');
 
         $appointment = Appointment::find($appointmentID);
-
-
         $exercise = Exercise::find($exerciseID);
 
         $exerciseType = ExerciseType::find($exercise->exercise_type_id);
 
+        //IT'S FOR SERVICE
         $workouts = Workout::where('appointment_id', $appointmentID)
             ->where('exercise_id', $exerciseID)
             ->get();
 
+        $exerciseHistory = Workout::where('client_id', $appointment->client_id)
+            ->where('exercise_id', $exerciseID)
+            ->orderBy('appointment_id', 'DESC')
+            ->get()
+            ->groupBy(function ($item) {
+                return Carbon::parse($item->created_at)->format('j. F Y');
+            });
 
 
         return view('web.coach.workouts.create', [
             'appointment' => $appointment,
             'exercise' => $exercise,
             'exerciseTypeName' => $exerciseType->name,
-            'workouts' => $workouts
+            'workouts' => $workouts,
+            'exerciseHistory' => $exerciseHistory
         ]);
 
     }
