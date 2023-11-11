@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\SuperAdmin\SuperAdminController;
 use App\Http\Controllers\Workout\WorkoutController;
 use App\Http\Controllers\Exercise\ExerciseController;
 use App\Http\Controllers\Appointment\AppointmentController;
@@ -37,7 +38,11 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
+Route::group(['prefix' => 'super-admin', 'middleware' => ['auth', 'role:SuperAdmin']], function() {
 
+    Route::get('/coaches', [SuperAdminController::class, 'getCoaches'])->name('superadmin.coaches');
+
+});
 
 Route::group(['prefix' => 'coach', 'middleware' => ['auth', 'role:Coach']], function() {
     Route::get('/clients', [CoachController::class, 'index'])->name('coach.clients');

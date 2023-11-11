@@ -4,6 +4,8 @@
         <div class="team-list">
             @foreach($appointments as $appointment)
 
+
+
                 <div class="d-flex align-items-center gap-3 border-start border-warning border-4 border-0 px-2 py-1">
                     <div class="flex-grow-1">
                         <h6 class="mb-1 fw-bold">{{ $appointment->client->name }}</h6>

@@ -135,7 +135,7 @@
             const startDateInput = document.getElementById('start_date');
             const appointmentClientsDropdown = document.getElementById('appointment-clients');
 
-
+            getAvailableClients(startDateInput.value)
 
             appointmentEnd.addEventListener('change', validateTime);
             appointmentStart.addEventListener('change', validateTime);
@@ -172,10 +172,7 @@
                 }
             }
 
-            startDateInput.addEventListener('change', function() {
-                const startDateValue = startDateInput.value;
-
-                // Make an AJAX request to the Laravel route
+            function getAvailableClients(startDateValue) {
                 fetch('{{ route('appointment.available-clients') }}', {
                     method: 'POST',
                     headers: {
@@ -205,6 +202,12 @@
                     .catch(error => {
                         console.error(error);
                     });
+            }
+
+            startDateInput.addEventListener('change', function() {
+                const startDateValue = startDateInput.value;
+                getAvailableClients(startDateValue);
+
             });
 
         });

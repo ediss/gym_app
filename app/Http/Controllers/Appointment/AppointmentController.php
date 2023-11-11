@@ -31,13 +31,14 @@ class AppointmentController extends Controller
         $status = $request->input('status');
         $id = $request->input('id');
 
-        $start_date = $request->appointment_start ?? Carbon::now()->startOfDay();
+//        dd($request->all());
 
-        $end_date = Carbon::now()->endOfDay();
+        $start_date = Carbon::now()->startOfDay();
+
 
         //this is for some service
         $appointments = Appointment::whereCoachId($this->coachID)
-            ->whereBetween('appointment_start', [$start_date, $end_date])
+            ->where('appointment_start', '>=', $start_date)
             ->when($status, function ($query) use ($status) {
                 return $query->whereIn('status', $status);
             })

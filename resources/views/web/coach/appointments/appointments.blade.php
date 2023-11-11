@@ -89,6 +89,7 @@
 
                 <div class="tab-pane fade  {{ $startedAppointments === 0 ? 'show active' : '' }}" id="appointments-pending" role="tabpanel">
 
+
                     @include('web.coach.appointments.appointment', ['appointments' => $appointments->whereNull('status'), 'pending' => true])
 
 
