@@ -56,6 +56,12 @@
 
                            @include('web.partial.appointments.create.client-list', ['clients' => $clients])
 
+                            <span class="text-danger">
+                                @error('client_id')
+                                {{ $message }}
+                                @enderror
+                            </span>
+
                         </div>
 
 
