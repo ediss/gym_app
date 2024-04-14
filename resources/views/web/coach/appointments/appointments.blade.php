@@ -46,8 +46,8 @@
 
         <div class="col-12">
 
-            <ul class="nav nav-tabs nav-warning d-flex justify-content-between  border-success" role="tablist">
-                <li class="nav-item" role="presentation">
+            <ul class="nav nav-tabs nav-warning d-flex border-success" role="tablist">
+                <li class="nav-item px-0" role="presentation">
                     <a class="nav-link {{ $startedAppointments === 0 ? 'active' : '' }}" data-bs-toggle="tab" href="#appointments-pending" role="tab"
                        aria-selected="true">
                         <div class="d-flex align-items-center">
