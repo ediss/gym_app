@@ -6,6 +6,8 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
+
 
 /**
  * @extends Factory<User>
@@ -23,7 +25,7 @@ class UserFactory extends Factory
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => \Hash::make('password'), // password
+            'password' => Hash::make('password'), // password
 //            'role_id' => fake()->randomElement([2, 3]),
             'role_id' => Role::all()->except([1,2,3])->random(),
             'remember_token' => Str::random(10),

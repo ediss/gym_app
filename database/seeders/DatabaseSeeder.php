@@ -3,7 +3,10 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Role;
+use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,23 +25,23 @@ class DatabaseSeeder extends Seeder
          * ROLE SEEDER
          */
 
-        \App\Models\Role::factory()->create([
+        Role::factory()->create([
             'name' => 'SuperAdmin',
         ]);
 
-        \App\Models\Role::factory()->create([
+        Role::factory()->create([
             'name' => 'Admin',
         ]);
 
-        \App\Models\Role::factory()->create([
+        Role::factory()->create([
             'name' => 'Gym',
         ]);
 
-        \App\Models\Role::factory()->create([
+        Role::factory()->create([
             'name' => 'Coach',
         ]);
 
-        \App\Models\Role::factory()->create([
+        Role::factory()->create([
             'name' => 'Client',
         ]);
 
@@ -47,6 +50,34 @@ class DatabaseSeeder extends Seeder
          */
 
         \App\Models\User::factory(10)->create();
+
+
+
+        /**
+         * SUPER ADMIN SEEDER
+         */
+
+         \App\Models\User::factory([
+            'name' => 'Disko SuperAdmin',
+            'email' => 'disko@super-admin.com',
+            'email_verified_at' => now(),
+            'password' => Hash::make('password'), // password
+            'role_id' => 0,
+            'remember_token' => Str::random(10),
+         ])->create();
+
+        /**
+         * COACH SEEDER
+         */
+
+         \App\Models\User::factory([
+            'name' => 'Disko Coach',
+            'email' => 'disko@coach.com',
+            'email_verified_at' => now(),
+            'password' => Hash::make('password'), // password
+            'role_id' => 4,
+            'remember_token' => Str::random(10),
+         ])->create();
 
         /**
          * EXERCISE CATEGORY SEEDER
