@@ -27,10 +27,10 @@
     <link href="{{  asset('frontend/css/extra-icons.css' )}}" rel="stylesheet">
 
     {{-- <link rel="apple-touch-icon" sizes="128x128" href="{{ asset('frontend/images/logo-icon.png') }}"> --}}
-    <link rel="apple-touch-icon" sizes="128x128" href="{{ asset('frontend/images/test.svg') }}">
+    <link rel="apple-touch-icon" sizes="128x128" href="{{ asset('frontend/images/logo.svg') }}">
     
 
-    <link rel="shortcut icon" href="{{ asset('frontend/images/test.svg') }}" sizes="any" type="image/svg+xml" />
+    <link rel="shortcut icon" href="{{ asset('frontend/images/logo.ico') }}" sizes="any" type="image/svg+xml" />
 
     
 
