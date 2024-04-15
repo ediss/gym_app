@@ -283,7 +283,8 @@
         const incrementValues = {
             weight: 2.5,
             reps: 1,
-            time: 1
+            time: 1,
+            distance:100
         };
 
 

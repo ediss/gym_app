@@ -49,7 +49,7 @@
                     <span class="exercises-type-value">
                         {{ $workout->distance }}
                     </span>
-                    <span class="text-warning-emphasis font-12"> meters/kms</span>
+                    <span class="text-warning-emphasis font-12"> m</span>
                 </div>
             @endif
 
