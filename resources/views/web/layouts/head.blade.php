@@ -26,6 +26,7 @@
 
     <link href="{{  asset('frontend/css/extra-icons.css' )}}" rel="stylesheet">
 
+    <link rel="apple-touch-icon" sizes="128x128" href="{{ asset('frontend/images/logo-icon.png') }}">
 
     @yield('custom-css')
 </head>
