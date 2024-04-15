@@ -16,7 +16,7 @@
                         </span>
                     </div>
                     <div class="ms-auto">
-                        <a href="{{route('appointment.start', ['id' => $appointment->id])}}" class="btn btn-outline-warning pe-0 radius-30 border-0">
+                        <a href="{{route('appointment.start', ['id' => $appointment->id])}}" class="btn btn-outline-warning radius-30 border-0">
                             <div>
                                 @if(isset($pending))
                                     <span class="material-symbols-outlined  font-30">play_circle</span>
