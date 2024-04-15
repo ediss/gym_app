@@ -2,6 +2,7 @@
 
 @section('content')
 
+<img src="{{ asset('frontend/images/test.svg') }}" />
 
     <div class="row">
         @if ($errors->any())
