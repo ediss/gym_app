@@ -10,44 +10,48 @@
             <div class="col-2 px-0 workout-comment"><span class="material-symbols-outlined">comment</span></div>
             <div class="col-2 px-0"><b>{{ $counter++ }} </b></div>
 
-            <div class="col-4 px-2 text-end workout-update">
-                @if (str_contains($workout->exercise->type->name, 'Weight'))
+            @if (str_contains($workout->exercise->type->name, 'Weight'))
+                <div class="col-4 px-2 text-end workout-update">
+
                     <span class="d-none exercises-type-value-input-name">weight</span>
 
                     <span class="exercises-type-value">
                         {{ $workout->weight }}
                     </span>
                     <span class="text-warning-emphasis font-12"> kgs</span>
-                @endif
-            </div>
+                </div>
+            @endif
 
-            <div class="col-4 text-end workout-update">
-                @if (str_contains($workout->exercise->type->name, 'Reps'))
+
+            @if (str_contains($workout->exercise->type->name, 'Reps'))
+                <div class="col-4 text-end workout-update">
                     <span class="d-none exercises-type-value-input-name">reps</span>
 
                     <span class="exercises-type-value">
                         {{ $workout->reps }}
                     </span>
                     <span class="text-warning-emphasis font-12"> reps</span>
-                @endif
-            </div>
-            <div class="col-4 text-end workout-update">
-                @if (str_contains($workout->exercise->type->name, 'Time'))
+                </div>
+            @endif
+
+
+            @if (str_contains($workout->exercise->type->name, 'Time'))
+                <div class="col-4 text-end workout-update">
                     <span class="exercises-type-value">
                         {{ $workout->time }}
                     </span>
                     <span class="text-warning-emphasis font-12"> hours min seconds</span>
-                @endif
-            </div>
-            <div class="col-4 text-end workout-update">
-                @if (str_contains($workout->exercise->type->name, 'Distance'))
+                </div>
+            @endif
+
+            @if (str_contains($workout->exercise->type->name, 'Distance'))
+                <div class="col-4 text-end workout-update">
                     <span class="exercises-type-value">
                         {{ $workout->distance }}
                     </span>
                     <span class="text-warning-emphasis font-12"> meters/kms</span>
-                @endif
-            </div>
-
+                </div>
+            @endif
 
         </div>
     </div>
