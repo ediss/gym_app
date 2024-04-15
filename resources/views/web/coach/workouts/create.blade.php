@@ -124,7 +124,7 @@
 
                         @if(str_contains($exerciseTypeName, 'Distance'))
                             <div>
-                                Distance
+                                Distance (in meters)
 
                                 <hr>
                                 <div class="input-group mb-3">
