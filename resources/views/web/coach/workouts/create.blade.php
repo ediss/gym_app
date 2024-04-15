@@ -71,7 +71,7 @@
 @endsection
 @section('content')
     <div class="row">
-        <div class="col-10 m-auto">
+        <div class="col-12">
 
 
             <div class="tab-content py-3">
