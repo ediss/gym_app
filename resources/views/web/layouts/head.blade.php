@@ -30,7 +30,7 @@
     <link rel="apple-touch-icon" sizes="128x128" href="{{ asset('frontend/images/logo.svg') }}">
     
 
-    <link rel="shortcut icon" href="{{ asset('frontend/images/logo.ico') }}" sizes="any" type="image/svg+xml" />
+    <link rel="shortcut icon" href="{{ asset('frontend/images/logo.ico') }}" sizes="any">
 
     
 
