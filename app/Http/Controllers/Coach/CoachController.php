@@ -3,14 +3,10 @@
 namespace App\Http\Controllers\Coach;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Appointment\AppointmentRequest;
-use App\Http\Resources\AppointmentCollection;
 use App\Http\Resources\AppointmentResource;
-use App\Http\Resources\Client\ClientResource;
 use App\Models\Appointment;
 use App\Models\Coach;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class CoachController extends Controller
@@ -58,8 +54,6 @@ class CoachController extends Controller
             ->with('clients')
             ->first();
 
-        //return new AppointmentCollection($appointment);
-        //return new AppointmentCollection($appointments);
         return new AppointmentResource($appointment);
     }
 
