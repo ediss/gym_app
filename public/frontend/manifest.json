@@ -3,7 +3,7 @@
     "short_name": "FitPal",
     "icons": [
         {
-            "src": "../frontend/images/logo3.ico",
+            "src": "../frontend/images/logo4.ico",
             "type": "image/vnd",
             "sizes": "16x16"
         }
