@@ -16,7 +16,7 @@
 
     <!--start main content-->
     <main class="page-content">
-        <div id="coverDiv" class="bg-secondary d-none w-100 h-100 position-absolute z-3 start-0 top-0">
+        <div id="coverDiv" class="bg-dark-subtle d-none w-100 h-100 position-absolute z-3 start-0 top-0">
             <button id="install">Install</button>
         </div>
         
