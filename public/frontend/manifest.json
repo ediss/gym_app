@@ -3,9 +3,9 @@
     "short_name": "FitPal",
     "icons": [
         {
-            "src": "../frontend/images/logo5.ico",
+            "src": "../frontend/images/logo.ico",
             "type": "image/vnd",
-            "sizes": "16x16"
+            "sizes": "144x144"
         }
     ],
     "start_url": "/login",
