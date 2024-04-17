@@ -30,10 +30,11 @@
     <link rel="apple-touch-icon" sizes="128x128" href="{{ asset('frontend/images/logo.svg') }}">
     
 
-    <link rel="shortcut icon" href="{{ asset('frontend/images/logo2.ico') }}" sizes="any">
+    {{-- <link rel="shortcut icon" href="{{ asset('frontend/images/logo2.ico') }}" sizes="any"> --}}
 
     
-
+    <link rel="icon" type="image/svg+xml" href="{{ asset('frontend/images/logo.svg') }}"> <!-- Desktop browser icon -->
+    <link rel="manifest" href="{{ asset('frontend/.webmanifest') }}">
 
 
     @yield('custom-css')
