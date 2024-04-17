@@ -5,7 +5,7 @@
         {
             "src": "../frontend/images/logo.ico",
             "type": "image/vnd",
-            "sizes": "any"
+            "sizes": "36x36"
         }
     ],
     "start_url": "/login",
