@@ -56,12 +56,9 @@
         addEventListener("load", (event) => {
             const result = await installPrompt.prompt();
             console.log(`Install prompt was: ${result.outcome}`);
-            disableInAppInstallPrompt();
+        //     disableInAppInstallPrompt();
         });
 
-        installButton.addEventListener("click", async () => {
-
-        });
 
         function disableInAppInstallPrompt() {
             installPrompt = null;
