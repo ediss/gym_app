@@ -34,7 +34,7 @@
 
     
     <link rel="icon" type="image/svg+xml" href="{{ asset('frontend/images/logo.svg') }}" sizes="64x64"> <!-- Desktop browser icon -->
-    <link rel="manifest" href="{{ asset('frontend/.webmanifest') }}">
+    <link rel="manifest" href="{{ asset('frontend/manifest.json') }}">
 
 
     @yield('custom-css')

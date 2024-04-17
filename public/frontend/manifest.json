@@ -1,0 +1,16 @@
+{
+    "name": "My App",
+    "short_name": "Awesome App",
+    "icons": [
+        {
+            "src": "../frontend/images/logo.svg",
+            "type": "image/svg+xml",
+            "sizes": "192x192"
+        }
+    ],
+    "start_url": "/home?source=pwa",
+    "display": "standalone",
+    "theme_color": "#ffffff",
+    "background_color": "#fefefe",
+    "description": "My Awesome App that will make you fall in love with Laravel."
+}
