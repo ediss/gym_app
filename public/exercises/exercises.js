@@ -1,9 +1,9 @@
-const workouts = document.getElementById('workout');
+const workouts = document.querySelector('#workout');
 
 async function searchExercises() {
-    const exerciseInput = document.getElementById("searchExercises");
-    const exerciseCategories = document.getElementById("exerciseCategories");
-    const exerciseResults = document.getElementById("exerciseResults");
+    const exerciseInput = document.querySelector("#searchExercises");
+    const exerciseCategories = document.querySelector("#exerciseCategories");
+    const exerciseResults = document.querySelector("#exerciseResults");
     const usageType = exerciseInput.dataset.usageType;
 
     const appointmentID = exerciseInput.dataset.appointment ?? null;
@@ -47,15 +47,20 @@ categoryElements.forEach(category => {
         const usageType = category.dataset.usageType;
         const appointmentID = category.dataset.appointmentId ?? null;
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        const exerciseResults = document.querySelector('#exerciseResults');
+
+
+        
 
         if (workouts.style.display === "none") {
+
+            exerciseResults.style.display = "none";
             workouts.style.display = "block"; // Show workouts if currently hidden
             return; // Exit the function if workouts were hidden
-        } else {
-            workouts.style.display === "none";
+        }else {
+            exerciseResults.style.display = "block";
+            workouts.style.display = "none"
         }
-
-
         const apiUrl = '/coach/category-exercises';
 
         const postData = {
@@ -81,7 +86,6 @@ categoryElements.forEach(category => {
             }
 
             const data = await response.text();
-            const exerciseResults = document.getElementById('exerciseResults');
 
             if (data.length > 0) {
                 // Display the results
