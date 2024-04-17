@@ -48,7 +48,10 @@ categoryElements.forEach(category => {
         const appointmentID = category.dataset.appointmentId ?? null;
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-        workouts.style.display = "none";
+        if (workouts.style.display === "none") {
+            workouts.style.display = "block"; // Show workouts if currently hidden
+            return; // Exit the function if workouts were hidden
+        }
 
 
         const apiUrl = '/coach/category-exercises';
