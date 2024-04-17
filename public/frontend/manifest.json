@@ -4,7 +4,8 @@
     "icons": [
         {
             "src": "../frontend/images/logo5.ico",
-            "type": "image/vnd"
+            "type": "image/vnd",
+            "sizes": "16x16"
         }
     ],
     "start_url": "/login",

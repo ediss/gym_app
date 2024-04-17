@@ -33,7 +33,7 @@
     {{-- <link rel="shortcut icon" href="{{ asset('frontend/images/logo2.ico') }}" sizes="any"> --}}
 
     
-    <link rel="shortcut icon" href="{{ asset('frontend/images/logo5.ico') }}"> <!-- Desktop browser icon -->
+    <link rel="shortcut icon" href="{{ asset('frontend/images/logo5.ico') }}" sizes="16x16"> <!-- Desktop browser icon -->
     <link rel="manifest" href="{{ asset('frontend/manifest.json') }}">
 
 
