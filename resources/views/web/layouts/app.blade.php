@@ -48,6 +48,9 @@
         window.addEventListener("beforeinstallprompt", (event) => {
             event.preventDefault();
             installPrompt = event;
+
+            const result = await installPrompt.prompt();
+            console.log(`Install prompt was: ${result.outcome}`);
         });
 
         addEventListener("load", (event) => {
