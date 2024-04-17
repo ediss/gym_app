@@ -53,35 +53,11 @@
         window.addEventListener("beforeinstallprompt", (event) => {
             event.preventDefault();
             installPrompt = event;
-            //coverDiv.classList.remove("d-none");
-
-
-        });
-
-        document.addEventListener("DOMContentLoaded", async () => {
-            if (installPrompt) {
-                try {
-                    const result = await installPrompt.prompt(); // Trigger the installation prompt
-                    console.log(`Install prompt was: ${result.outcome}`);
-                    // Optionally, you can perform actions based on the user's response
-                } catch (err) {
-                    console.error("Error prompting installation:", err);
-                }
-            }
+            coverDiv.classList.remove("d-none");
         });
 
 
-        // installButton.addEventListener("click", async () => {
-        //     if (!installPrompt) {
-        //         return;
-        //     }
-        //     const result = await installPrompt.prompt();
-        //     console.log(`Install prompt was: ${result.outcome}`);
-        //     disableInAppInstallPrompt();
-        // });
-
-        document.addEventListener("DOMContentLoaded", async () => {
-
+        installButton.addEventListener("click", async () => {
             if (!installPrompt) {
                 return;
             }
@@ -89,6 +65,7 @@
             console.log(`Install prompt was: ${result.outcome}`);
             disableInAppInstallPrompt();
         });
+
 
         function disableInAppInstallPrompt() {
             installPrompt = null;
