@@ -16,6 +16,8 @@
 
     <!--start main content-->
     <main class="page-content">
+        <button id="install" hidden>Install</button>
+
         @yield('content')
     </main>
     <!--end main content-->
@@ -40,15 +42,51 @@
     @yield('scripts')
 
     <script>
+        let installPrompt = null;
+        const installButton = document.querySelector("#install");
+
+        window.addEventListener("beforeinstallprompt", (event) => {
+            event.preventDefault();
+            installPrompt = event;
+            installButton.removeAttribute("hidden");
+        });
+
+
+        installButton.addEventListener("click", async () => {
+            if (!installPrompt) {
+                return;
+            }
+            const result = await installPrompt.prompt();
+            console.log(`Install prompt was: ${result.outcome}`);
+            disableInAppInstallPrompt();
+        });
+
+        function disableInAppInstallPrompt() {
+            installPrompt = null;
+            installButton.setAttribute("hidden", "");
+        }
+
+
+        window.addEventListener("appinstalled", () => {
+            disableInAppInstallPrompt();
+        });
+
+        function disableInAppInstallPrompt() {
+            installPrompt = null;
+            installButton.setAttribute("hidden", "");
+        }
+    </script>
+
+    <script>
         function isRunningStandalone() {
             return (window.matchMedia('(display-mode: standalone)').matches);
         }
-        
+
         if (isRunningStandalone()) {
-                alert('da')
+            //     alert('da')
             /* This code will be executed if app is running standalone */
-        }else {
-                alert('norun')
+        } else {
+            //     alert('norun')
         }
     </script>
 </body>
