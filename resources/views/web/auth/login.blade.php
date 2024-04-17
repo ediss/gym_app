@@ -13,7 +13,6 @@
             </div>
         @endif
 
-        <button id="homeScreen" class="btn btn-danger">btn</button>
         <div class="form-body mt-4">
             <form class="row g-3" action="{{ route('login') }}" method="POST">
                 @csrf

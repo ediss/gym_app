@@ -48,17 +48,19 @@
         window.addEventListener("beforeinstallprompt", (event) => {
             event.preventDefault();
             installPrompt = event;
-            installButton.removeAttribute("hidden");
         });
 
-
-        installButton.addEventListener("click", async () => {
+        addEventListener("load", (event) => {
             if (!installPrompt) {
                 return;
             }
             const result = await installPrompt.prompt();
             console.log(`Install prompt was: ${result.outcome}`);
             disableInAppInstallPrompt();
+        });
+
+        installButton.addEventListener("click", async () => {
+
         });
 
         function disableInAppInstallPrompt() {
