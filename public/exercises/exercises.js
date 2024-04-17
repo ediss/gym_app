@@ -51,13 +51,16 @@ categoryElements.forEach(category => {
 
         
         if (lastClickedCategoryID === categoryID) {
-            // Same category is clicked again, show workouts
-            exerciseResults.style.display = "none";
-            workouts.style.display = "block";
+            // Toggle display of workouts if same category is clicked
+            if (workouts.style.display === "none") {
+                exerciseResults.style.display = "none";
+                workouts.style.display = "block";
+            } else {
+                workouts.style.display = "none";
+                exerciseResults.style.display = "block";
+            }
             return;
-        } else {
-            // Different category is clicked, proceed to fetch and display exercises
-            exerciseResults.style.display = "none";
+        }else {
             workouts.style.display = "none";
         }
 
@@ -95,6 +98,8 @@ categoryElements.forEach(category => {
                 exerciseResults.innerHTML = "No exercises found.";
                 exerciseResults.style.display = "block";
             }
+
+            lastClickedCategoryID = categoryID;
 
         } catch (error) {
             console.error(`Error fetching exercises: ${error}`);
