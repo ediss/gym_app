@@ -53,7 +53,7 @@
         window.addEventListener("beforeinstallprompt", (event) => {
             event.preventDefault();
             installPrompt = event;
-            coverDiv.removeAttribute("d-none");
+            coverDiv.removeClass("d-none");
         });
 
 
