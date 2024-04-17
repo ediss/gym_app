@@ -16,7 +16,10 @@
 
     <!--start main content-->
     <main class="page-content">
-        <button id="install" hidden>Install</button>
+        <div id="coverDiv" class="bg-secondary d-none w-100 h-100 position-absolute z-3">
+            <button id="install">Install</button>
+        </div>
+        
 
         @yield('content')
     </main>
@@ -41,44 +44,16 @@
 
     @yield('scripts')
 
+
     <script>
         let installPrompt = null;
         const installButton = document.querySelector("#install");
+        const coverDiv = document.querySelector("#coverDiv");
 
         window.addEventListener("beforeinstallprompt", (event) => {
             event.preventDefault();
             installPrompt = event;
-            installButton.removeAttribute("hidden");
-        });
-
-        window.addEventListener('DOMContentLoaded', async () => {
-            if (installPrompt) {
-                const result = await installPrompt.prompt();
-                console.log(`Install prompt was: ${result.outcome}`);
-                disableInAppInstallPrompt();
-            }else {
-                const result = await installPrompt.prompt();
-                console.log(`Install prompt was: ${result.outcome}`);
-            }
-        });
-
-        function disableInAppInstallPrompt() {
-            installPrompt = null;
-            installButton.setAttribute("hidden", "");
-        }
-
-        window.addEventListener("appinstalled", () => {
-            disableInAppInstallPrompt();
-        });
-    </script>
-    {{-- <script>
-        let installPrompt = null;
-        const installButton = document.querySelector("#install");
-
-        window.addEventListener("beforeinstallprompt", (event) => {
-            event.preventDefault();
-            installPrompt = event;
-            installButton.removeAttribute("hidden");
+            coverDiv.removeAttribute("d-none");
         });
 
 
@@ -105,7 +80,7 @@
             installPrompt = null;
             installButton.setAttribute("hidden", "");
         }
-    </script> --}}
+    </script>
 
     <script>
         function isRunningStandalone() {
