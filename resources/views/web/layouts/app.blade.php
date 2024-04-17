@@ -45,7 +45,7 @@
     @yield('scripts')
 
 
-    <script type="module">
+    <script>
 
         let installPrompt = null;
         const installButton = document.querySelector("#install");
