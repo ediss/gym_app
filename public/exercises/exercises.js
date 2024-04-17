@@ -39,7 +39,9 @@ async function searchExercises() {
 
 //get category exercises
 const categoryElements = document.querySelectorAll('.category');
+const exerciseResults = document.querySelector('#exerciseResults');
 let lastClickedCategoryID = null;
+
 categoryElements.forEach(category => {
     category.addEventListener('click', async () => {
         // Retrieve the category ID or other necessary data from the element.
@@ -47,8 +49,6 @@ categoryElements.forEach(category => {
         const usageType = category.dataset.usageType;
         const appointmentID = category.dataset.appointmentId ?? null;
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        const exerciseResults = document.querySelector('#exerciseResults');
-
         
         if (lastClickedCategoryID === categoryID) {
             // Toggle display of workouts if same category is clicked
@@ -59,11 +59,12 @@ categoryElements.forEach(category => {
                 workouts.style.display = "none";
                 exerciseResults.style.display = "block";
             }
-            return;
+            return; //exit from function
         }else {
             workouts.style.display = "none";
         }
 
+        
         const apiUrl = '/coach/category-exercises';
 
         const postData = {

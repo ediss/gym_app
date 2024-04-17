@@ -17,17 +17,18 @@
     <!--start main content-->
     <main class="page-content">
         {{--  --}}
-        <div id="coverDiv" class="d-none bg-dark-subtle w-100 h-100 position-absolute z-2 start-0 top-0 end-0 d-flex align-items-center justify-content-center">
+        <div id="coverDiv"
+            class="d-none bg-dark-subtle w-100 h-100 position-absolute z-2 start-0 top-0 end-0 d-flex align-items-center justify-content-center">
             <div class="row text-center">
                 <div class="col-8 offset-2 col-md-12 offset-md-0 mt-3 mb-5">
-                    <img src="{{ asset('frontend/images/logo.png') }}"  class="img-fluid">
+                    <img src="{{ asset('frontend/images/logo.png') }}" class="img-fluid">
                 </div>
                 <div class="col-12 w-100 mt-5">
                     <button id="install" class="btn btn-warning text-white">Install FitPal as Mobile App</button>
                 </div>
-                
+
             </div>
-            
+
         </div>
 
 
@@ -86,6 +87,24 @@
         window.addEventListener("appinstalled", () => {
             disableInAppInstallPrompt();
         });
+    </script>
+
+
+    <script>
+        // Detects if device is on iOS 
+        const isIos = () => {
+            const userAgent = window.navigator.userAgent.toLowerCase();
+            return /iphone|ipad|ipod/.test(userAgent);
+        }
+        // Detects if device is in standalone mode
+        const isInStandaloneMode = () => ('standalone' in window.navigator) && (window.navigator.standalone);
+
+        // Checks if should display install popup notification:
+        if (isIos() && !isInStandaloneMode()) {
+            this.setState({
+                showInstallMessage: true
+            });
+        }
     </script>
 </body>
 
