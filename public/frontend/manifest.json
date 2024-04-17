@@ -1,6 +1,6 @@
 {
-    "name": "My App",
-    "short_name": "Awesome App",
+    "name": "FitPal",
+    "short_name": "FitPal",
     "icons": [
         {
             "src": "../frontend/images/logo.svg",
@@ -8,9 +8,7 @@
             "sizes": "192x192"
         }
     ],
-    "start_url": "/home?source=pwa",
     "display": "standalone",
     "theme_color": "#ffffff",
-    "background_color": "#fefefe",
-    "description": "My Awesome App that will make you fall in love with Laravel."
+    "background_color": "#fefefe"
 }
