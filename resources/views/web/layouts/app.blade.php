@@ -19,7 +19,7 @@
         {{--  --}}
         <div id="coverDiv" class=" d-none bg-dark-subtle w-100 h-100 position-absolute z-2 start-0 top-0 end-0 d-flex align-items-center justify-content-center">
             <div class="row text-center">
-                <div class="col-12 w-100 mt-3 mb-5">
+                <div class="col-8 offset-2 col-md-12 offset-md-0 mt-3 mb-5">
                     <img src="{{ asset('frontend/images/logo.png') }}"  class="img-fluid">
                 </div>
                 <div class="col-12 w-100 mt-5">
