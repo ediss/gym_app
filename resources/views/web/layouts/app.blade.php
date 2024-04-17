@@ -19,7 +19,7 @@
         <div id="coverDiv" class="bg-dark-subtle d-none w-100 h-100 position-absolute z-3 start-0 top-0">
             <button id="install">Install</button>
         </div>
-        
+
 
         @yield('content')
     </main>
@@ -46,7 +46,6 @@
 
 
     <script>
-
         let installPrompt = null;
         const installButton = document.querySelector("#install");
         const coverDiv = document.querySelector("#coverDiv");
@@ -59,7 +58,17 @@
 
         });
 
-        installButton.addEventListener("click", async () => {
+        // installButton.addEventListener("click", async () => {
+        //     if (!installPrompt) {
+        //         return;
+        //     }
+        //     const result = await installPrompt.prompt();
+        //     console.log(`Install prompt was: ${result.outcome}`);
+        //     disableInAppInstallPrompt();
+        // });
+
+        document.addEventListener("DOMContentLoaded", async () => {
+            
             if (!installPrompt) {
                 return;
             }
