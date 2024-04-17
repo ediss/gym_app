@@ -8,7 +8,6 @@ use App\Http\Requests\Client\DeleteClientRequest;
 use App\Models\Client;
 use App\Models\Coach;
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 
 class ClientController extends Controller
 {
@@ -28,6 +27,7 @@ class ClientController extends Controller
     public function createClientForm() {
         return view('web.coach.clients.create');
     }
+
     public function store(CreateClientRequest $request) {
 
         $validatedData = $request->validated();

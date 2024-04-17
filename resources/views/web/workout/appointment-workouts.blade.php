@@ -22,12 +22,14 @@
                             </button>
                         </h1>
 
-                        <div id="flush-collapse{{ $counter }}" class="accordion-collapse collapse"
+                        <a>
+                        <div id="flush-collapse{{ $counter }}" class="accordion-collapse collapse add-more-reps"
                              aria-labelledby="flush-heading{{ $counter }}" data-bs-parent="#accordionFlushExample">
                             <div class="accordion-body px-0">
                                 @include('web.workout.exercises', ['workouts' => $workout])
                             </div>
                         </div>
+                        </a>
                     </div>
 
                 @endforeach

@@ -97,6 +97,8 @@ class AppointmentController extends Controller
 
 
     }
+
+    //scope with coach
     public function startAppointment(ExerciseCategoryService $service, $appointmentID = null) {
 
         $categories = $service->getExerciseCategories();

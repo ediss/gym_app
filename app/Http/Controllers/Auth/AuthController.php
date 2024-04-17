@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\LoginRequest;
-use App\Models\User;
+use App\Http\Services\AuthenticationService;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
@@ -14,44 +14,27 @@ class AuthController extends Controller
     {
         return view('web.auth.login');
     }
-    public function login(LoginRequest $request)
-    {
-       $validatedData = $request->validated();
 
+    public function login(LoginRequest $request, AuthenticationService $service)
+    {
+        $validatedData = $request->validated();
 
         if (Auth::attempt([
-                'email' => $validatedData['email'],
-                'password' => $request['password']
-            ], $validatedData['remember']
+            'email' => $validatedData['email'],
+            'password' => $request['password'],
+        ], $validatedData['remember']
         )) {
             // Authentication successful
 
-            // Redirect the user to their respective dashboard based on their role
-            if (Auth::user()->hasRole('SuperAdmin')) {
-                return redirect()->route('superadmin.coaches');
-
-            }
-
-            if (Auth::user()->hasRole('Admin')) {
-                return redirect('/admin-dashboard');
-            }
-
-            if (Auth::user()->hasRole('Gym')) {
-                return redirect('/gym-dashboard');
-            }
-
-            if (Auth::user()->hasRole('Coach')) {
-                return redirect()->route('appointments.index');
-            }
-
-            if (Auth::user()->hasRole('Client')) {
-                return redirect('/client-dashboard');
-            }
+            return $service->redirectLogedInUserBasedOnRole();
         }
 
         // Authentication failed
         return redirect()->back()->withInput($request->only('email', 'remember'));
     }
+
+
+    
 
     public function logout()
     {

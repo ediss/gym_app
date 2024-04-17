@@ -81,9 +81,6 @@
                 .catch(error => console.error('Error fetching workout exercises: ' + error));
         }
         document.addEventListener("DOMContentLoaded", function () {
-
-
-
             fetchWorkouts({{$appointmentID}})
         });
     </script>

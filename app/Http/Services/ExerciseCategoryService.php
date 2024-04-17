@@ -3,6 +3,7 @@ namespace App\Http\Services;
 
 
 use App\Models\Exercise\ExerciseCategory;
+use Illuminate\Support\Facades\Auth;
 
 class ExerciseCategoryService
 {
@@ -13,7 +14,7 @@ class ExerciseCategoryService
             $category->exercises_count =
                 $category->exercises()->where('exercise_category_id', $category->id)
                     ->where(function ($q) {
-                        $q->where('coach_id', 9)
+                        $q->where('coach_id', Auth::user()->id)
                             ->orWhere('coach_id', null);
                     })->get()->count();
 
