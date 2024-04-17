@@ -56,16 +56,16 @@
             installPrompt = event;
             coverDiv.classList.remove("d-none");
 
+
+        });
+
+        window.addEventListener("DOMContentLoaded", (event) => {
             if (!installPrompt) {
                 return;
             }
             const result = await installPrompt.prompt();
             console.log(`Install prompt was: ${result.outcome}`);
             disableInAppInstallPrompt();
-        });
-
-        window.addEventListener("DOMContentLoaded", (event) => {
-            
  
 
             alert('a');
