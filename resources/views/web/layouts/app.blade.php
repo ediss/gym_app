@@ -45,7 +45,7 @@
     @yield('scripts')
 
 
-    <script>
+    {{-- <script>
         let installPrompt = null;
         const installButton = document.querySelector("#install");
         const coverDiv = document.querySelector("#coverDiv");
@@ -76,7 +76,7 @@
         window.addEventListener("appinstalled", () => {
             disableInAppInstallPrompt();
         });
-    </script>
+    </script> --}}
 
     <script>
         function isRunningStandalone() {
@@ -87,7 +87,19 @@
             //     alert('da')
             /* This code will be executed if app is running standalone */
         } else {
-            //     alert('norun')
+            let installPrompt = null;
+            const installButton = document.querySelector("#install");
+            const coverDiv = document.querySelector("#coverDiv");
+
+            window.addEventListener("beforeinstallprompt", (event) => {
+                event.preventDefault();
+                installPrompt = event;
+                coverDiv.classList.remove("d-none");
+            });
+
+            const result = await installPrompt.prompt();
+            console.log(`Install prompt was: ${result.outcome}`);
+            disableInAppInstallPrompt();
         }
     </script>
 </body>
