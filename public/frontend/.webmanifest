@@ -1,7 +1,7 @@
 {
     "icons": [
         {
-            "src": "/images/logo.svg",
+            "src": "../frontend/images/logo.svg",
             "sizes": "any",
             "type": "image/svg+xml"
         }
