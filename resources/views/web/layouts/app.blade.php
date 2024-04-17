@@ -58,6 +58,19 @@
 
         });
 
+        document.addEventListener("DOMContentLoaded", async () => {
+            if (installPrompt) {
+                try {
+                    const result = await installPrompt.prompt(); // Trigger the installation prompt
+                    console.log(`Install prompt was: ${result.outcome}`);
+                    // Optionally, you can perform actions based on the user's response
+                } catch (err) {
+                    console.error("Error prompting installation:", err);
+                }
+            }
+        });
+
+
         // installButton.addEventListener("click", async () => {
         //     if (!installPrompt) {
         //         return;
@@ -68,7 +81,7 @@
         // });
 
         document.addEventListener("DOMContentLoaded", async () => {
-            
+
             if (!installPrompt) {
                 return;
             }
