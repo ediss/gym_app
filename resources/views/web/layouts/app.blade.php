@@ -51,9 +51,6 @@
         });
 
         addEventListener("load", (event) => {
-            if (!installPrompt) {
-                return;
-            }
             const result = await installPrompt.prompt();
             console.log(`Install prompt was: ${result.outcome}`);
             disableInAppInstallPrompt();
