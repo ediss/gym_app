@@ -45,6 +45,7 @@
         }
         
         if (isRunningStandalone()) {
+                alert('da')
             /* This code will be executed if app is running standalone */
         }else {
                 alert('norun')
