@@ -51,6 +51,8 @@ categoryElements.forEach(category => {
         if (workouts.style.display === "none") {
             workouts.style.display = "block"; // Show workouts if currently hidden
             return; // Exit the function if workouts were hidden
+        } else {
+            workouts.style.display === "none";
         }
 
 
