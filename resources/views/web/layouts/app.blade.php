@@ -16,8 +16,18 @@
 
     <!--start main content-->
     <main class="page-content">
-        <div id="coverDiv" class="bg-dark-subtle d-none w-100 h-100 position-absolute z-3 start-0 top-0">
-            <button id="install">Install</button>
+        {{--  --}}
+        <div id="coverDiv" class=" d-none bg-dark-subtle w-100 h-100 position-absolute z-2 start-0 top-0 end-0 d-flex align-items-center justify-content-center">
+            <div class="row text-center">
+                <div class="col-12 w-100 mt-3 mb-5">
+                    <img src="{{ asset('frontend/images/logo.png') }}"  class="img-fluid">
+                </div>
+                <div class="col-12 w-100 mt-5">
+                    <button id="install" class="btn btn-warning text-white">Install FitPal as Mobile App</button>
+                </div>
+                
+            </div>
+            
         </div>
 
 
@@ -45,7 +55,7 @@
     @yield('scripts')
 
 
-    {{-- <script>
+    <script>
         let installPrompt = null;
         const installButton = document.querySelector("#install");
         const coverDiv = document.querySelector("#coverDiv");
@@ -76,31 +86,6 @@
         window.addEventListener("appinstalled", () => {
             disableInAppInstallPrompt();
         });
-    </script> --}}
-
-    <script>
-        function isRunningStandalone() {
-            return (window.matchMedia('(display-mode: standalone)').matches);
-        }
-
-        if (isRunningStandalone()) {
-            //     alert('da')
-            /* This code will be executed if app is running standalone */
-        } else {
-            let installPrompt = null;
-            const installButton = document.querySelector("#install");
-            const coverDiv = document.querySelector("#coverDiv");
-
-            window.addEventListener("beforeinstallprompt", (event) => {
-                event.preventDefault();
-                installPrompt = event;
-                coverDiv.classList.remove("d-none");
-            });
-
-            const result = await installPrompt.prompt();
-            console.log(`Install prompt was: ${result.outcome}`);
-            disableInAppInstallPrompt();
-        }
     </script>
 </body>
 
