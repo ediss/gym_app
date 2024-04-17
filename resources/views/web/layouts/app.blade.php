@@ -70,7 +70,6 @@
 
         function disableInAppInstallPrompt() {
             installPrompt = null;
-            installButton.setAttribute("hidden", "");
             coverDiv.classList.add("d-none");
         }
 
@@ -78,12 +77,6 @@
         window.addEventListener("appinstalled", () => {
             disableInAppInstallPrompt();
         });
-
-        function disableInAppInstallPrompt() {
-            installPrompt = null;
-            installButton.setAttribute("hidden", "");
-            coverDiv.classList.add("d-none");
-        }
     </script>
 
     <script>
