@@ -3,7 +3,8 @@
         {
             "src": "../frontend/images/logo.svg",
             "sizes": "any",
-            "type": "image/svg+xml"
+            "type": "image/svg+xml",
+            "name": "TEST"
         }
     ]
 }
