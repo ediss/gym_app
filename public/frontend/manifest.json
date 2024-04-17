@@ -8,7 +8,7 @@
             "sizes": "192x192"
         }
     ],
-    "start_url": "/home?source=pwa",
+    "start_url": "/login",
     "display": "standalone",
     "theme_color": "#ffffff",
     "background_color": "#fefefe"
