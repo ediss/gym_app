@@ -33,13 +33,13 @@
                 <!--                <label class="form-label">Date Format</label>-->
                 <!--                <input type="hidden" class="form-control date-format flatpickr-input" value="2023-04-21"><input class="form-control date-format input" placeholder="" tabindex="0" type="text" readonly="readonly">-->
 
-                <h1>Appointments</h1>
+                <h2 class="m-0">Appointments</h2>
             </div>
 
 
             <div class="text-warning ms-auto">
-                <a href="{{route('appointment.create')}}" class=" btn btn-outline-warning px-0 radius-30 border-0">
-                    <span class="material-symbols-outlined font-40 w-100">add</span>
+                <a href="{{route('appointment.create')}}" class="  p-0">
+                    <span class="material-symbols-outlined font-40 w-100 text-warning">add</span>
                 </a>
             </div>
         </div>

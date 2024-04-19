@@ -83,7 +83,8 @@
                         <input type="hidden" name="exercise_id" value="{{ $exercise->id }}">
                         <input type="hidden" name="client_id" value="{{ $appointment->client->id }}">
                         <input type="hidden" name="appointment_id" value="{{ $appointment->id }}">
-                        <input type="hidden" name="coach_id" value="9">
+                        <input type="hidden" name="coach_id" value="{{ Auth::user()->id }}">
+
                         @if (str_contains($exerciseTypeName, 'Weight'))
                             <div>
                                 Weight

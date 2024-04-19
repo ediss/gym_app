@@ -31,8 +31,42 @@
 
         </div>
 
+        <div class="mb-5">
+            @yield('content')
+        </div>
 
-        @yield('content')
+        <div class="fixed-bottom w-100 mt-5" style="background-color: #191b1e">
+
+            <div class="hstack align-items-center justify-content-between p-3 border-top">
+                <div class="w-100 text-center">
+                    <h6 class="mb-0 fw-bold">
+                        <a href="/" class="{{ request()->routeIs('appointments.index') ? '' : 'opacity-25' }}">
+                            <span class="material-symbols-outlined font-30 text-warning">home</span>
+                        </a>
+                    </h6>
+                </div>
+                <div class="vr"></div>
+                <div class="w-100 text-center">
+                    <h6 class="mb-0 fw-bold">
+                        <a href="{{ route('exercises.index') }}"
+                            class="{{ request()->routeIs('exercises.index') ? '' : 'opacity-25' }}">
+                            <span class="material-symbols-outlined font-30 text-warning">exercise</span>
+                        </a>
+                    </h6>
+                </div>
+                <div class="vr"></div>
+                <div class="w-100 text-center">
+                    <h6 class="mb-0 fw-bold">
+                        <a href="{{ route('coach.clients') }}"
+                            class="{{ request()->routeIs('coach.clients') ? '' : 'opacity-25' }}">
+                            <span class="material-symbols-outlined font-30 text-warning">group</span>
+                        </a>
+                    </h6>
+                </div>
+            </div>
+
+
+        </div>
     </main>
     <!--end main content-->
 
@@ -144,17 +178,6 @@
                 );
             },
         };
-
-        // use this to check if the user is already using your PWA - no need to prompt if in standalone
-        function isStandalone(): boolean {
-            const isStandalone = window.matchMedia("(display-mode: standalone)").matches;
-            if (document.referrer.startsWith("android-app://")) {
-                return true; // Trusted web app
-            } else if ("standalone" in navigator || isStandalone) {
-                return true;
-            }
-            return false;
-        }
     </script>
 </body>
 

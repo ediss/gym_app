@@ -98,10 +98,10 @@
 
         // Initialize the flatpickr instance for appointment start
         let flatpickrStart = flatpickr(appointmentStart, {
-            mode: "multiple",
+            // mode: "multiple",
             enableTime: true,
             time_24hr: true,
-            disableMobile: true,
+            // disableMobile: true,
             noCalendar: true,
             dateFormat: "H:i",
             // defaultDate: new Date(0, 0, 0, 7, 0),
@@ -122,7 +122,6 @@
         let flatpickrEnd = flatpickr(appointmentEnd, {
             enableTime: true,
             time_24hr: true,
-            disableMobile: true,
             noCalendar: true,
             // defaultDate: new Date(0, 0, 0, 8, 0),
         });

@@ -63,6 +63,7 @@ class WorkoutController extends Controller
 
         $appointment = Appointment::find($appointmentID);
         $exercise = Exercise::find($exerciseID);
+        
 
         $exerciseType = ExerciseType::find($exercise->exercise_type_id);
 
@@ -91,15 +92,17 @@ class WorkoutController extends Controller
     }
 
 
+    //maybe route model binding?
+
     public function store(CreateWorkoutRequest $request)
     {
 
         $validatedData = $request->validated();
 
-        $existingRecord = Workout::where('appointment_id', $validatedData['appointment_id'])->first();
+        $existingRecord = Workout::where('appointment_id', $request->appointment_id)->first();
 
         if (!$existingRecord) {
-            $appointment = Appointment::find($validatedData['appointment_id']);
+            $appointment = Appointment::find($request->appointment_id);
 
             $appointment->status = 'In progress';
 
@@ -111,8 +114,8 @@ class WorkoutController extends Controller
         // Check if a record with a specific condition already exists
 
 
-        $workouts = Workout::where('appointment_id', $validatedData['appointment_id'])
-            ->where('exercise_id', $validatedData['exercise_id'])
+        $workouts = Workout::where('appointment_id', $request->appointment_id)
+            ->where('exercise_id', $request->exercise_id)
             ->get();
 
         return view('web.workout.exercises', ['workouts' => $workouts]);

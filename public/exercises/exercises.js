@@ -50,21 +50,22 @@ categoryElements.forEach(category => {
         const appointmentID = category.dataset.appointmentId ?? null;
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         
-        if (lastClickedCategoryID === categoryID) {
-            // Toggle display of workouts if same category is clicked
-            if (workouts.style.display === "none") {
-                exerciseResults.style.display = "none";
-                workouts.style.display = "block";
-            } else {
+        if(workouts){
+            if (lastClickedCategoryID === categoryID) {
+                // Toggle display of workouts if same category is clicked
+                if (workouts.style.display === "none") {
+                    exerciseResults.style.display = "none";
+                    workouts.style.display = "block";
+                } else {
+                    workouts.style.display = "none";
+                    exerciseResults.style.display = "block";
+                }
+                return; //exit from function
+            }else {
                 workouts.style.display = "none";
-                exerciseResults.style.display = "block";
             }
-            return; //exit from function
-        }else {
-            workouts.style.display = "none";
         }
 
-        
         const apiUrl = '/coach/category-exercises';
 
         const postData = {
@@ -107,9 +108,7 @@ categoryElements.forEach(category => {
         }
 
         $(document).on('click', '.submitForm', function() {
-
             const form = $(this).closest('form');
-            form.attr('method', 'POST'); // Set the form method to POST
             form.submit();
         });
     });
