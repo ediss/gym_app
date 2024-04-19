@@ -26,7 +26,7 @@ class AuthController extends Controller
         )) {
             // Authentication successful
 
-            return $service->redirectLogedInUserBasedOnRole();
+            return $service->redirectLoggedInUserBasedOnRole();
         }
 
         // Authentication failed

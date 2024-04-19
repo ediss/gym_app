@@ -4,7 +4,7 @@ namespace App\Http\Services;
 use Illuminate\Support\Facades\Auth;
 
 class AuthenticationService {
-    public function redirectLogedInUserBasedOnRole() {
+    public function redirectLoggedInUserBasedOnRole() {
 
         
         /** 

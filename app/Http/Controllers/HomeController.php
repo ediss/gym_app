@@ -9,9 +9,11 @@ class HomeController extends Controller
 {
     public function index(AuthenticationService $service) {
         if(Auth::check()) {
-            return $service->redirectLogedInUserBasedOnRole();
+            return $service->redirectLoggedInUserBasedOnRole();
         }else {
             return redirect("/login");
         }
+
+        
     }
 }
