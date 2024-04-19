@@ -74,7 +74,7 @@
             fetchWorkouts({{ $appointment->id }})
         });
         //used on 2 places
-        function fetchWorkouts(appointment->id) {
+        function fetchWorkouts(appointmentId) {
             fetch('{{ route('appointment.workouts') }}', {
                     method: 'POST',
                     body: JSON.stringify({
