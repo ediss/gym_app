@@ -5,7 +5,7 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>GYM APP</title>
+    <title>FitPal</title>
 
     <!--plugins-->
     <link href="{{  asset('frontend/plugins/perfect-scrollbar/css/perfect-scrollbar.css') }}" rel="stylesheet">
