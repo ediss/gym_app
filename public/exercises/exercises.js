@@ -65,7 +65,7 @@ async function handleCategoryClick(category) {
     if (workouts && lastClickedCategoryID === categoryID) {
         toggleWorkouts();
         return;
-    } else if (workouts) {
+    } else {
         workouts.style.display = "none";
     }
 
