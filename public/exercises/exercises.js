@@ -101,6 +101,11 @@ async function handleCategoryClick(category) {
     } catch (error) {
         console.error(`Error fetching exercises: ${error}`);
     }
+
+    $(document).on('click', '.submitForm', function() {
+        const form = $(this).closest('form');
+        form.submit();
+    });
 }
 
 // Event listener for category click
