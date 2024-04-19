@@ -105,6 +105,7 @@ class AppointmentController extends Controller
 
         $appointment = Appointment::find($appointmentID);
 
+
         //todo find better solution
         if($appointment->coach_id !== Auth::user()->id) {
             abort(403, 'Unauthorized');
@@ -112,7 +113,7 @@ class AppointmentController extends Controller
 
         return view('web.coach.appointments.start-appointment', [
             'categories' => $categories,
-            'appointmentID' => $appointmentID,
+            'appointment' => $appointment,
         ]);
     }
 

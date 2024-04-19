@@ -92,6 +92,7 @@ async function handleCategoryClick(category) {
             exerciseResults.innerHTML = data;
             exerciseResults.style.display = "block";
         } else {
+            console.log(exerciseResults);
             exerciseResults.innerHTML = "No exercises found.";
             exerciseResults.style.display = "block";
         }

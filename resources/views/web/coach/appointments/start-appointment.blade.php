@@ -16,13 +16,22 @@
         }
     </style>
 @endsection
+
+@section('header')
+    @php
+        $changeHeader = true;
+    @endphp
+    
+
+    <b class="ms-auto">{{ $appointment->client->name }}</b>
+@endsection
 @section('content')
     <div class="row">
         <div class="col-12 mb-4">
             <label class="w-100">
                 <input name="search_exercises" id="searchExercises" type="text" class="form-control" value=''
                     placeholder="Search..." oninput="searchExercises()" data-usage-type="start_appointment"
-                    data-appointment={{ $appointmentID }}>
+                    data-appointment={{ $appointment->id }}>
             </label>
         </div>
 
@@ -34,7 +43,7 @@
                         @foreach ($categories as $category)
                             <li class="d-flex justify-content-between align-items-center list-group-item category bg-transparent"
                                 data-category-id="{{ $category->id }}" data-usage-type="start_appointment"
-                                data-appointment-id={{ $appointmentID }}>
+                                data-appointment-id={{ $appointment->id }}>
                                 {{ $category->name }}
                                 <span class="badge border border-warning rounded-pill font-15 ">
                                     {{ count($category->exercises) }}
@@ -62,10 +71,10 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            fetchWorkouts({{ $appointmentID }})
+            fetchWorkouts({{ $appointment->id }})
         });
         //used on 2 places
-        function fetchWorkouts(appointmentId) {
+        function fetchWorkouts(appointment->id) {
             fetch('{{ route('appointment.workouts') }}', {
                     method: 'POST',
                     body: JSON.stringify({
