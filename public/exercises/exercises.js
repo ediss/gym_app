@@ -42,69 +42,67 @@ const categoryElements = document.querySelectorAll('.category');
 const exerciseResults = document.querySelector('#exerciseResults');
 let lastClickedCategoryID = null;
 
+const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+
+// Function to toggle display of workouts
+function toggleWorkouts() {
+    if (workouts.style.display === "none") {
+        exerciseResults.style.display = "none";
+        workouts.style.display = "block";
+    } else {
+        workouts.style.display = "none";
+        exerciseResults.style.display = "block";
+    }
+}
+
+// Function to handle category click event
+async function handleCategoryClick(category) {
+    const categoryID = category.dataset.categoryId;
+    const usageType = category.dataset.usageType;
+    const appointmentID = category.dataset.appointmentId ?? null;
+
+    if (workouts && lastClickedCategoryID === categoryID) {
+        toggleWorkouts();
+        return;
+    } else if (workouts) {
+        workouts.style.display = "none";
+    }
+
+    const apiUrl = '/coach/category-exercises/' + categoryID;
+    const postData = { usageType, appointmentID };
+
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfToken,
+        },
+        body: JSON.stringify(postData)
+    };
+
+    try {
+        const response = await fetch(apiUrl, requestOptions);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch exercises (${response.status})`);
+        }
+
+        const data = await response.text();
+        if (data.length > 0) {
+            exerciseResults.innerHTML = data;
+            exerciseResults.style.display = "block";
+        } else {
+            exerciseResults.innerHTML = "No exercises found.";
+            exerciseResults.style.display = "block";
+        }
+
+        lastClickedCategoryID = categoryID;
+    } catch (error) {
+        console.error(`Error fetching exercises: ${error}`);
+    }
+}
+
+// Event listener for category click
 categoryElements.forEach(category => {
-    category.addEventListener('click', async () => {
-        // Retrieve the category ID or other necessary data from the element.
-        const categoryID = category.dataset.categoryId;
-        const usageType = category.dataset.usageType;
-        const appointmentID = category.dataset.appointmentId ?? null;
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        
-        if(workouts){
-            if (lastClickedCategoryID === categoryID) {
-                // Toggle display of workouts if same category is clicked
-                if (workouts.style.display === "none") {
-                    exerciseResults.style.display = "none";
-                    workouts.style.display = "block";
-                } else {
-                    workouts.style.display = "none";
-                    exerciseResults.style.display = "block";
-                }
-                return; //exit from function
-            }else {
-                workouts.style.display = "none";
-            }
-        }
-
-        const apiUrl = '/coach/category-exercises/'+categoryID;
-
-
-        const postData = {
-            usageType: usageType,
-            appointmentID:appointmentID
-        };
-
-
-        const requestOptions = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrfToken,
-            },
-            body: JSON.stringify(postData) // Convert the data to JSON format
-
-        };
-        try {
-            const response = await fetch(apiUrl, requestOptions);
-            if (!response.ok) {
-                throw new Error(`HTTP error ${response.status}`);
-            }
-
-            const data = await response.text();
-
-            if (data.length > 0) {
-                // Display the results
-                exerciseResults.innerHTML = data;
-                exerciseResults.style.display = "block";
-            } else {
-                exerciseResults.innerHTML = "No exercises found.";
-                exerciseResults.style.display = "block";
-            }
-
-            lastClickedCategoryID = categoryID;
-
-        } catch (error) {
-            console.error(`Error fetching exercises: ${error}`);
-        }
-    });
+    category.addEventListener('click', () => handleCategoryClick(category));
 });
