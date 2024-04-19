@@ -66,10 +66,10 @@ categoryElements.forEach(category => {
             }
         }
 
-        const apiUrl = '/coach/category-exercises';
+        const apiUrl = '/coach/category-exercises/'+categoryID;
+
 
         const postData = {
-            categoryID: categoryID,
             usageType: usageType,
             appointmentID:appointmentID
         };
@@ -106,10 +106,5 @@ categoryElements.forEach(category => {
         } catch (error) {
             console.error(`Error fetching exercises: ${error}`);
         }
-
-        $(document).on('click', '.submitForm', function() {
-            const form = $(this).closest('form');
-            form.submit();
-        });
     });
 });

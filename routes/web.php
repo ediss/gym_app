@@ -67,7 +67,8 @@ Route::group(['prefix' => 'coach', 'middleware' => ['auth', 'role:Coach']], func
     Route::get('/exercise-create',          [ExerciseController::class, 'createExercise'])  ->name('exercise.create');
     Route::post('/exercise-store',          [ExerciseController::class, 'store'])           ->name('exercise.store');
     Route::get('/search-exercises',         [ExerciseController::class, 'searchExercises']);
-    Route::post('/category-exercises',      [ExerciseController::class, 'categoryExercises']);
+    
+    Route::post('/category-exercises/{id}',      [ExerciseController::class, 'categoryExercises'])->name('category.exercises');
 
     Route::get('exercise-edit/{exercise}', [ExerciseController::class, 'edit'])            ->name('exercise.edit');
     Route::post('/exercise-update/{exercise}',         [ExerciseController::class, 'update'])          ->name('exercise.update');

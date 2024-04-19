@@ -17,6 +17,9 @@
         @csrf
         <input type="hidden" value="{{$appointmentID}}" name="appointmentID">
         <input type="hidden" value="{{$exercise->id}}" name="exercise_id">
+        
+        
+        {{-- component --}}
         <div class="card radius-10 border-0 border-start border-warning border-4 submitForm">
             <div class="card-body">
                 <div class="d-flex align-items-center">

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Exercise;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Exercise\CreateExerciseRequest;
 use App\Http\Requests\Exercise\UpdateExerciseRequest;
-use App\Http\Resources\Exercise\ExerciseCategoryResource;
 use App\Http\Resources\Exercise\ExerciseResource;
 use App\Http\Resources\Exercise\ExerciseTypeResource;
 use App\Http\Services\ExerciseCategoryService;
@@ -39,17 +38,12 @@ class ExerciseController extends Controller
     }
 
     public function index(ExerciseCategoryService $service)
-    {
-
-        $categories = $service->getExerciseCategories();
-        $exercises = Exercise::where('coach_id', $this->coachID)
-            ->orWhereNull('coach_id')->get();
-
+    {   
         return view('web.coach.exercises.exercises', [
-            'exercises' => $exercises,
-            'categories' => $categories,
+            'categories' => $service->getCategoriesWithExercisesForCoach($this->coachID)
         ]);
     }
+
     public function searchExercises(Request $request)
     {
         $usageType = $request->input('usageType');
@@ -176,40 +170,27 @@ class ExerciseController extends Controller
         // ILI DA SE DISABLUJE => NE MOZE SE VISE KORISTITI PRILIKOM PRAVLJENJA TRENINGA ALI MOZE SE UCI U ISTORIJU KROZ KLIJENTA
     }
 
-    public function categories(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-    {
-        return ExerciseCategoryResource::collection(ExerciseCategory::all());
-    }
 
-    public function categoryExercises(Request $request)
+    //exercises which belongs to Category
+    public function categoryExercises(Request $request, $categoryID)
     {
-
-        $categoryID = $request->input('categoryID');
+        
         $usageType = $request->input('usageType');
         $appointmentID = $request->input('appointmentID');
         $coachID = $this->coachID;
 
-
-        $exercises = Exercise::where('exercise_category_id', $categoryID)
+        $exercises = Exercise::with('category')
+            ->where('exercise_category_id', $categoryID)
             ->where(function ($q) use ($coachID) {
                 $q->where('coach_id', '=', $coachID)
                     ->orWhereNull('coach_id');
             })->get();
+
 
         return view('web.partial.exercises', [
             'exercises' => $exercises,
             'usageType' => $usageType,
             'appointmentID' => $appointmentID,
         ]);
-    }
-
-    public function types(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-    {
-        return ExerciseTypeResource::collection(ExerciseType::all());
-    }
-
-    public function test()
-    {
-
     }
 }

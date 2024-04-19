@@ -3,22 +3,19 @@ namespace App\Http\Services;
 
 
 use App\Models\Exercise\ExerciseCategory;
-use Illuminate\Support\Facades\Auth;
 
 class ExerciseCategoryService
 {
-    public function getExerciseCategories() {
-        $exercisesCategories = ExerciseCategory::all();
+    public function getCategoriesWithExercisesForCoach($coachID, $categoryID = null) {
+        $categories =  ExerciseCategory::with(['exercises' => function ($query) use ($coachID) {
+            $query->where('coach_id', $coachID)
+                ->orWhereNull('coach_id');
+        }]);
 
-        return $exercisesCategories->map(function ($category) {
-            $category->exercises_count =
-                $category->exercises()->where('exercise_category_id', $category->id)
-                    ->where(function ($q) {
-                        $q->where('coach_id', Auth::user()->id)
-                            ->orWhere('coach_id', null);
-                    })->get()->count();
+        if($categoryID) {
+            $categories->where('id', $categoryID);
+        }
 
-            return $category;
-        });
+        return $categories->get();
     }
 }

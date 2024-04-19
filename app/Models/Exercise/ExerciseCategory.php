@@ -11,6 +11,8 @@ class ExerciseCategory extends Model
 
 //    protected $with = ['exercises'];
 
+
+
     public function exercises(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Exercise::class, 'exercise_category_id');

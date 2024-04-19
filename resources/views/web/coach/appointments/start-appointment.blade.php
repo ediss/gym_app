@@ -37,7 +37,7 @@
                                 data-appointment-id={{ $appointmentID }}>
                                 {{ $category->name }}
                                 <span class="badge border border-warning rounded-pill font-15 ">
-                                    {{ $category->exercises_count }}
+                                    {{ count($category->exercises) }}
                                 </span>
 
                             </li>
