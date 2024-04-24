@@ -3,11 +3,14 @@
 @endphp
 
 @foreach ($workouts as $workout)
+
     <div class="col-12 {{ !$loop->last ? 'border-bottom' : '' }}">
         <div class="row m-auto text-warning font-20 py-3 text-center">
             <span class="d-none workout-id">{{ $workout->id }}</span>
 
-            <div class="col-2 px-0 workout-comment"><span class="material-symbols-outlined">comment</span></div>
+            <div class="col-2 px-0 workout-comment">
+                <span class="material-symbols-outlined">comment</span>
+            </div>
             <div class="col-2 px-0"><b>{{ $counter++ }} </b></div>
 
             @if (str_contains($workout->exercise->type->name, 'Weight'))
@@ -55,4 +58,6 @@
 
         </div>
     </div>
+
+
 @endforeach

@@ -22,7 +22,11 @@ class DeleteWorkoutRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'workout_id' => 'required|integer'
+            'workout_id' => 'required|integer',
+            'coach_id' => 'required|integer',
+            'client_id'=> 'required|integer',
+            'exercise_id'=> 'required|integer',
+            'appointment_id' => 'required|integer',
         ];
     }
 }

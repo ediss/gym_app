@@ -13,7 +13,6 @@ use App\Models\Exercise\Exercise;
 use App\Models\Exercise\ExerciseType;
 use App\Models\Workout\Workout;
 use Carbon\Carbon;
-use DB;
 use Illuminate\Http\Request;
 
 class WorkoutController extends Controller
@@ -44,41 +43,26 @@ class WorkoutController extends Controller
     {
         $validatedData = $request->validated();
 
-
         $exerciseHistory = Workout::whereClientId($validatedData['client_id'])
             ->whereExerciseId($validatedData['exercise_id'])
             ->orderBy('workout_started', 'desc')
             ->get();
 
-//        return  new ExerciseHistoryCollection($exerciseHistory->groupBy('workout_started'));
-        return  new ExerciseHistoryCollection($exerciseHistory->groupBy('workout_started'));
-
+        return new ExerciseHistoryCollection($exerciseHistory->groupBy('workout_started'));
 
     }
 
-
-    public function create(Request $request) {
-        $appointmentID = $request->input('appointmentID');
-        $exerciseID = $request->input('exercise_id');
-
-        $appointment = Appointment::find($appointmentID);
-        $exercise = Exercise::find($exerciseID);
-        
+    //need refactor
+    public function create(Appointment $appointment, Exercise $exercise)
+    {
 
         $exerciseType = ExerciseType::find($exercise->exercise_type_id);
 
-        //IT'S FOR SERVICE
-        $workouts = Workout::where('appointment_id', $appointmentID)
-            ->where('exercise_id', $exerciseID)
-            ->get();
+        $workouts = $this->getClientWorkoutByAppointmentAndExerciseId($appointment->id, $exercise->id);
 
-        $exerciseHistory = Workout::where('client_id', $appointment->client_id)
-            ->where('exercise_id', $exerciseID)
-            ->orderBy('appointment_id', 'DESC')
-            ->get()
-            ->groupBy(function ($item) {
-                return Carbon::parse($item->created_at)->format('j. F Y');
-            });
+        $exerciseHistory = $this->getExerciseHistory($appointment->client_id, $exercise->id);
+
+        $lastRecord = $this->getLastWorkoutRecord($appointment->client_id, $exercise->id);
 
 
         return view('web.coach.workouts.create', [
@@ -86,21 +70,18 @@ class WorkoutController extends Controller
             'exercise' => $exercise,
             'exerciseTypeName' => $exerciseType->name,
             'workouts' => $workouts,
-            'exerciseHistory' => $exerciseHistory
+            'exerciseHistory' => $exerciseHistory,
+            'lastRecord' => $lastRecord,
         ]);
 
     }
 
-
-    //maybe route model binding?
-
     public function store(CreateWorkoutRequest $request)
     {
 
-        $validatedData = $request->validated();
-
         $existingRecord = Workout::where('appointment_id', $request->appointment_id)->first();
 
+        //doesnt belong here
         if (!$existingRecord) {
             $appointment = Appointment::find($request->appointment_id);
 
@@ -109,10 +90,9 @@ class WorkoutController extends Controller
             $appointment->save();
         }
 
-        Workout::create($validatedData);
+        Workout::create($request->all());
 
         // Check if a record with a specific condition already exists
-
 
         $workouts = Workout::where('appointment_id', $request->appointment_id)
             ->where('exercise_id', $request->exercise_id)
@@ -121,15 +101,12 @@ class WorkoutController extends Controller
         return view('web.workout.exercises', ['workouts' => $workouts]);
     }
 
-    public function update(CreateWorkoutRequest $request, $workoutID)
+    public function update(CreateWorkoutRequest $request, Workout $workout)
     {
+        $workout->update($request->all());
 
-        $validatedData = $request->validated();
-
-        $workout = Workout::find($workoutID);
-        $workout->update($validatedData);
-        $workouts = Workout::where('appointment_id', $validatedData['appointment_id'])
-            ->where('exercise_id', $validatedData['exercise_id'])
+        $workouts = Workout::where('appointment_id', $request->appointment_id)
+            ->where('exercise_id', $request->exercise_id)
             ->get();
 
         return view('web.workout.exercises', ['workouts' => $workouts]);
@@ -145,40 +122,55 @@ class WorkoutController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(DeleteWorkoutRequest $request)
+    public function destroy(DeleteWorkoutRequest $request, Workout $workout)
     {
-        $validatedData = $request->validated();
 
-        $deleteWorkout = Workout::findOrFail($validatedData['workout_id'])
-            ->delete();
+        $workout->delete();
 
-        if (!$deleteWorkout) {
-            return "Remove workout error";
-        }
+        $workouts = Workout::where('appointment_id', $request->appointment_id)
+            ->where('exercise_id', $request->exercise_id)
+            ->get();
 
-        //@todo return proper response ( Response::HTTP_NO_CONTENT)
-
-        return 'Workout removed succesfully!';
+        return redirect()->back()->with(['workouts' => $workouts]);
     }
 
-    public function getWorkoutByAppointmentAndExerciseId($appointment_id,  $exercise_id)
+    private function getClientWorkoutByAppointmentAndExerciseId($appointmentId, $exerciseId)
     {
-        $workouts = Workout::where('appointment_id', $appointment_id)
-                ->where('exercise_id', $exercise_id)
-                ->get();
-
-        return view('web.workout.exercises', ['workouts' => $workouts]);
+        return Workout::where('appointment_id', $appointmentId)
+            ->where('exercise_id', $exerciseId)
+            ->get();
     }
 
-    public function getWorkoutsByAppointmentId(Request $request) {
+    private function getExerciseHistory($clientId, $exerciseId)
+    {
+        return Workout::where('client_id', $clientId)
+            ->where('exercise_id', $exerciseId)
+            ->orderBy('appointment_id', 'DESC')
+            ->get()
+            ->groupBy(function ($item) {
+                return Carbon::parse($item->created_at)->format('j. F Y');
+            });
+    }
 
+    private function getLastWorkoutRecord($clientId, $exerciseId)
+    {
+        return Workout::where('client_id', $clientId)
+            ->where('exercise_id', $exerciseId)
+            ->latest()
+            ->first();
+    }
+
+    public function getWorkoutsByAppointmentId(Request $request)
+    {
 
         $workouts = Workout::where('appointment_id', $request->input('appointmentId'))
             ->with('exercise') // Eager load the exercise relationship
             ->get();
 
-
-        return view('web.workout.appointment-workouts', ['workouts' => $workouts->groupBy('exercise.name')]);
+        return view('web.workout.appointment-workouts', [
+            'workouts' => $workouts->groupBy('exercise.name'),
+            'test' => true
+        ]);
 
     }
 }

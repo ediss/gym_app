@@ -114,6 +114,7 @@ class AppointmentController extends Controller
         return view('web.coach.appointments.start-appointment', [
             'categories' => $categories,
             'appointment' => $appointment,
+            'startAppointment' => true
         ]);
     }
 

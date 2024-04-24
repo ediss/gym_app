@@ -24,6 +24,10 @@
         .accordion-button-custom:after {
             content: none;
         }
+
+        hr {
+            margin:0.6rem 0;
+        }
     </style>
 @endsection
 
@@ -31,7 +35,7 @@
     @php
         $changeHeader = true;
     @endphp
-    <h2 class="text-warning m-0">{{ $exercise->name }}</h2>
+    <h5 class="text-warning m-0">{{ $exercise->name }}</h5>
 
     <b>{{ $appointment->client->name }}</b>
 @endsection
@@ -40,16 +44,14 @@
     <div class="bg-dark position-sticky workout-header">
         <ul class="nav nav-tabs nav-warning d-flex justify-content-between h-100 align-items-center" role="tablist">
             <li class="nav-item" role="presentation">
-                <a class="nav-link active" data-bs-toggle="tab" href="#workout-create" role="tab"
-                   aria-selected="true">
+                <a class="nav-link active" data-bs-toggle="tab" href="#workout-create" role="tab" aria-selected="true">
                     <div class="d-flex align-items-center">
                         <div class="tab-title">TRACK</div>
                     </div>
                 </a>
             </li>
             <li class="nav-item" role="presentation">
-                <a class="nav-link" data-bs-toggle="tab" href="#exercise-history" role="tab"
-                   aria-selected="false">
+                <a class="nav-link" data-bs-toggle="tab" href="#exercise-history" role="tab" aria-selected="false">
                     <div class="d-flex align-items-center">
                         <div class="tab-title">
                             HISTORY
@@ -58,8 +60,8 @@
                 </a>
             </li>
             <li class="nav-item" role="presentation">
-                <a class="nav-link" data-bs-toggle="tab" href="#appointments-finished" role="tab"
-                   aria-selected="false" disabled>
+                <a class="nav-link" data-bs-toggle="tab" href="#appointments-finished" role="tab" aria-selected="false"
+                    disabled>
                     <div class="d-flex align-items-center">
                         <div class="tab-title">GRAPH</div>
                     </div>
@@ -67,16 +69,15 @@
             </li>
         </ul>
     </div>
-
 @endsection
 @section('content')
     <div class="row">
         <div class="col-12">
 
 
-            <div class="tab-content py-3">
+            <div class="tab-content">
                 <div class="tab-pane fade  show active" id="workout-create" role="tabpanel">
-                    <form action="{{route('workout.store')}}" method="POST" id="storeWorkout">
+                    <form action="{{ route('workout.store') }}" method="POST" id="storeWorkout">
                         @csrf
 
 
@@ -92,8 +93,9 @@
                                 <div class="input-group mb-3">
                                     <span
                                         class="decrement input-group-text text-danger font-24 font-weight-bold material-symbols-outlined">remove</span>
-                                    <input type="text" name="weight"
-                                           class="form-control text-center font-24 font-weight-bold" value="0">
+                                    <input type="number" name="weight"
+                                        class="form-control text-center font-24 font-weight-bold" value="{{ $lastRecord->weight ?? '0' }}"
+                                        step="0.01">
                                     <span
                                         class="increment material-symbols-outlined input-group-text text-success font-24">add</span>
                                 </div>
@@ -101,7 +103,7 @@
                             </div>
                         @endif
 
-                        @if(str_contains($exerciseTypeName, 'Reps'))
+                        @if (str_contains($exerciseTypeName, 'Reps'))
                             <div>
                                 Reps
                                 <hr>
@@ -109,7 +111,7 @@
                                     <span
                                         class="decrement input-group-text text-danger font-24 font-weight-bold material-symbols-outlined">remove</span>
                                     <input name="reps" type="text"
-                                           class="form-control text-center font-24 font-weight-bold" value="0">
+                                        class="form-control text-center font-24 font-weight-bold" value="{{ $lastRecord->reps ?? '0' }}">
                                     <span
                                         class="increment material-symbols-outlined input-group-text text-success font-24">add</span>
                                 </div>
@@ -117,13 +119,13 @@
                             </div>
                         @endif
 
-                        @if(str_contains($exerciseTypeName, 'Time'))
+                        @if (str_contains($exerciseTypeName, 'Time'))
                             <div>
                                 Time
                             </div>
                         @endif
 
-                        @if(str_contains($exerciseTypeName, 'Distance'))
+                        @if (str_contains($exerciseTypeName, 'Distance'))
                             <div>
                                 Distance (in meters)
 
@@ -132,34 +134,43 @@
                                     <span
                                         class="decrement input-group-text text-danger font-24 font-weight-bold material-symbols-outlined">remove</span>
                                     <input name="distance" type="text"
-                                           class="form-control text-center font-24 font-weight-bold" value="0">
+                                        class="form-control text-center font-24 font-weight-bold" value="{{ $lastRecord->distance ?? '0' }}">
                                     <span
                                         class="increment material-symbols-outlined input-group-text text-success font-24">add</span>
                                 </div>
                                 <hr>
                             </div>
-
                         @endif
 
 
-                        <div class="d-flex d-grid align-items-center justify-content-center gap-3 mt-5">
+                        <div class="">
                             <button class="btn btn-warning px-4 w-100" id="saveWorkout" value="save"
-                                    onclick="setClickedButton('save')">Save
-                            </button>
-                            <button class="btn btn-success px-4 w-100" style="display: none;" id="updateWorkout"
-                                    value="update" onclick="setClickedButton('update')">Update
-                            </button>
-                            <button class="btn btn-danger px-4 w-100" style="display: none;" id="deleteWorkout"
-                                    value="delete" onclick="setClickedButton('delete')">Delete
+                                onclick="setClickedButton('save')">Save
                             </button>
 
+
+                            <div class="update-delete-buttons d-flex d-grid align-items-center justify-content-center gap-3 d-none">
+                                <button class="btn btn-success px-4 w-100" id="updateWorkout"
+                                    value="update" onclick="setClickedButton('update')">Update
+                                </button>
+                                <button class="btn btn-danger px-4 w-100" data-bs-toggle="modal"
+                                    data-bs-target="#deleteWorkoutSetModal" type="button">Delete
+                                </button>
+                            </div>
+
+
+
+
                             <input type="hidden" name="clickedButton" id="clickedButton" value="">
+
+
+                            <input type="hidden" name="workout_id" id="workoutIDHidden" value="">
 
                         </div>
                     </form>
 
                     <div class="row mt-3" id="exercisesDoneList">
-                        @if($workouts->count() > 0)
+                        @if ($workouts->count() > 0)
                             @include('web.workout.exercises', $workouts)
                         @endif
                     </div>
@@ -167,7 +178,7 @@
 
                 <div class="tab-pane fade" id="exercise-history" role="tabpanel">
 
-                    @if($exerciseHistory->count() > 0)
+                    @if ($exerciseHistory->count() > 0)
                         @include('web.coach.exercises.history')
                     @else
                         No records
@@ -179,18 +190,54 @@
         </div>
     </div>
 
+    <div class="modal fade" id="deleteWorkoutSetModal" tabindex="-1" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-warning">Delete Set</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-warning">Are you sure you want to delete the selected set?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-warning" data-bs-dismiss="modal" id="deleteWorkout" value="delete"
+                        onclick="setClickedButton('delete')">Yes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('scripts')
-    <script src="{{asset('exercises/exercises.js')}}"></script>
-
-
     <script>
-
-
         const saveButton = document.getElementById('saveWorkout');
         const updateButton = document.getElementById('updateWorkout');
         const deleteButton = document.getElementById('deleteWorkout');
+        const form = document.getElementById('storeWorkout');
+
+        const exercisesDoneList = document.getElementById('exercisesDoneList');
+
+
+        updateButton.addEventListener("click", function() {
+            let url = "{{ route('workout.update', ':workoutID') }}";
+            setFormUrl(url);
+        });
+
+
+        deleteButton.addEventListener("click", function() {
+            let url = "{{ route('workout.delete', ':workoutID') }}";
+            setFormUrl(url);
+            form.submit();
+
+        });
+
+        function setFormUrl(url) {
+            const workoutID = document.getElementById("workoutIDHidden").value;
+            let form_action = url.replace(':workoutID', workoutID);
+            form.action = form_action;
+        }
 
         // Function to set the clicked button value in the hidden input field
         function setClickedButton(buttonValue) {
@@ -203,24 +250,31 @@
             const workoutUpdateDivs = document.querySelectorAll('.workout-update');
 
             // Add a click event listener to each "workout-update" element
-            workoutUpdateDivs.forEach(function (div) {
-                div.addEventListener('click', function () {
+            workoutUpdateDivs.forEach(function(div) {
+
+                div.addEventListener('click', function() {
+                    document.querySelector(".top-header").scrollIntoView();
 
                     const workoutID = this.parentElement.querySelector('.workout-id').textContent;
 
+                    document.getElementById("workoutIDHidden").value = workoutID;
+
                     // Find all elements with the class exercises-type-value-input-name
-                    const inputNameElements = this.parentElement.querySelectorAll('.exercises-type-value-input-name');
+                    const inputNameElements = this.parentElement.querySelectorAll(
+                        '.exercises-type-value-input-name');
 
                     // Iterate through the elements with exercises-type-value-input-name
-                    inputNameElements.forEach(function (inputNameElement) {
+                    inputNameElements.forEach(function(inputNameElement) {
                         // Get the value of the corresponding exercises-type-value element
-                        const exercisesTypeInputValue = inputNameElement.closest('.workout-update').querySelector('.exercises-type-value').textContent.trim();
+                        const exercisesTypeInputValue = inputNameElement.closest('.workout-update')
+                            .querySelector('.exercises-type-value').textContent.trim();
 
                         // Get the name from the input-name element
                         const exercisesTypeInputName = inputNameElement.textContent.trim();
 
                         // Find the input element with the specified name
-                        const inputElement = document.querySelector(`input[name="${exercisesTypeInputName}"]`);
+                        const inputElement = document.querySelector(
+                            `input[name="${exercisesTypeInputName}"]`);
 
                         if (inputElement) {
                             // Set the value of the input element
@@ -228,21 +282,17 @@
                         }
                     });
 
-                    let url = '{{ route("workout.update", ":id") }}';
-                    url = url.replace(':id', workoutID);
-
-                    form.action = url;
-
                     saveButton.style.display = 'none';
-                    updateButton.style.display = 'block';
-                    deleteButton.style.display = 'block';
+
+                    document.querySelector(".update-delete-buttons").classList.remove('d-none');
+                    
                 });
             });
         }
 
         function attachIncrementClickEventToElements(elements, incrementValues) {
-            elements.forEach(function (element) {
-                element.addEventListener('click', function () {
+            elements.forEach(function(element) {
+                element.addEventListener('click', function() {
                     // Find the closest input element
                     const inputElement = this.closest('.input-group').querySelector('input');
                     const inputName = inputElement.name;
@@ -258,8 +308,8 @@
         }
 
         function attachDecrementClickEventToElements(elements, incrementValues) {
-            elements.forEach(function (element) {
-                element.addEventListener('click', function () {
+            elements.forEach(function(element) {
+                element.addEventListener('click', function() {
                     // Find the closest input element
                     const inputElement = this.closest('.input-group').querySelector('input');
                     const inputName = inputElement.name;
@@ -274,7 +324,6 @@
             });
         }
 
-        const form = document.getElementById('storeWorkout');
 
         const incrementButtons = document.querySelectorAll('.increment');
         const decrementButtons = document.querySelectorAll('.decrement');
@@ -285,27 +334,25 @@
             weight: 2.5,
             reps: 1,
             time: 1,
-            distance:100
+            distance: 100
         };
 
-
-        const exercisesDoneList = document.getElementById('exercisesDoneList');
-
-
         function submitFormAndHandleResponse(form, exercisesDoneList) {
-            form.addEventListener('submit', function (event) {
+            form.addEventListener('submit', function(event) {
+
                 event.preventDefault();
 
                 // Serialize form data to send to the controller
                 const formData = new FormData(form);
 
                 fetch(form.getAttribute('action'), {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    }
-                })
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                'content')
+                        }
+                    })
                     .then(response => response.text())
                     .then(responseText => {
                         // Check if the response is valid, you can add more validation logic here
@@ -326,29 +373,28 @@
                 // Get the clicked button value from the hidden input field
                 const clickedButton = document.getElementById('clickedButton').value;
 
-                if (clickedButton === 'update') {
+                if (clickedButton === 'update' || clickedButton === 'delete') {
 
-                    form.action = '{{ route("workout.store") }}';
+                    form.action = '{{ route('workout.store') }}';
 
                     saveButton.style.display = 'block';
-                    updateButton.style.display = 'none';
-                    deleteButton.style.display = 'none';
+                    document.querySelector(".update-delete-buttons").classList.add('d-none');
                 }
             });
         }
 
-
-
         //used on 2 places
         function fetchWorkouts(appointmentId) {
-            fetch('{{route('appointment.workouts')}}', {
-                method: 'POST',
-                body: JSON.stringify({ appointmentId: appointmentId }),
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                }
-            })
+            fetch('{{ route('appointment.workouts') }}', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        appointmentId: appointmentId
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                })
                 .then(response => response.text())
                 .then(html => {
                     // Update the DOM with the fetched Blade view
@@ -359,7 +405,7 @@
 
 
 
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
 
             const buttons = document.querySelectorAll("[data-appointment-id]");
 

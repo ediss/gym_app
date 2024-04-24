@@ -21,7 +21,6 @@
     @php
         $changeHeader = true;
     @endphp
-    
 
     <b class="ms-auto">{{ $appointment->client->name }}</b>
 @endsection
@@ -62,7 +61,6 @@
 
 
         </div>
-
     </div>
 @endsection
 
@@ -71,14 +69,15 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            fetchWorkouts({{ $appointment->id }})
+            fetchWorkouts({{ $appointment->id, $startAppointment }})
         });
         //used on 2 places
-        function fetchWorkouts(appointmentId) {
+        function fetchWorkouts(appointmentId, startAppointment) {
             fetch('{{ route('appointment.workouts') }}', {
                     method: 'POST',
                     body: JSON.stringify({
-                        appointmentId: appointmentId
+                        appointmentId: appointmentId,
+                        startAppointment: startAppointment
                     }),
                     headers: {
                         'Content-Type': 'application/json',
